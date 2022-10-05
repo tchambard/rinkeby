@@ -1,0 +1,80 @@
+{
+  "name": "rinkeby-final-project",
+  "version": "1.0.0",
+  "scripts": {
+    "lint-all": "yarn workspaces foreach -p run lint",
+    "clean-all": "yarn workspaces foreach -p run clean",
+    "compile-all": "yarn workspaces foreach -pt run compile",
+    "test-all": "yarn workspaces foreach -t -j 1 run test",
+    "npm-pack-all": "yarn workspaces foreach -pt run npm-pack",
+    "build-deploy-all": "yarn workspaces foreach -p run build-deploy",
+    "wale-backup-push": "curl alpha-wale.docker.net:8098/backup-push",
+    "g:clean": "cd $INIT_CWD && rimraf build",
+    "g:lint": "cd $INIT_CWD && tslint --format verbose \"src/**/*.ts\"",
+    "g:lint-fix": "cd $INIT_CWD && yarn g:lint -- --fix",
+    "g:compile": "cd $INIT_CWD && echo $INIT_CWD && tsc -v && tsc --pretty",
+    "g:compile-watch": "cd $INIT_CWD && tsc --pretty -w",
+    "g:clean-compile": "cd $INIT_CWD && yarn g:clean && yarn g:compile",
+    "g:clean-lint-compile": "cd $INIT_CWD && yarn g:clean && yarn g:lint && yarn g:compile",
+    "g:depcheck": "cd $INIT_CWD && depcheck",
+    "g:test": "cd $INIT_CWD && CONF_FILE=$INIT_CWD/build/config/config_test.js mocha --full-trace --recursive --exit --require source-map-support/register --ui f-mocha 'build/test/**/*.spec.js'",
+    "g:test-watch": "cd $INIT_CWD && CONF_FILE=$INIT_CWD/build/config/config_test.js mocha -w -R spec --full-trace --recursive --require source-map-support/register --ui f-mocha 'build/test/**/*.spec.js'",
+    "g:coverage": "cd $INIT_CWD && CONF_FILE=$INIT_CWD/build/config/config_test.js nyc mocha --full-trace --recursive --require source-map-support/register --ui f-mocha 'build/test/**/*.spec.js'"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.15",
+    "@types/express": "^4.17.11",
+    "@types/lodash": "^4.14.168",
+    "@types/mocha": "^8.2.1",
+    "@types/morgan": "^1.9.2",
+    "@types/node": "^14.14.31",
+    "@yarnpkg/cli": "^2.4.0",
+    "@yarnpkg/core": "^2.4.0",
+    "chai": "^4.3.0",
+    "npm": "^7.6.0",
+    "nyc": "^15.1.0",
+    "rimraf": "^3.0.2",
+    "ts-loader": "^6.2.2",
+    "ts-node": "^8.10.2",
+    "tslint": "^5.20.1",
+    "tslint-config-airbnb": "^5.11.2",
+    "tslint-microsoft-contrib": "^6.2.0",
+    "typescript": "4.6.2",
+    "yargs": "^16.2.0",
+    "yup": "^0.32.9"
+  },
+  "resolutions": {
+    "@types/react": "17.0.14",
+    "@types/react-dom": "17.0.14"
+  },
+  "author": "teddy.chambard@gmail.com",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "packageManager": "yarn@3.1.1",
+  "nyc": {
+    "include": [
+      "build/lib/*.js",
+      "build/lib/**/*.js"
+    ],
+    "exclude": [
+      "**/index.js"
+    ],
+    "extension": [
+      ".js"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "sourceMap": true,
+    "instrument": true,
+    "lines": 90,
+    "statements": 0,
+    "functions": 0,
+    "branches": 0,
+    "all": true,
+    "cache": false
+  }
+}
