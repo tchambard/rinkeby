@@ -3108,6 +3108,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@openzeppelin/contracts@npm:^4.7.3":
+  version: 4.7.3
+  resolution: "@openzeppelin/contracts@npm:4.7.3"
+  checksum: 18382fcacf7cfd652f5dd0e70c08f08ea74eaa8ff11e9f9850639ada70198ae01a3f9493d89a52d724f2db394e9616bf6258017804612ba273167cf657fbb073
+  languageName: node
+  linkType: hard
+
 "@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.3":
   version: 0.5.7
   resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.7"
@@ -15676,6 +15683,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "rinkeby-final-project@workspace:."
   dependencies:
+    "@openzeppelin/contracts": ^4.7.3
     "@types/chai": ^4.2.15
     "@types/express": ^4.17.11
     "@types/lodash": ^4.14.168
