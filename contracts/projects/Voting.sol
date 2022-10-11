@@ -27,6 +27,7 @@ contract Voting is Ownable {
         bool isRegistered;
         bool hasVoted;
         uint8 votedProposalId;
+        uint8 nbProposals;
     }
 
     struct Proposal {
@@ -96,7 +97,7 @@ contract Voting is Ownable {
     Result public result;
 
     // ===============
-    // functions
+    // modifiers
     // ===============
     /**
      * @dev Throws if called when `status` is not the expected one.
@@ -110,18 +111,13 @@ contract Voting is Ownable {
      * @dev Throws if called by any account not registered as voter.
      */
     modifier onlyVoter() {
-        require(voters[_msgSender()].isRegistered, 'Caller is not registered voter');
+        require(voters[msg.sender].isRegistered, 'Caller is not registered voter');
         _;
     }
 
-    /**
-     * @dev Throws if called by any account not registered as voter or by contract owner.
-     */
-    modifier onlyOwnerOrVoter() {
-        require(owner() == _msgSender() || voters[_msgSender()].isRegistered, 'Caller is not owner or registered voter');
-        _;
-    }
-
+    // ===============
+    // only owner functions
+    // ===============
     /**
      * Administrator can register voters.
      * 
@@ -132,7 +128,7 @@ contract Voting is Ownable {
      */
     function registerVoter(address _voter) external onlyOwner statusIs(WorkflowStatus.RegisteringVoters) {
         require(!voters[_voter].isRegistered, 'Voter is already registered');
-        voters[_voter] = Voter(true, false, 0);
+        voters[_voter] = Voter(true, false, 0, 0);
         votersCount++;
         emit VoterRegistered(_voter);
     }
@@ -146,8 +142,8 @@ contract Voting is Ownable {
      * An event WorkflowStatusChange is emitted
      */
     function startProposalsRegistration() external onlyOwner statusIs(WorkflowStatus.RegisteringVoters) {
-        proposals.push(Proposal('Abstention', 0, _msgSender()));
-        proposals.push(Proposal('Blank', 0, _msgSender()));
+        proposals.push(Proposal('Abstention', 0, msg.sender));
+        proposals.push(Proposal('Blank', 0, msg.sender));
         status = WorkflowStatus.ProposalsRegistrationStarted;
         emit WorkflowStatusChange(WorkflowStatus.RegisteringVoters, WorkflowStatus.ProposalsRegistrationStarted);
     }
@@ -187,41 +183,6 @@ contract Voting is Ownable {
     }
 
     /**
-     * Administrator or voter can register a new proposal.
-     * 
-     * @dev Each voter can register many proposals.
-     * As we consider the vote will be done in small organization context, we limit the maximum number of proposals to 256 here.
-     * Votes can be added only by registered voter when `status` is set to VotingSessionStarted
-     * 
-     * @param _description The proposal description
-     */
-    function registerProposal(string memory _description) public onlyOwnerOrVoter statusIs(WorkflowStatus.ProposalsRegistrationStarted) {
-        require(proposals.length < 2 ** 8 - 1, 'Too many proposals'); // limit total proposals count to 256
-        proposals.push(Proposal(_description, 0, _msgSender()));
-        emit ProposalRegistered(uint8(proposals.length - 1));
-    }
-
-    /**
-     * A voter can register his vote for a proposal.
-     * 
-     * @dev Each voter can vote only once for one proposal.
-     * Votes can be added only by registered voter when `status` is set to VotingSessionStarted
-     * 
-     * @param _proposalId The identifier of the chosen proposal
-     */
-    function vote(uint8 _proposalId) external onlyVoter statusIs(WorkflowStatus.VotingSessionStarted) {
-        require(!voters[_msgSender()].hasVoted, 'Already voted');        
-        proposals[_proposalId].voteCount++;
-        voters[_msgSender()].hasVoted = true;
-        voters[_msgSender()].votedProposalId = _proposalId;
-        result.totalVotes++;
-        if (_proposalId == 1) {
-            result.blankVotes++;
-        }
-        emit Voted(_msgSender(), _proposalId);
-    }
-
-    /**
      * Administrator triggers votes talling.
      * 
      * @dev After votes talling, it is possible that we got many winning proposals.
@@ -256,6 +217,50 @@ contract Voting is Ownable {
         emit WorkflowStatusChange(WorkflowStatus.VotingSessionEnded, WorkflowStatus.VotesTallied);
     }
 
+    // ===============
+    // only voter functions
+    // ===============
+    /**
+     * Administrator or voter can register a new proposal.
+     * 
+     * @dev Each voter can register many proposals.
+     * As the vote is considered to be done in small organization context, the maximum number of proposals is limited to 256.
+     * Maximum number of proposals per voter is also limited to 3.
+     * Votes can be added only by registered voter when `status` is set to VotingSessionStarted
+     * 
+     * @param _description The proposal description
+     */
+    function registerProposal(string memory _description) public onlyVoter statusIs(WorkflowStatus.ProposalsRegistrationStarted) {
+        require(proposals.length < 2 ** 8 - 1, 'Too many proposals'); // limit total proposals count to 256
+        require(voters[msg.sender].nbProposals < 3, 'You already posted 3 proposals which is the maximum allowed');
+        proposals.push(Proposal(_description, 0, msg.sender));
+        voters[msg.sender].nbProposals++;
+        emit ProposalRegistered(uint8(proposals.length - 1));
+    }
+
+    /**
+     * A voter can register his vote for a proposal.
+     * 
+     * @dev Each voter can vote only once for one proposal.
+     * Votes can be added only by registered voter when `status` is set to VotingSessionStarted
+     * 
+     * @param _proposalId The identifier of the chosen proposal
+     */
+    function vote(uint8 _proposalId) external onlyVoter statusIs(WorkflowStatus.VotingSessionStarted) {
+        require(!voters[msg.sender].hasVoted, 'Already voted');        
+        proposals[_proposalId].voteCount++;
+        voters[msg.sender].hasVoted = true;
+        voters[msg.sender].votedProposalId = _proposalId;
+        result.totalVotes++;
+        if (_proposalId == 1) {
+            result.blankVotes++;
+        }
+        emit Voted(msg.sender, _proposalId);
+    }
+
+    // ===============
+    // only owner or voter functions
+    // ===============
     /**
      * Retreive voter information
      * 
@@ -263,7 +268,8 @@ contract Voting is Ownable {
      * 
      * @return Target voter information including proposal choice
      */
-    function getVoter(address voter) external view onlyOwnerOrVoter returns (Voter memory) {
+    function getVoter(address voter) external view returns (Voter memory) {
+        require(owner() == msg.sender || voters[msg.sender].isRegistered, 'Caller is not owner or registered voter');
         return voters[voter];
     }
 
