@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.17;
  
-import "./ERC20Token.sol";
+import "./AlyraERC20Token.sol";
  
 contract Crowdsale {
    uint public rate = 200; // le taux à utiliser
-   ERC20Token public token; // L’instance ERC20Token à déployer 
+   AlyraERC20Token public token; // L’instance ERC20Token à déployer 
  
    constructor(uint256 initialSupply) {
-       token = new ERC20Token(initialSupply);
+       token = new AlyraERC20Token(initialSupply);
    }
 
     receive() external payable {
