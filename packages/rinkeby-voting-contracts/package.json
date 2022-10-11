@@ -1,0 +1,19 @@
+{
+  "name": "rinkeby-voting-contracts",
+  "version": "1.0.0",
+  "types": "index.d.ts",
+  "scripts": {
+    "compile": "truffle compile && yarn run generate-types",
+    "generate-types": "typechain --target=truffle-v5 --out-dir types 'build/contracts/*.json'",
+    "test": "truffle test"
+  },
+  "devDependencies": {
+    "@openzeppelin/contracts": "^4.7.3",
+    "@openzeppelin/test-helpers": "^0.5.16",
+    "@typechain/truffle-v5": "^8.0.1",
+    "chai": "^4.3.0",
+    "typechain": "^8.1.0"
+  },
+  "author": "teddy.chambard@gmail.com",
+  "license": "MIT"
+}

@@ -19115,6 +19115,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"rinkeby-voting-contracts@workspace:packages/rinkeby-voting-contracts":
+  version: 0.0.0-use.local
+  resolution: "rinkeby-voting-contracts@workspace:packages/rinkeby-voting-contracts"
+  dependencies:
+    "@openzeppelin/contracts": ^4.7.3
+    "@openzeppelin/test-helpers": ^0.5.16
+    "@typechain/truffle-v5": ^8.0.1
+    chai: ^4.3.0
+    typechain: ^8.1.0
+  languageName: unknown
+  linkType: soft
+
 "rinkeby@workspace:.":
   version: 0.0.0-use.local
   resolution: "rinkeby@workspace:."
