@@ -127,6 +127,7 @@ contract Voting is Ownable {
      * @param _voter The address to add into voters registry
      */
     function registerVoter(address _voter) external onlyOwner statusIs(WorkflowStatus.RegisteringVoters) {
+        require(_voter != owner(), 'Owner can not be a voter');
         require(!voters[_voter].isRegistered, 'Voter is already registered');
         voters[_voter] = Voter(true, false, 0, 0);
         votersCount++;
