@@ -4,8 +4,6 @@ pragma solidity 0.8.17;
 import '@openzeppelin/contracts/access/Ownable.sol';
 
 contract Saving is Ownable {
-
-    address public admin;
     
     uint firstDepositDate;
 
@@ -16,10 +14,6 @@ contract Saving is Ownable {
     event Deposit(address sender, uint amount);
 
     event Withdraw(uint amount);
-
-    constructor() {
-        admin = msg.sender;
-    }
 
     // modifier isAdmin() {
     //     require(msg.sender == admin, 'Forbidden');
@@ -38,7 +32,7 @@ contract Saving is Ownable {
         uint nbDaysSinceFirstDeposit = (firstDepositDate - block.timestamp) / 60 / 60 / 24;
         require(nbDaysSinceFirstDeposit > 90, 'withdraw forbidden before 90 days after first deposit');
 
-        (bool sent,) = payable(admin).call{value:msg.value}("");
+        (bool sent,) = msg.sender.call{value:address(this).balance}("");
         require(sent, 'withdraw failed');
 
         emit Withdraw(msg.value);
