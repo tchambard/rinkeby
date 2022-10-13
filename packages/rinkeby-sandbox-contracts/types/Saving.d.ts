@@ -40,8 +40,6 @@ export interface Withdraw {
 type AllEvents = Deposit | OwnershipTransferred | Withdraw;
 
 export interface SavingInstance extends Truffle.ContractInstance {
-  admin(txDetails?: Truffle.TransactionDetails): Promise<string>;
-
   /**
    * Returns the address of the current owner.
    */
@@ -95,8 +93,6 @@ export interface SavingInstance extends Truffle.ContractInstance {
   ): Promise<BN>;
 
   methods: {
-    admin(txDetails?: Truffle.TransactionDetails): Promise<string>;
-
     /**
      * Returns the address of the current owner.
      */

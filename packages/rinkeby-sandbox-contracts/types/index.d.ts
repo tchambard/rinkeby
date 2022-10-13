@@ -12,12 +12,12 @@ import { Ex1Contract } from "./Ex1";
 import { GuessAndWinContract } from "./GuessAndWin";
 import { IERC20Contract } from "./IERC20";
 import { IERC20MetadataContract } from "./IERC20Metadata";
+import { NotesContract } from "./Notes";
 import { OwnableContract } from "./Ownable";
 import { PeopleContract } from "./People";
 import { RandomContract } from "./Random";
 import { SavingContract } from "./Saving";
 import { TimeContract } from "./Time";
-import { VotingContract } from "./Voting";
 import { WhitelistContract } from "./Whitelist";
 
 declare global {
@@ -33,12 +33,12 @@ declare global {
       require(name: "GuessAndWin"): GuessAndWinContract;
       require(name: "IERC20"): IERC20Contract;
       require(name: "IERC20Metadata"): IERC20MetadataContract;
+      require(name: "Notes"): NotesContract;
       require(name: "Ownable"): OwnableContract;
       require(name: "People"): PeopleContract;
       require(name: "Random"): RandomContract;
       require(name: "Saving"): SavingContract;
       require(name: "Time"): TimeContract;
-      require(name: "Voting"): VotingContract;
       require(name: "Whitelist"): WhitelistContract;
     }
   }
@@ -60,10 +60,10 @@ export {
   IERC20MetadataContract,
   IERC20MetadataInstance,
 } from "./IERC20Metadata";
+export { NotesContract, NotesInstance } from "./Notes";
 export { OwnableContract, OwnableInstance } from "./Ownable";
 export { PeopleContract, PeopleInstance } from "./People";
 export { RandomContract, RandomInstance } from "./Random";
 export { SavingContract, SavingInstance } from "./Saving";
 export { TimeContract, TimeInstance } from "./Time";
-export { VotingContract, VotingInstance } from "./Voting";
 export { WhitelistContract, WhitelistInstance } from "./Whitelist";
