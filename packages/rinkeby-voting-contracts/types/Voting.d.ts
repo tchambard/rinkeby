@@ -22,44 +22,88 @@ export interface OwnershipTransferred {
 export interface ProposalRegistered {
   name: "ProposalRegistered";
   args: {
+    sessionId: BN;
     proposalId: BN;
+    description: string;
     0: BN;
+    1: BN;
+    2: string;
+  };
+}
+
+export interface SessionCreated {
+  name: "SessionCreated";
+  args: {
+    sessionId: BN;
+    name: string;
+    description: string;
+    0: BN;
+    1: string;
+    2: string;
   };
 }
 
 export interface Voted {
   name: "Voted";
   args: {
+    sessionId: BN;
     voter: string;
-    proposalId: BN;
-    0: string;
-    1: BN;
+    0: BN;
+    1: string;
   };
 }
 
 export interface VoterRegistered {
   name: "VoterRegistered";
   args: {
+    sessionId: BN;
     voterAddress: string;
-    0: string;
+    0: BN;
+    1: string;
+  };
+}
+
+export interface VotesTallied {
+  name: "VotesTallied";
+  args: {
+    sessionId: BN;
+    votersCount: BN;
+    totalVotes: BN;
+    blankVotes: BN;
+    abstention: BN;
+    winningProposals: {
+      description: string;
+      voteCount: BN;
+      proposer: string;
+    }[];
+    0: BN;
+    1: BN;
+    2: BN;
+    3: BN;
+    4: BN;
+    5: { description: string; voteCount: BN; proposer: string }[];
   };
 }
 
 export interface WorkflowStatusChange {
   name: "WorkflowStatusChange";
   args: {
+    sessionId: BN;
     previousStatus: BN;
     newStatus: BN;
     0: BN;
     1: BN;
+    2: BN;
   };
 }
 
 type AllEvents =
   | OwnershipTransferred
   | ProposalRegistered
+  | SessionCreated
   | Voted
   | VoterRegistered
+  | VotesTallied
   | WorkflowStatusChange;
 
 export interface VotingInstance extends Truffle.ContractInstance {
@@ -67,11 +111,6 @@ export interface VotingInstance extends Truffle.ContractInstance {
    * Returns the address of the current owner.
    */
   owner(txDetails?: Truffle.TransactionDetails): Promise<string>;
-
-  proposals(
-    arg0: number | BN | string,
-    txDetails?: Truffle.TransactionDetails
-  ): Promise<{ 0: string; 1: BN; 2: string }>;
 
   /**
    * Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.
@@ -84,12 +123,6 @@ export interface VotingInstance extends Truffle.ContractInstance {
     sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
     estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
   };
-
-  result(
-    txDetails?: Truffle.TransactionDetails
-  ): Promise<{ 0: BN; 1: BN; 2: BN }>;
-
-  status(txDetails?: Truffle.TransactionDetails): Promise<BN>;
 
   /**
    * Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.
@@ -113,161 +146,266 @@ export interface VotingInstance extends Truffle.ContractInstance {
   };
 
   /**
-   * voters can be added only by contract owner when `status` is set to RegisteringVoters An event VoterRegistered is emitted
-   * Administrator can register voters.
-   * @param _voter The address to add into voters registry
+   * Administrator can create new voting session
+   * @param _description The session description
+   * @param _name The session name
    */
-  registerVoter: {
-    (_voter: string, txDetails?: Truffle.TransactionDetails): Promise<
-      Truffle.TransactionResponse<AllEvents>
-    >;
-    call(_voter: string, txDetails?: Truffle.TransactionDetails): Promise<void>;
-    sendTransaction(
-      _voter: string,
+  createVotingSession: {
+    (
+      _name: string,
+      _description: string,
       txDetails?: Truffle.TransactionDetails
-    ): Promise<string>;
-    estimateGas(
-      _voter: string,
-      txDetails?: Truffle.TransactionDetails
-    ): Promise<number>;
-  };
-
-  /**
-   * Can be called only when `status` is set to RegisteringVoters. Two default proposals are registered at the beginning of this step: `Abstention` and `Blank`. That means a registered voter that forget to vote will be counted as `abstention` thanks to `proposals` array index 0 An event WorkflowStatusChange is emitted
-   * Administrator can close voters registration and open proposals registration.
-   */
-  startProposalsRegistration: {
-    (txDetails?: Truffle.TransactionDetails): Promise<
-      Truffle.TransactionResponse<AllEvents>
-    >;
-    call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-    sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
-    estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
-  };
-
-  /**
-   * Can be called only when `status` is set to ProposalsRegistrationStarted. An event WorkflowStatusChange is emitted
-   * Administrator can close proposals registration.
-   */
-  stopProposalsRegistration: {
-    (txDetails?: Truffle.TransactionDetails): Promise<
-      Truffle.TransactionResponse<AllEvents>
-    >;
-    call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-    sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
-    estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
-  };
-
-  /**
-   * Can be called only when `status` is set to ProposalsRegistrationEnded. An event WorkflowStatusChange is emitted
-   * Administrator can open voting session.
-   */
-  startVotingSession: {
-    (txDetails?: Truffle.TransactionDetails): Promise<
-      Truffle.TransactionResponse<AllEvents>
-    >;
-    call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-    sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
-    estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
-  };
-
-  /**
-   * Can be called only when `status` is set to VotingSessionStarted. An event WorkflowStatusChange is emitted
-   * Administrator can close voting session.
-   */
-  stopVotingSession: {
-    (txDetails?: Truffle.TransactionDetails): Promise<
-      Truffle.TransactionResponse<AllEvents>
-    >;
-    call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-    sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
-    estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
-  };
-
-  /**
-   * After votes talling, it is possible that we got many winning proposals. Votes talling can be triggered only by contract owner when `status` is set to VotingSessionEnded An event WorkflowStatusChange is emitted
-   * Administrator triggers votes talling.
-   */
-  tallyVotes: {
-    (txDetails?: Truffle.TransactionDetails): Promise<
-      Truffle.TransactionResponse<AllEvents>
-    >;
-    call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-    sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
-    estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
-  };
-
-  /**
-   * Each voter can register many proposals. As the vote is considered to be done in small organization context, the maximum number of proposals is limited to 256. Maximum number of proposals per voter is also limited to 3. Votes can be added only by registered voter when `status` is set to VotingSessionStarted
-   * Administrator or voter can register a new proposal.
-   * @param _description The proposal description
-   */
-  registerProposal: {
-    (_description: string, txDetails?: Truffle.TransactionDetails): Promise<
-      Truffle.TransactionResponse<AllEvents>
-    >;
+    ): Promise<Truffle.TransactionResponse<AllEvents>>;
     call(
+      _name: string,
       _description: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<void>;
     sendTransaction(
+      _name: string,
       _description: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<string>;
     estimateGas(
+      _name: string,
       _description: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<number>;
   };
 
   /**
-   * Each voter can vote only once for one proposal. Votes can be added only by registered voter when `status` is set to VotingSessionStarted
+   * voters can be added only by contract owner when status is set to RegisteringVoters An event VoterRegistered is emitted
+   * Administrator can register voters.
+   * @param _sessionId The session identifier
+   * @param _voter The address to add into voters registry
+   */
+  registerVoter: {
+    (
+      _sessionId: number | BN | string,
+      _voter: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<Truffle.TransactionResponse<AllEvents>>;
+    call(
+      _sessionId: number | BN | string,
+      _voter: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<void>;
+    sendTransaction(
+      _sessionId: number | BN | string,
+      _voter: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+    estimateGas(
+      _sessionId: number | BN | string,
+      _voter: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<number>;
+  };
+
+  /**
+   * Can be called only when status is set to RegisteringVoters. Two default proposals are registered at the beginning of this step: `Abstention` and `Blank`. That means a registered voter that forget to vote will be counted as `abstention` thanks to `proposals` array index 0 An event WorkflowStatusChange is emitted
+   * Administrator can close voters registration and open proposals registration.
+   * @param _sessionId The session identifier
+   */
+  startProposalsRegistration: {
+    (
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<Truffle.TransactionResponse<AllEvents>>;
+    call(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<void>;
+    sendTransaction(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+    estimateGas(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<number>;
+  };
+
+  /**
+   * Can be called only when status is set to ProposalsRegistrationStarted. An event WorkflowStatusChange is emitted
+   * Administrator can close proposals registration.
+   * @param _sessionId The session identifier
+   */
+  stopProposalsRegistration: {
+    (
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<Truffle.TransactionResponse<AllEvents>>;
+    call(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<void>;
+    sendTransaction(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+    estimateGas(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<number>;
+  };
+
+  /**
+   * Can be called only when status is set to ProposalsRegistrationEnded. An event WorkflowStatusChange is emitted
+   * Administrator can open voting session.
+   * @param _sessionId The session identifier
+   */
+  startVotingSession: {
+    (
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<Truffle.TransactionResponse<AllEvents>>;
+    call(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<void>;
+    sendTransaction(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+    estimateGas(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<number>;
+  };
+
+  /**
+   * Can be called only when status is set to VotingSessionStarted. An event WorkflowStatusChange is emitted
+   * Administrator can close voting session.
+   * @param _sessionId The session identifier
+   */
+  stopVotingSession: {
+    (
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<Truffle.TransactionResponse<AllEvents>>;
+    call(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<void>;
+    sendTransaction(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+    estimateGas(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<number>;
+  };
+
+  /**
+   * After votes talling, it is possible that we got many winning proposals. Votes talling can be triggered only by contract owner when voting session status is set to VotingSessionEnded An event WorkflowStatusChange is emitted
+   * Administrator can trigger votes talling.
+   * @param _sessionId The session identifier
+   */
+  tallyVotes: {
+    (
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<Truffle.TransactionResponse<AllEvents>>;
+    call(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<void>;
+    sendTransaction(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+    estimateGas(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<number>;
+  };
+
+  /**
+   * Each voter can register many proposals. As the vote is considered to be done in small organization context, the maximum number of proposals is limited to 256. Maximum number of proposals per voter is also limited to 3. A vote can be added only by registered voter when status is set to VotingSessionStarted
+   * A voter can register a new proposal.
+   * @param _description The proposal description
+   * @param _sessionId The session identifier
+   */
+  registerProposal: {
+    (
+      _sessionId: number | BN | string,
+      _description: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<Truffle.TransactionResponse<AllEvents>>;
+    call(
+      _sessionId: number | BN | string,
+      _description: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<void>;
+    sendTransaction(
+      _sessionId: number | BN | string,
+      _description: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+    estimateGas(
+      _sessionId: number | BN | string,
+      _description: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<number>;
+  };
+
+  /**
+   * Each voter can vote only once for one proposal. Votes can be added only by registered voter when status is set to VotingSessionStarted
    * A voter can register his vote for a proposal.
-   * @param _proposalId The identifier of the chosen proposal
+   * @param _proposalId The chosen proposal identifier
+   * @param _sessionId The session identifier
    */
   vote: {
     (
+      _sessionId: number | BN | string,
       _proposalId: number | BN | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<Truffle.TransactionResponse<AllEvents>>;
     call(
+      _sessionId: number | BN | string,
       _proposalId: number | BN | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<void>;
     sendTransaction(
+      _sessionId: number | BN | string,
       _proposalId: number | BN | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<string>;
     estimateGas(
+      _sessionId: number | BN | string,
       _proposalId: number | BN | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<number>;
   };
 
   /**
-   * Administrator and registered voters can all access to everybody votes.
-   * Retreive voter information
+   * Administrator and registered voters can all access to everybody votes but only at the end of voting session.
+   * Retreive vote
+   * @param _sessionId The session identifier
+   * @param _voter The voter address
    */
-  getVoter(
-    voter: string,
+  getVote(
+    _sessionId: number | BN | string,
+    _voter: string,
     txDetails?: Truffle.TransactionDetails
-  ): Promise<{
-    isRegistered: boolean;
-    hasVoted: boolean;
-    votedProposalId: BN;
-    nbProposals: BN;
-  }>;
+  ): Promise<BN>;
+
+  /**
+   * Administrator and registered voters can retreive winning proposals but only at the end of voting session.
+   * Retreive winning proposals
+   */
+  getWinners(
+    _sessionId: number | BN | string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<{ description: string; voteCount: BN; proposer: string }[]>;
 
   methods: {
     /**
      * Returns the address of the current owner.
      */
     owner(txDetails?: Truffle.TransactionDetails): Promise<string>;
-
-    proposals(
-      arg0: number | BN | string,
-      txDetails?: Truffle.TransactionDetails
-    ): Promise<{ 0: string; 1: BN; 2: string }>;
 
     /**
      * Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.
@@ -280,12 +418,6 @@ export interface VotingInstance extends Truffle.ContractInstance {
       sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
       estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
     };
-
-    result(
-      txDetails?: Truffle.TransactionDetails
-    ): Promise<{ 0: BN; 1: BN; 2: BN }>;
-
-    status(txDetails?: Truffle.TransactionDetails): Promise<BN>;
 
     /**
      * Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.
@@ -309,153 +441,260 @@ export interface VotingInstance extends Truffle.ContractInstance {
     };
 
     /**
-     * voters can be added only by contract owner when `status` is set to RegisteringVoters An event VoterRegistered is emitted
+     * Administrator can create new voting session
+     * @param _description The session description
+     * @param _name The session name
+     */
+    createVotingSession: {
+      (
+        _name: string,
+        _description: string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<Truffle.TransactionResponse<AllEvents>>;
+      call(
+        _name: string,
+        _description: string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<void>;
+      sendTransaction(
+        _name: string,
+        _description: string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<string>;
+      estimateGas(
+        _name: string,
+        _description: string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<number>;
+    };
+
+    /**
+     * voters can be added only by contract owner when status is set to RegisteringVoters An event VoterRegistered is emitted
      * Administrator can register voters.
+     * @param _sessionId The session identifier
      * @param _voter The address to add into voters registry
      */
     registerVoter: {
-      (_voter: string, txDetails?: Truffle.TransactionDetails): Promise<
-        Truffle.TransactionResponse<AllEvents>
-      >;
+      (
+        _sessionId: number | BN | string,
+        _voter: string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<Truffle.TransactionResponse<AllEvents>>;
       call(
+        _sessionId: number | BN | string,
         _voter: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<void>;
       sendTransaction(
+        _sessionId: number | BN | string,
         _voter: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<string>;
       estimateGas(
+        _sessionId: number | BN | string,
         _voter: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<number>;
     };
 
     /**
-     * Can be called only when `status` is set to RegisteringVoters. Two default proposals are registered at the beginning of this step: `Abstention` and `Blank`. That means a registered voter that forget to vote will be counted as `abstention` thanks to `proposals` array index 0 An event WorkflowStatusChange is emitted
+     * Can be called only when status is set to RegisteringVoters. Two default proposals are registered at the beginning of this step: `Abstention` and `Blank`. That means a registered voter that forget to vote will be counted as `abstention` thanks to `proposals` array index 0 An event WorkflowStatusChange is emitted
      * Administrator can close voters registration and open proposals registration.
+     * @param _sessionId The session identifier
      */
     startProposalsRegistration: {
-      (txDetails?: Truffle.TransactionDetails): Promise<
-        Truffle.TransactionResponse<AllEvents>
-      >;
-      call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-      sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
-      estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
+      (
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<Truffle.TransactionResponse<AllEvents>>;
+      call(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<void>;
+      sendTransaction(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<string>;
+      estimateGas(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<number>;
     };
 
     /**
-     * Can be called only when `status` is set to ProposalsRegistrationStarted. An event WorkflowStatusChange is emitted
+     * Can be called only when status is set to ProposalsRegistrationStarted. An event WorkflowStatusChange is emitted
      * Administrator can close proposals registration.
+     * @param _sessionId The session identifier
      */
     stopProposalsRegistration: {
-      (txDetails?: Truffle.TransactionDetails): Promise<
-        Truffle.TransactionResponse<AllEvents>
-      >;
-      call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-      sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
-      estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
+      (
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<Truffle.TransactionResponse<AllEvents>>;
+      call(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<void>;
+      sendTransaction(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<string>;
+      estimateGas(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<number>;
     };
 
     /**
-     * Can be called only when `status` is set to ProposalsRegistrationEnded. An event WorkflowStatusChange is emitted
+     * Can be called only when status is set to ProposalsRegistrationEnded. An event WorkflowStatusChange is emitted
      * Administrator can open voting session.
+     * @param _sessionId The session identifier
      */
     startVotingSession: {
-      (txDetails?: Truffle.TransactionDetails): Promise<
-        Truffle.TransactionResponse<AllEvents>
-      >;
-      call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-      sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
-      estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
+      (
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<Truffle.TransactionResponse<AllEvents>>;
+      call(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<void>;
+      sendTransaction(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<string>;
+      estimateGas(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<number>;
     };
 
     /**
-     * Can be called only when `status` is set to VotingSessionStarted. An event WorkflowStatusChange is emitted
+     * Can be called only when status is set to VotingSessionStarted. An event WorkflowStatusChange is emitted
      * Administrator can close voting session.
+     * @param _sessionId The session identifier
      */
     stopVotingSession: {
-      (txDetails?: Truffle.TransactionDetails): Promise<
-        Truffle.TransactionResponse<AllEvents>
-      >;
-      call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-      sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
-      estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
+      (
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<Truffle.TransactionResponse<AllEvents>>;
+      call(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<void>;
+      sendTransaction(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<string>;
+      estimateGas(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<number>;
     };
 
     /**
-     * After votes talling, it is possible that we got many winning proposals. Votes talling can be triggered only by contract owner when `status` is set to VotingSessionEnded An event WorkflowStatusChange is emitted
-     * Administrator triggers votes talling.
+     * After votes talling, it is possible that we got many winning proposals. Votes talling can be triggered only by contract owner when voting session status is set to VotingSessionEnded An event WorkflowStatusChange is emitted
+     * Administrator can trigger votes talling.
+     * @param _sessionId The session identifier
      */
     tallyVotes: {
-      (txDetails?: Truffle.TransactionDetails): Promise<
-        Truffle.TransactionResponse<AllEvents>
-      >;
-      call(txDetails?: Truffle.TransactionDetails): Promise<void>;
-      sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
-      estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
+      (
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<Truffle.TransactionResponse<AllEvents>>;
+      call(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<void>;
+      sendTransaction(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<string>;
+      estimateGas(
+        _sessionId: number | BN | string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<number>;
     };
 
     /**
-     * Each voter can register many proposals. As the vote is considered to be done in small organization context, the maximum number of proposals is limited to 256. Maximum number of proposals per voter is also limited to 3. Votes can be added only by registered voter when `status` is set to VotingSessionStarted
-     * Administrator or voter can register a new proposal.
+     * Each voter can register many proposals. As the vote is considered to be done in small organization context, the maximum number of proposals is limited to 256. Maximum number of proposals per voter is also limited to 3. A vote can be added only by registered voter when status is set to VotingSessionStarted
+     * A voter can register a new proposal.
      * @param _description The proposal description
+     * @param _sessionId The session identifier
      */
     registerProposal: {
-      (_description: string, txDetails?: Truffle.TransactionDetails): Promise<
-        Truffle.TransactionResponse<AllEvents>
-      >;
+      (
+        _sessionId: number | BN | string,
+        _description: string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<Truffle.TransactionResponse<AllEvents>>;
       call(
+        _sessionId: number | BN | string,
         _description: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<void>;
       sendTransaction(
+        _sessionId: number | BN | string,
         _description: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<string>;
       estimateGas(
+        _sessionId: number | BN | string,
         _description: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<number>;
     };
 
     /**
-     * Each voter can vote only once for one proposal. Votes can be added only by registered voter when `status` is set to VotingSessionStarted
+     * Each voter can vote only once for one proposal. Votes can be added only by registered voter when status is set to VotingSessionStarted
      * A voter can register his vote for a proposal.
-     * @param _proposalId The identifier of the chosen proposal
+     * @param _proposalId The chosen proposal identifier
+     * @param _sessionId The session identifier
      */
     vote: {
       (
+        _sessionId: number | BN | string,
         _proposalId: number | BN | string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<Truffle.TransactionResponse<AllEvents>>;
       call(
+        _sessionId: number | BN | string,
         _proposalId: number | BN | string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<void>;
       sendTransaction(
+        _sessionId: number | BN | string,
         _proposalId: number | BN | string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<string>;
       estimateGas(
+        _sessionId: number | BN | string,
         _proposalId: number | BN | string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<number>;
     };
 
     /**
-     * Administrator and registered voters can all access to everybody votes.
-     * Retreive voter information
+     * Administrator and registered voters can all access to everybody votes but only at the end of voting session.
+     * Retreive vote
+     * @param _sessionId The session identifier
+     * @param _voter The voter address
      */
-    getVoter(
-      voter: string,
+    getVote(
+      _sessionId: number | BN | string,
+      _voter: string,
       txDetails?: Truffle.TransactionDetails
-    ): Promise<{
-      isRegistered: boolean;
-      hasVoted: boolean;
-      votedProposalId: BN;
-      nbProposals: BN;
-    }>;
+    ): Promise<BN>;
+
+    /**
+     * Administrator and registered voters can retreive winning proposals but only at the end of voting session.
+     * Retreive winning proposals
+     */
+    getWinners(
+      _sessionId: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ description: string; voteCount: BN; proposer: string }[]>;
   };
 
   getPastEvents(event: string): Promise<EventData[]>;
