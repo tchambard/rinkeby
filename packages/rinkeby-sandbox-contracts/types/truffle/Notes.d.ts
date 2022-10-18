@@ -19,7 +19,31 @@ export interface OwnershipTransferred {
   };
 }
 
-type AllEvents = OwnershipTransferred;
+export interface studentAdded {
+  name: "studentAdded";
+  args: {
+    _name: string;
+    _class: string;
+    _addr: string;
+    0: string;
+    1: string;
+    2: string;
+  };
+}
+
+export interface teacherAdded {
+  name: "teacherAdded";
+  args: {
+    _class: string;
+    _course: string;
+    _addr: string;
+    0: string;
+    1: string;
+    2: string;
+  };
+}
+
+type AllEvents = OwnershipTransferred | studentAdded | teacherAdded;
 
 export interface NotesInstance extends Truffle.ContractInstance {
   /**
@@ -60,99 +84,107 @@ export interface NotesInstance extends Truffle.ContractInstance {
     ): Promise<number>;
   };
 
-  registerTeacher: {
+  addStudent: {
     (
-      _subject: number | BN | string,
+      _name: string,
+      _class: string,
+      _addr: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<Truffle.TransactionResponse<AllEvents>>;
     call(
-      _subject: number | BN | string,
+      _name: string,
+      _class: string,
+      _addr: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<void>;
     sendTransaction(
-      _subject: number | BN | string,
+      _name: string,
+      _class: string,
+      _addr: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<string>;
     estimateGas(
-      _subject: number | BN | string,
+      _name: string,
+      _class: string,
+      _addr: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<number>;
   };
 
-  addNote: {
+  setTeacher: {
     (
-      _studentName: string,
-      _note: number | BN | string,
+      _class: string,
+      _course: string,
+      _addr: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<Truffle.TransactionResponse<AllEvents>>;
     call(
-      _studentName: string,
-      _note: number | BN | string,
+      _class: string,
+      _course: string,
+      _addr: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<void>;
     sendTransaction(
-      _studentName: string,
-      _note: number | BN | string,
+      _class: string,
+      _course: string,
+      _addr: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<string>;
     estimateGas(
-      _studentName: string,
-      _note: number | BN | string,
+      _class: string,
+      _course: string,
+      _addr: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<number>;
   };
 
   setNote: {
     (
-      _studentName: string,
+      _course: string,
+      _nameStudent: string,
       _note: number | BN | string,
-      _noteIndex: number | BN | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<Truffle.TransactionResponse<AllEvents>>;
     call(
-      _studentName: string,
+      _course: string,
+      _nameStudent: string,
       _note: number | BN | string,
-      _noteIndex: number | BN | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<void>;
     sendTransaction(
-      _studentName: string,
+      _course: string,
+      _nameStudent: string,
       _note: number | BN | string,
-      _noteIndex: number | BN | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<string>;
     estimateGas(
-      _studentName: string,
+      _course: string,
+      _nameStudent: string,
       _note: number | BN | string,
-      _noteIndex: number | BN | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<number>;
   };
 
-  getNote(
-    _studentName: string,
-    _subject: number | BN | string,
-    _noteIndex: number | BN | string,
+  calculateMoyennePerCourse(
+    _class: string,
+    _course: string,
     txDetails?: Truffle.TransactionDetails
   ): Promise<BN>;
 
-  getStudentSubjectAverage(
-    _studentName: string,
-    _subject: number | BN | string,
+  calculateMoyenneStudent(
+    _name: string,
     txDetails?: Truffle.TransactionDetails
   ): Promise<BN>;
 
-  getStudentAverage(
-    _studentName: string,
+  isPassing(
+    _name: string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<boolean>;
+
+  calculateMoyenneGenerale(
+    _class: string,
     txDetails?: Truffle.TransactionDetails
   ): Promise<BN>;
-
-  getGlobalSubjectAverage(
-    _subject: number | BN | string,
-    txDetails?: Truffle.TransactionDetails
-  ): Promise<BN>;
-
-  getGlobalAverage(txDetails?: Truffle.TransactionDetails): Promise<BN>;
 
   methods: {
     /**
@@ -193,99 +225,107 @@ export interface NotesInstance extends Truffle.ContractInstance {
       ): Promise<number>;
     };
 
-    registerTeacher: {
+    addStudent: {
       (
-        _subject: number | BN | string,
+        _name: string,
+        _class: string,
+        _addr: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<Truffle.TransactionResponse<AllEvents>>;
       call(
-        _subject: number | BN | string,
+        _name: string,
+        _class: string,
+        _addr: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<void>;
       sendTransaction(
-        _subject: number | BN | string,
+        _name: string,
+        _class: string,
+        _addr: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<string>;
       estimateGas(
-        _subject: number | BN | string,
+        _name: string,
+        _class: string,
+        _addr: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<number>;
     };
 
-    addNote: {
+    setTeacher: {
       (
-        _studentName: string,
-        _note: number | BN | string,
+        _class: string,
+        _course: string,
+        _addr: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<Truffle.TransactionResponse<AllEvents>>;
       call(
-        _studentName: string,
-        _note: number | BN | string,
+        _class: string,
+        _course: string,
+        _addr: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<void>;
       sendTransaction(
-        _studentName: string,
-        _note: number | BN | string,
+        _class: string,
+        _course: string,
+        _addr: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<string>;
       estimateGas(
-        _studentName: string,
-        _note: number | BN | string,
+        _class: string,
+        _course: string,
+        _addr: string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<number>;
     };
 
     setNote: {
       (
-        _studentName: string,
+        _course: string,
+        _nameStudent: string,
         _note: number | BN | string,
-        _noteIndex: number | BN | string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<Truffle.TransactionResponse<AllEvents>>;
       call(
-        _studentName: string,
+        _course: string,
+        _nameStudent: string,
         _note: number | BN | string,
-        _noteIndex: number | BN | string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<void>;
       sendTransaction(
-        _studentName: string,
+        _course: string,
+        _nameStudent: string,
         _note: number | BN | string,
-        _noteIndex: number | BN | string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<string>;
       estimateGas(
-        _studentName: string,
+        _course: string,
+        _nameStudent: string,
         _note: number | BN | string,
-        _noteIndex: number | BN | string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<number>;
     };
 
-    getNote(
-      _studentName: string,
-      _subject: number | BN | string,
-      _noteIndex: number | BN | string,
+    calculateMoyennePerCourse(
+      _class: string,
+      _course: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<BN>;
 
-    getStudentSubjectAverage(
-      _studentName: string,
-      _subject: number | BN | string,
+    calculateMoyenneStudent(
+      _name: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<BN>;
 
-    getStudentAverage(
-      _studentName: string,
+    isPassing(
+      _name: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<boolean>;
+
+    calculateMoyenneGenerale(
+      _class: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<BN>;
-
-    getGlobalSubjectAverage(
-      _subject: number | BN | string,
-      txDetails?: Truffle.TransactionDetails
-    ): Promise<BN>;
-
-    getGlobalAverage(txDetails?: Truffle.TransactionDetails): Promise<BN>;
   };
 
   getPastEvents(event: string): Promise<EventData[]>;

@@ -15,12 +15,14 @@ const Loader = Component => props => (
 
 
 const Home = Loader(lazy(() => import('src/content/home/components/Home')));
+const Contacts = Loader(lazy(() => import('src/content/contacts/components/ContactsContainer')));
+
 const Status404 = Loader(lazy(() => import('src/content/pages/Status/Status404')));
 
 export class Routes {
     public static ROOT = `/`;
-
     public static HOME = `/home`;
+    public static CONTACTS = `/contacts`;
 }
 
 export function buildRoute(route: string, params?: any) {
@@ -45,5 +47,12 @@ export const routes: RouteObject[] = [{
     children: [{
         path: Routes.HOME,
         element: <Home/>,
+    }],
+}, {
+    path: 'contacts',
+    element: <SidebarLayout/>,
+    children: [{
+        path: Routes.CONTACTS,
+        element: <Contacts/>,
     }],
 }];
