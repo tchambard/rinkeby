@@ -4,16 +4,21 @@
 
 import { AlyraERC20TokenContract } from "./AlyraERC20Token";
 import { BankContract } from "./Bank";
+import { CallerContract } from "./Caller";
+import { ChildContract } from "./Child";
 import { ContactsContract } from "./Contacts";
 import { CrowdsaleContract } from "./Crowdsale";
+import { DeployedContract } from "./Deployed";
 import { ERC20Contract } from "./ERC20";
 import { ERC20TokenContract } from "./ERC20Token";
 import { Ex1Contract } from "./Ex1";
+import { ExistingContract } from "./Existing";
 import { GuessAndWinContract } from "./GuessAndWin";
 import { IERC20Contract } from "./IERC20";
 import { IERC20MetadataContract } from "./IERC20Metadata";
 import { NotesContract } from "./Notes";
 import { OwnableContract } from "./Ownable";
+import { ParentContract } from "./Parent";
 import { PeopleContract } from "./People";
 import { RandomContract } from "./Random";
 import { SavingContract } from "./Saving";
@@ -25,16 +30,21 @@ declare global {
     interface Artifacts {
       require(name: "AlyraERC20Token"): AlyraERC20TokenContract;
       require(name: "Bank"): BankContract;
+      require(name: "Caller"): CallerContract;
+      require(name: "Child"): ChildContract;
       require(name: "Contacts"): ContactsContract;
       require(name: "Crowdsale"): CrowdsaleContract;
+      require(name: "Deployed"): DeployedContract;
       require(name: "ERC20"): ERC20Contract;
       require(name: "ERC20Token"): ERC20TokenContract;
       require(name: "Ex1"): Ex1Contract;
+      require(name: "Existing"): ExistingContract;
       require(name: "GuessAndWin"): GuessAndWinContract;
       require(name: "IERC20"): IERC20Contract;
       require(name: "IERC20Metadata"): IERC20MetadataContract;
       require(name: "Notes"): NotesContract;
       require(name: "Ownable"): OwnableContract;
+      require(name: "Parent"): ParentContract;
       require(name: "People"): PeopleContract;
       require(name: "Random"): RandomContract;
       require(name: "Saving"): SavingContract;
@@ -49,11 +59,15 @@ export {
   AlyraERC20TokenInstance,
 } from "./AlyraERC20Token";
 export { BankContract, BankInstance } from "./Bank";
+export { CallerContract, CallerInstance } from "./Caller";
+export { ChildContract, ChildInstance } from "./Child";
 export { ContactsContract, ContactsInstance } from "./Contacts";
 export { CrowdsaleContract, CrowdsaleInstance } from "./Crowdsale";
+export { DeployedContract, DeployedInstance } from "./Deployed";
 export { ERC20Contract, ERC20Instance } from "./ERC20";
 export { ERC20TokenContract, ERC20TokenInstance } from "./ERC20Token";
 export { Ex1Contract, Ex1Instance } from "./Ex1";
+export { ExistingContract, ExistingInstance } from "./Existing";
 export { GuessAndWinContract, GuessAndWinInstance } from "./GuessAndWin";
 export { IERC20Contract, IERC20Instance } from "./IERC20";
 export {
@@ -62,6 +76,7 @@ export {
 } from "./IERC20Metadata";
 export { NotesContract, NotesInstance } from "./Notes";
 export { OwnableContract, OwnableInstance } from "./Ownable";
+export { ParentContract, ParentInstance } from "./Parent";
 export { PeopleContract, PeopleInstance } from "./People";
 export { RandomContract, RandomInstance } from "./Random";
 export { SavingContract, SavingInstance } from "./Saving";
