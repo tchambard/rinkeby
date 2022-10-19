@@ -3,3 +3,4 @@
 /* eslint-disable */
 export type { Ownable } from "./Ownable";
 export type { Voting } from "./Voting";
+export type { VotingAlyra } from "./VotingAlyra";

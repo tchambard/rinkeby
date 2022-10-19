@@ -4,15 +4,18 @@
 
 import { OwnableContract } from "./Ownable";
 import { VotingContract } from "./Voting";
+import { VotingAlyraContract } from "./VotingAlyra";
 
 declare global {
   namespace Truffle {
     interface Artifacts {
       require(name: "Ownable"): OwnableContract;
       require(name: "Voting"): VotingContract;
+      require(name: "VotingAlyra"): VotingAlyraContract;
     }
   }
 }
 
 export { OwnableContract, OwnableInstance } from "./Ownable";
 export { VotingContract, VotingInstance } from "./Voting";
+export { VotingAlyraContract, VotingAlyraInstance } from "./VotingAlyra";

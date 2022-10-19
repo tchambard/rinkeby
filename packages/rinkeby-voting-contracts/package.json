@@ -13,6 +13,7 @@
   "devDependencies": {
     "@openzeppelin/contracts": "^4.7.3",
     "@openzeppelin/test-helpers": "^0.5.16",
+    "@truffle/hdwallet-provider": "^2.1.0",
     "@typechain/truffle-v5": "^8.0.1",
     "chai": "^4.3.0",
     "typechain": "^8.1.0"
