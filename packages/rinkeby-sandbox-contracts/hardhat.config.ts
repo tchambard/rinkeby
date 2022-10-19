@@ -2,6 +2,7 @@ import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomiclabs/hardhat-truffle5";
 import "hardhat-gas-reporter";
+import "hardhat-deploy";
 
 require('dotenv').config();
 const { MNEMONIC, INFURA_ID } = process.env;

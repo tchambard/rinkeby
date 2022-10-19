@@ -24,10 +24,6 @@ const menuItems: IMenuItems[] = [
             link: '/home',
             icon: HomeIcon,
         }, {
-            name: 'Contacts',
-            link: '/contacts',
-            icon: ContactsIcon,
-        }, {
             name: 'Voting',
             link: '/voting',
             icon: HowToVoteIcon,

@@ -2,6 +2,7 @@ import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomiclabs/hardhat-truffle5";
 import "hardhat-gas-reporter";
+import "hardhat-deploy";
 
 require('dotenv').config();
 const { MNEMONIC, INFURA_ID } = process.env;
@@ -22,7 +23,7 @@ const config: HardhatUserConfig = {
   },
   networks: {
     localhost: {
-      url: "http://127.0.0.1:8545/",
+      url: "http://localhost:8545/",
     },
   },
   gasReporter: {

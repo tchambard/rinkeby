@@ -8,7 +8,7 @@
     "test": "yarn g:hardhat-test",
     "coverage": "yarn g:hardhat-coverage",
     "migrate": "yarn g:hardhat-migrate",
-    "deploy": "yarn g:hardhat-deploy"
+    "deploy-localhost": "yarn g:hardhat-deploy-localhost"
   },
   "devDependencies": {
     "@openzeppelin/contracts": "^4.7.3"

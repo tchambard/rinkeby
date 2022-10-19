@@ -195,6 +195,7 @@ contract Voting is Ownable {
     function createVotingSession(string calldata _name, string calldata _description) external onlyOwner {
         sessions[sessionsCount].status = WorkflowStatus.RegisteringVoters;
         emit SessionCreated(sessionsCount, _name, _description);
+        emit WorkflowStatusChange(sessionsCount, WorkflowStatus.None, WorkflowStatus.RegisteringVoters);
         sessionsCount++;
     }
 

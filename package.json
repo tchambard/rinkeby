@@ -23,7 +23,7 @@
     "g:hardhat-compile": "cd $INIT_CWD && hardhat compile",
     "g:hardhat-test": "cd $INIT_CWD && hardhat test",
     "g:hardhat-coverage": "cd $INIT_CWD && hardhat coverage",
-    "g:hardhat-deploy": "cd $INIT_CWD && hardhat run scripts/deploy.ts",
+    "g:hardhat-deploy-localhost": "cd $INIT_CWD && hardhat deploy --network localhost --export deployments/localhost.json",
     "g:typechain-web3": "cd $INIT_CWD && typechain --target=web3-v1 --out-dir types/web3 'artifacts/!(build-info)/**/!(*.dbg).json'"
   },
   "devDependencies": {
@@ -49,6 +49,7 @@
     "chai": "^4.2.0",
     "ethers": "^5.4.7",
     "hardhat": "^2.12.0",
+    "hardhat-deploy": "^0.11.18",
     "hardhat-gas-reporter": "^1.0.8",
     "mocha": "^10.1.0",
     "npm": "^7.6.0",

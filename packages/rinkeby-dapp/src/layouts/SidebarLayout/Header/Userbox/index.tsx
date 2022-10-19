@@ -1,9 +1,14 @@
 import { useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { Avatar, Box, Button, Divider, Hidden, lighten, Popover, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
+
+import { RootState } from 'rinkeby-types';
+
+import AddressAvatar from 'src/components/AddressAvatar';
 
 const UserBoxButton = styled(Button)(
     ({ theme }) => `
@@ -22,7 +27,7 @@ const MenuUserBox = styled(Box)(
 const UserBoxText = styled(Box)(
     ({ theme }) => `
         text-align: left;
-        padding-left: ${theme.spacing(1)};
+        padding: ${theme.spacing(1)};
 `,
 );
 
@@ -41,14 +46,10 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function HeaderUserbox() {
-    const user = {
-        name: '',
-        avatar: '',
-        address: '',
-    };
-
+   
     const ref = useRef<any>(null);
     const [isOpen, setOpen] = useState<boolean>(false);
+    const { account } = useSelector((state: RootState) => state.ethNetwork);
 
     const handleOpen = (): void => {
         setOpen(true);
@@ -58,16 +59,16 @@ function HeaderUserbox() {
         setOpen(false);
     };
 
+    if (!account) {
+        return <div></div>;
+    }
     return (
         <>
             <UserBoxButton color='secondary' ref={ref} onClick={handleOpen}>
-                <Avatar variant='rounded' alt={user.name} src={user.avatar}/>
+                <AddressAvatar address={account}/>
                 <Hidden mdDown>
                     <UserBoxText>
-                        <UserBoxLabel variant='body1'>{user.name || ' '}</UserBoxLabel>
-                        <UserBoxDescription variant='body2'>
-                            {user.address}
-                        </UserBoxDescription>
+                        <UserBoxLabel variant='body1'>{account.substring(0, 8)}</UserBoxLabel>
                     </UserBoxText>
                 </Hidden>
                 <Hidden smDown>
@@ -88,13 +89,12 @@ function HeaderUserbox() {
                 }}
             >
                 <MenuUserBox sx={{ minWidth: 210 }} display='flex'>
-                    <Avatar variant='rounded' alt={user.name} src={user.avatar}/>
-                    <UserBoxText>
-                        <UserBoxLabel variant='body1'>{user.name}</UserBoxLabel>
-                        <UserBoxDescription variant='body2'>
-                            {user.address}
-                        </UserBoxDescription>
-                    </UserBoxText>
+                <AddressAvatar address={account}/>
+                    <Hidden mdDown>
+                        <UserBoxText>
+                            <UserBoxLabel variant='body1'>{account}</UserBoxLabel>
+                        </UserBoxText>
+                    </Hidden>
                 </MenuUserBox>
                 <Divider sx={{ mb: 0 }}/>
                 <Box sx={{ m: 1 }}>

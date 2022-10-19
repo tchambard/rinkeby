@@ -6,7 +6,7 @@ import { RouteObject } from 'react-router';
 import BaseLayout from './layouts/BaseLayout';
 import SuspenseLoader from './components/SuspenseLoader';
 import SidebarLayout from './layouts/SidebarLayout';
-import VotingSessionContainer from './content/voting/components/VotingSessionContainer';
+import VotingWrapper from './content/voting/components/VotingWrapper';
 
 const Loader = Component => props => (
     <Suspense fallback={<SuspenseLoader/>}>
@@ -16,15 +16,19 @@ const Loader = Component => props => (
 
 
 const Home = Loader(lazy(() => import('src/content/home/components/Home')));
-const Contacts = Loader(lazy(() => import('src/content/contacts/components/ContactsContainer')));
 
-const Status404 = Loader(lazy(() => import('src/content/pages/Status/Status404')));
+const VotingSessionList = Loader(lazy(() => import('src/content/voting/components/list/VotingSessionListContainer')));
+const VotingSession = Loader(lazy(() => import('src/content/voting/components/detail/VotingSessionContainer')));
+
+const Status404 = Loader(lazy(() => import('src/content/not-found')));
 
 export class Routes {
     public static ROOT = `/`;
     public static HOME = `/home`;
-    public static CONTACTS = `/contacts`;
-    public static VOTING = `/voting`;
+
+    public static VOTING_SESSION_LIST = `/voting`;
+    public static VOTING_SESSION_DETAIL = `${Routes.VOTING_SESSION_LIST}/:sessionId`;
+
 }
 
 export function buildRoute(route: string, params?: any) {
@@ -51,17 +55,13 @@ export const routes: RouteObject[] = [{
         element: <Home/>,
     }],
 }, {
-    path: 'contacts',
-    element: <SidebarLayout/>,
-    children: [{
-        path: Routes.CONTACTS,
-        element: <Contacts/>,
-    }],
-}, {
     path: 'voting',
     element: <SidebarLayout/>,
     children: [{
-        path: Routes.VOTING,
-        element: <VotingSessionContainer/>,
+        path: Routes.VOTING_SESSION_LIST,
+        element: <VotingWrapper><VotingSessionList/></VotingWrapper>,
+    }, {
+        path: Routes.VOTING_SESSION_DETAIL,
+        element: <VotingWrapper><VotingSession/></VotingWrapper>,
     }],
 }];
