@@ -6,6 +6,7 @@ import { RouteObject } from 'react-router';
 import BaseLayout from './layouts/BaseLayout';
 import SuspenseLoader from './components/SuspenseLoader';
 import SidebarLayout from './layouts/SidebarLayout';
+import VotingSessionContainer from './content/voting/components/VotingSessionContainer';
 
 const Loader = Component => props => (
     <Suspense fallback={<SuspenseLoader/>}>
@@ -23,6 +24,7 @@ export class Routes {
     public static ROOT = `/`;
     public static HOME = `/home`;
     public static CONTACTS = `/contacts`;
+    public static VOTING = `/voting`;
 }
 
 export function buildRoute(route: string, params?: any) {
@@ -54,5 +56,12 @@ export const routes: RouteObject[] = [{
     children: [{
         path: Routes.CONTACTS,
         element: <Contacts/>,
+    }],
+}, {
+    path: 'voting',
+    element: <SidebarLayout/>,
+    children: [{
+        path: Routes.VOTING,
+        element: <VotingSessionContainer/>,
     }],
 }];

@@ -10,7 +10,7 @@
     "migrate": "yarn g:hardhat-migrate",
     "deploy": "yarn g:hardhat-deploy"
   },
-  "dependencies": {
+  "devDependencies": {
     "@openzeppelin/contracts": "^4.7.3"
   },
   "author": "teddy.chambard@gmail.com",
