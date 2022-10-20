@@ -21,5 +21,6 @@ export type { Parent } from "./Parent";
 export type { People } from "./People";
 export type { Random } from "./Random";
 export type { Saving } from "./Saving";
+export type { SimpleStoragePayable } from "./SimpleStoragePayable";
 export type { Time } from "./Time";
 export type { Whitelist } from "./Whitelist";

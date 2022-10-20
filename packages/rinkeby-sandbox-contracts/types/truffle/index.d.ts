@@ -22,6 +22,7 @@ import { ParentContract } from "./Parent";
 import { PeopleContract } from "./People";
 import { RandomContract } from "./Random";
 import { SavingContract } from "./Saving";
+import { SimpleStoragePayableContract } from "./SimpleStoragePayable";
 import { TimeContract } from "./Time";
 import { WhitelistContract } from "./Whitelist";
 
@@ -48,6 +49,7 @@ declare global {
       require(name: "People"): PeopleContract;
       require(name: "Random"): RandomContract;
       require(name: "Saving"): SavingContract;
+      require(name: "SimpleStoragePayable"): SimpleStoragePayableContract;
       require(name: "Time"): TimeContract;
       require(name: "Whitelist"): WhitelistContract;
     }
@@ -80,5 +82,9 @@ export { ParentContract, ParentInstance } from "./Parent";
 export { PeopleContract, PeopleInstance } from "./People";
 export { RandomContract, RandomInstance } from "./Random";
 export { SavingContract, SavingInstance } from "./Saving";
+export {
+  SimpleStoragePayableContract,
+  SimpleStoragePayableInstance,
+} from "./SimpleStoragePayable";
 export { TimeContract, TimeInstance } from "./Time";
 export { WhitelistContract, WhitelistInstance } from "./Whitelist";
