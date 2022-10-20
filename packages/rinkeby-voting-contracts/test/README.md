@@ -1,18 +1,31 @@
 # Projet - Système de vote 2
 
-## Typescript
-Utilisation de [typechain](https://github.com/dethcrypto/TypeChain)
-
 ## Tests unitaires
 
-- [Voting.spec.ts](./Voting.spec.ts) correspond aux tests unitaires du contrat que j'ai rendu au projet #1
+J'estime que la couverture de test est complète à 100%.  
+
+La structure de test est composée de cinq sections principales:
+- onlyOwner modifer prevents functions to be called by non owners
+- onlyVoters modifier prevents functions to be called by non voters
+- everybody can call public storage getters
+- Voting actions are conditionned by voting session status
+- A complete super heroes voting session
+
+Les hooks sont organisés de façon à ce que n'importe quel `it` puisse être joué indémendemment du reste (avec un `.only`) en bénéficiant du strict minimum nécessaire au niveau setup.
+J'utilise majoritairement des hooks `beforeEach` afin de m'assurer que chaque test est exécuté dans un contexte fraichement créé dans lequel je maitrise parfaitement les données présentes dans le storage de mon contrat.
+
+
 - [VotingAlyra.spec.ts](./VotingAlyra.spec.ts) correspond aux tests unitaires du [contrat fourni par Alyra](https://github.com/lecascyril/CodesRinkeby/blob/main/voting.sol) ([commit](https://github.com/lecascyril/CodesRinkeby/commit/c9266381719810402e0616d967596d0e0692576d))
+- BONUS: [Voting.spec.ts](./Voting.spec.ts) correspond aux tests unitaires du contrat que j'ai rendu au projet #1
 
 ## Intégration continue
 
 - [Workflow](https://github.com/tchambard/rinkeby/blob/master/.github/workflows/ci.yml)
 - [Ganache github action](https://github.com/tchambard/rinkeby/tree/master/.github/actions/truffle-ganache-action)
 - [Un exemple de pipeline complet](https://github.com/tchambard/rinkeby/actions/runs/3292590076/jobs/5428127586)
+
+## Typescript
+Utilisation de [typechain](https://github.com/dethcrypto/TypeChain)
 
 ## Lint
 
@@ -49,6 +62,8 @@ yarn lint
 
 # Exécuter les tests
 yarn test
+# ou pour ne jouer que les tests du contrat VotingAlyra
+yarn test -- test/VotingAlyra.spec.ts
 
 ```
 

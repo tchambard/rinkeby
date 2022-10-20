@@ -9,7 +9,10 @@ const mapProposalRegisteredEvent = ({ returnValues }) => +returnValues.proposalI
 
 const mapVoterRegisteredEvent = ({ returnValues }) => returnValues.voterAddress;
 
-const mapVotedEvent = ({ returnValues }) => returnValues.voter;
+const mapVotedEvent = ({ returnValues }) => ({
+    voter: returnValues.voter,
+    proposalId: +returnValues.proposalId,
+});
 
 contract('VotingAlyra', (accounts) => {
 
@@ -202,6 +205,12 @@ contract('VotingAlyra', (accounts) => {
         context('## voting status is RegisteringVoters', () => {
             const expectedStatus = 0;
 
+            describe('> winningProposalID', () => {
+                it('> should succeed when called with registered voter', async () => {
+                    assert.equal((await votingInstance.winningProposalID({ from: superman })).toNumber(), 0);
+                });
+            });
+
             describe('> getVoter', () => {
                 it('> should succeed when called with registered voter address', async () => {
                     const voter = await votingInstance.getVoter(batman, { from: batman });
@@ -290,6 +299,12 @@ contract('VotingAlyra', (accounts) => {
                     await votingInstance.addProposal('Bats should replace all dogs', { from: batman });
                 });
 
+                describe('> winningProposalID', () => {
+                    it('> should succeed when called with registered voter', async () => {
+                        assert.equal((await votingInstance.winningProposalID({ from: superman })).toNumber(), 0);
+                    });
+                });
+
                 describe('> getVoter', () => {
                     it('> should succeed when called with registered voter address', async () => {
                         const voter = await votingInstance.getVoter(batman, { from: batman });
@@ -374,6 +389,12 @@ contract('VotingAlyra', (accounts) => {
                         await votingInstance.endProposalsRegistering({ from: administrator });
                     });
 
+                    describe('> winningProposalID', () => {
+                        it('> should succeed when called with registered voter', async () => {
+                            assert.equal((await votingInstance.winningProposalID({ from: superman })).toNumber(), 0);
+                        });
+                    });
+
                     describe('> getVoter', () => {
                         it('> should succeed when called with registered voter address', async () => {
                             const voter = await votingInstance.getVoter(batman, { from: batman });
@@ -450,6 +471,12 @@ contract('VotingAlyra', (accounts) => {
                             await votingInstance.startVotingSession({ from: administrator });
                         });
 
+                        describe('> winningProposalID', () => {
+                            it('> should succeed when called with registered voter', async () => {
+                                assert.equal((await votingInstance.winningProposalID({ from: superman })).toNumber(), 0);
+                            });
+                        });
+
                         describe('> getVoter', () => {
                             it('> should succeed when called with registered voter address', async () => {
                                 const voter = await votingInstance.getVoter(batman, { from: batman });
@@ -510,6 +537,7 @@ contract('VotingAlyra', (accounts) => {
                                 const receipt = await votingInstance.setVote(1, { from: batman });
                                 await expectEvent(receipt, 'Voted', {
                                     voter: batman,
+                                    proposalId: BN(1),
                                 });
                                 const voter = await votingInstance.getVoter(batman, { from: batman });
                                 assert.isTrue(voter.hasVoted);
@@ -541,6 +569,12 @@ contract('VotingAlyra', (accounts) => {
             
                             beforeEach(async () => {
                                 await votingInstance.endVotingSession({ from: administrator });
+                            });
+
+                            describe('> winningProposalID', () => {
+                                it('> should succeed when called with registered voter', async () => {
+                                    assert.equal((await votingInstance.winningProposalID({ from: superman })).toNumber(), 0);
+                                });
                             });
 
                             describe('> getVoter', () => {                        
@@ -619,6 +653,12 @@ contract('VotingAlyra', (accounts) => {
                                     await votingInstance.tallyVotes({ from: administrator });
                                 });
 
+                                describe('> winningProposalID', () => {
+                                    it('> should succeed when called with registered voter', async () => {
+                                        assert.equal((await votingInstance.winningProposalID({ from: superman })).toNumber(), 0);
+                                    });
+                                });
+                    
                                 describe('> getVoter', () => {                        
                                     it('> should succeed when called with registered voter address', async () => {
                                         const voter = await votingInstance.getVoter(batman, { from: batman });
@@ -792,7 +832,29 @@ contract('VotingAlyra', (accounts) => {
                 toBlock: blockNumberBeforeTallingVotes,
              })).map(mapVotedEvent);
             
-            assert.sameMembers(events, [superman, batman, wonderwoman, acquaman, ironman, spiderman]); // missing antman who didn't vote
+            assert.sameDeepMembers(events, [{
+                voter: superman,
+                proposalId: 3,
+            }, {
+                voter: batman,
+                proposalId: 2,
+            }, {
+                voter: wonderwoman,
+                proposalId: 3,
+            }, {
+                voter: acquaman,
+                proposalId: 1,
+            }, {
+                voter: ironman,
+                proposalId: 5,
+            }, {
+                voter: spiderman,
+                proposalId: 4,
+            }]); // missing antman who didn't vote
+        });
+
+        it('> should allow to retrieve winning proposal ID', async () => {
+            assert.equal((await votingInstance.winningProposalID({ from: superman })).toNumber(), 3);
         });
 
     });

@@ -700,10 +700,6 @@ contract('Voting', (accounts) => {
                                         newStatus: BN(expectedStatus + 1),
                                     });
 
-                                    const events = (await votingInstance.getPastEvents('VotesTallied', { 
-                                        fromBlock: 0, 
-                                     }));
-                                    
                                     await expectEvent(receipt, 'VotesTallied', {
                                         sessionId: BN(sessionId),
                                         votersCount: BN(1),
