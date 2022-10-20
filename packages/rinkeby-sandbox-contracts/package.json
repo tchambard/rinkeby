@@ -4,6 +4,7 @@
   "types": "index.d.ts",
   "scripts": {
     "lint": "yarn g:solhint",
+    "lint-fix": "yarn g:solhint-fix",
     "compile": "yarn g:truffle-compile && yarn g:typechain-truffle && yarn g:typechain-web3",
     "test": "yarn g:truffle-test",
     "migrate": "yarn g:truffle-migrate",
@@ -13,5 +14,8 @@
     "@openzeppelin/contracts": "^4.7.3"
   },
   "author": "teddy.chambard@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@codechecks/client": "^0.1.12"
+  }
 }
