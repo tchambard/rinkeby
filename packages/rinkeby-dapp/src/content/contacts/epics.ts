@@ -18,9 +18,9 @@ export const listContactsEpic: Epic<RootAction, RootAction, RootState, Services>
 
             const counter = await contactList.methods.count().call();
 
-            for (var i = 1; i <= counter; i++) {
-              const contact = await contactList.methods.contacts(i).call();
-              contacts.push(contact);
+            for (let i = 1; i <= counter; i++) {
+                const contact = await contactList.methods.contacts(i).call();
+                contacts.push(contact);
             }
             return LIST_CONTACTS_ACTION.success(contacts);
         }),
@@ -39,7 +39,7 @@ export const addContactEpic: Epic<RootAction, RootAction, RootState, Services> =
             const userAccount = accounts[0];
 
             try {
-                await contactList.methods.createContact(name, phone).send({ from: userAccount })
+                await contactList.methods.createContact(name, phone).send({ from: userAccount });
                 return CREATE_CONTACT_ACTION.success();
             } catch (e) {
                 return CREATE_CONTACT_ACTION.failure(e.message);
@@ -59,7 +59,6 @@ export const onContactAddedEpic: Epic<RootAction, RootAction, RootState, Service
                 contactList.events.ContactAdded()
                     .on('data', async (evt) => {
                         const contact = await contactList.methods.contacts(evt.returnValues.id).call();
-                        console.log('Contact created', contact)
                         obs.next({
                             id: contact.id,
                             name: contact.name,

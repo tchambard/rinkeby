@@ -9,7 +9,7 @@
     "test:all": "yarn workspaces foreach -t -j 1 run test",
     "g:clean": "cd $INIT_CWD && rimraf build",
     "g:tslint": "cd $INIT_CWD && tslint --format verbose \"src/**/*.ts\"",
-    "g:tslint-fix": "cd $INIT_CWD && yarn g:tslint -- --fix",
+    "g:tslint-fix": "cd $INIT_CWD && yarn g:tslint --fix",
     "g:compile": "cd $INIT_CWD && echo $INIT_CWD && tsc -v && tsc --pretty",
     "g:compile-watch": "cd $INIT_CWD && tsc --pretty -w",
     "g:clean-compile": "cd $INIT_CWD && yarn g:clean && yarn g:compile",

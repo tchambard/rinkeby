@@ -49,8 +49,6 @@ export default createReducer(initialState)
 
     .handleAction([CREATE_CONTACT_ACTION.failure],
         (state: IState, action: ActionType<typeof CREATE_CONTACT_ACTION.failure>): IState => {
-            console.log("CREATE_CONTACT_ACTION failure", action.payload);
-
             return {
                 ...state,
                 createTxPending: false,
@@ -60,8 +58,6 @@ export default createReducer(initialState)
 
     .handleAction([CREATE_CONTACT_ACTION.success],
         (state: IState): IState => {
-            console.log("CREATE_CONTACT_ACTION success");
-
             return {
                 ...state,
                 createTxPending: false,
@@ -75,7 +71,7 @@ export default createReducer(initialState)
                 contacts: [
                     ...state.contacts,
                     action.payload,
-                ]
+                ],
             };
         })
 
