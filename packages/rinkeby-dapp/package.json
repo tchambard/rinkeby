@@ -52,8 +52,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "lint": "yarn g:lint",
-    "lint-fix": "yarn g:lint-fix"
+    "lint": "yarn g:tslint",
+    "lint-fix": "yarn g:tslint-fix"
   },
   "browserslist": {
     "production": [
