@@ -27,6 +27,22 @@ export type OwnershipTransferred = ContractEventLog<{
   0: string;
   1: string;
 }>;
+export type studentAdded = ContractEventLog<{
+  _name: string;
+  _class: string;
+  _addr: string;
+  0: string;
+  1: string;
+  2: string;
+}>;
+export type teacherAdded = ContractEventLog<{
+  _class: string;
+  _course: string;
+  _addr: string;
+  0: string;
+  1: string;
+  2: string;
+}>;
 
 export interface Notes extends BaseContract {
   constructor(
@@ -51,47 +67,54 @@ export interface Notes extends BaseContract {
      */
     transferOwnership(newOwner: string): NonPayableTransactionObject<void>;
 
-    registerTeacher(
-      _subject: number | string | BN
+    addStudent(
+      _name: string,
+      _class: string,
+      _addr: string
     ): NonPayableTransactionObject<void>;
 
-    addNote(
-      _studentName: string,
-      _note: number | string | BN
+    setTeacher(
+      _class: string,
+      _course: string,
+      _addr: string
     ): NonPayableTransactionObject<void>;
 
     setNote(
-      _studentName: string,
-      _note: number | string | BN,
-      _noteIndex: number | string | BN
+      _course: string,
+      _nameStudent: string,
+      _note: number | string | BN
     ): NonPayableTransactionObject<void>;
 
-    getNote(
-      _studentName: string,
-      _subject: number | string | BN,
-      _noteIndex: number | string | BN
+    calculateMoyennePerCourse(
+      _class: string,
+      _course: string
     ): NonPayableTransactionObject<string>;
 
-    getStudentSubjectAverage(
-      _studentName: string,
-      _subject: number | string | BN
-    ): NonPayableTransactionObject<string>;
+    calculateMoyenneStudent(_name: string): NonPayableTransactionObject<string>;
 
-    getStudentAverage(
-      _studentName: string
-    ): NonPayableTransactionObject<string>;
+    isPassing(_name: string): NonPayableTransactionObject<boolean>;
 
-    getGlobalSubjectAverage(
-      _subject: number | string | BN
+    calculateMoyenneGenerale(
+      _class: string
     ): NonPayableTransactionObject<string>;
-
-    getGlobalAverage(): NonPayableTransactionObject<string>;
   };
   events: {
     OwnershipTransferred(cb?: Callback<OwnershipTransferred>): EventEmitter;
     OwnershipTransferred(
       options?: EventOptions,
       cb?: Callback<OwnershipTransferred>
+    ): EventEmitter;
+
+    studentAdded(cb?: Callback<studentAdded>): EventEmitter;
+    studentAdded(
+      options?: EventOptions,
+      cb?: Callback<studentAdded>
+    ): EventEmitter;
+
+    teacherAdded(cb?: Callback<teacherAdded>): EventEmitter;
+    teacherAdded(
+      options?: EventOptions,
+      cb?: Callback<teacherAdded>
     ): EventEmitter;
 
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
@@ -102,5 +125,19 @@ export interface Notes extends BaseContract {
     event: "OwnershipTransferred",
     options: EventOptions,
     cb: Callback<OwnershipTransferred>
+  ): void;
+
+  once(event: "studentAdded", cb: Callback<studentAdded>): void;
+  once(
+    event: "studentAdded",
+    options: EventOptions,
+    cb: Callback<studentAdded>
+  ): void;
+
+  once(event: "teacherAdded", cb: Callback<teacherAdded>): void;
+  once(
+    event: "teacherAdded",
+    options: EventOptions,
+    cb: Callback<teacherAdded>
   ): void;
 }
