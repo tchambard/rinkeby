@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.17;
-import "@openzeppelin/contracts/access/Ownable.sol";
+pragma solidity 0.8.17.0;
+import '@openzeppelin/contracts/access/Ownable.sol';
 
 
 contract VotingAlyra is Ownable {
@@ -71,7 +71,7 @@ contract VotingAlyra is Ownable {
 
     function addProposal(string calldata _desc) external onlyVoters {
         require(workflowStatus == WorkflowStatus.ProposalsRegistrationStarted, 'Proposals are not allowed yet');
-        require(keccak256(abi.encode(_desc)) != keccak256(abi.encode("")), 'Vous ne pouvez pas ne rien proposer'); // facultatif
+        require(keccak256(abi.encode(_desc)) != keccak256(abi.encode('')), 'Vous ne pouvez pas ne rien proposer'); // facultatif
         // voir que desc est different des autres
 
         Proposal memory proposal;
@@ -102,7 +102,7 @@ contract VotingAlyra is Ownable {
         workflowStatus = WorkflowStatus.ProposalsRegistrationStarted;
         
         Proposal memory proposal;
-        proposal.description = "GENESIS";
+        proposal.description = 'GENESIS';
         proposalsArray.push(proposal);
         
         emit WorkflowStatusChange(WorkflowStatus.RegisteringVoters, WorkflowStatus.ProposalsRegistrationStarted);
@@ -128,7 +128,7 @@ contract VotingAlyra is Ownable {
 
 
    function tallyVotes() external onlyOwner {
-       require(workflowStatus == WorkflowStatus.VotingSessionEnded, "Current status is not voting session ended");
+       require(workflowStatus == WorkflowStatus.VotingSessionEnded, 'Current status is not voting session ended');
        uint _winningProposalId;
       for (uint256 p = 0; p < proposalsArray.length; p++) {
            if (proposalsArray[p].voteCount > proposalsArray[_winningProposalId].voteCount) {

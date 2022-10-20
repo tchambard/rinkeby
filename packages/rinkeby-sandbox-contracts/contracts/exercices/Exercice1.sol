@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity  ^0.8.7;
+pragma solidity  ^0.8.7.0;
 
 contract Ex1 {
     address state;
@@ -19,7 +19,7 @@ contract Ex1 {
     }
 
     function sendEth (address _destination) payable  public {
-        (bool sent,) = payable(_destination).call{value:msg.value}("");
-        require(sent, unicode"eth non transférés");
+        (bool sent,) = payable(_destination).call{value:msg.value}('');
+        require(sent, unicode'eth non transférés');
     }
 }

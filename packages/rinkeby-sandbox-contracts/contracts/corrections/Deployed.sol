@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.17;
+pragma solidity 0.8.17.0;
 
-contract Deployed{
-    function set (uint num) public {}
-    function get() public view returns (uint){}
+interface Deployed{
+    function set (uint num) external;
+    function get() external view returns (uint);
 }
 
 contract Existing {
@@ -11,7 +11,7 @@ contract Existing {
     Deployed dc;
 
     function call(address _addr) public {
-        dc = Deployed (_addr);
+        dc = Deployed(_addr);
     }
 
     function getA () public view returns (uint result){

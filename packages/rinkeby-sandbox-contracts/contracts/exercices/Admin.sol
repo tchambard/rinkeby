@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.17;
+pragma solidity 0.8.17.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import '@openzeppelin/contracts/access/Ownable.sol';
  
 contract ERC20Token is Ownable {
 
@@ -11,15 +11,15 @@ contract ERC20Token is Ownable {
     event Blacklisted(address _address);
 
     function whitelist(address _address) public onlyOwner {
-        require(!_blacklist[_address], "already blacklisted");
-        require(!_whitelist[_address], "already whitelisted");
+        require(!_blacklist[_address], 'already blacklisted');
+        require(!_whitelist[_address], 'already whitelisted');
         _whitelist[_address] = true;
         emit Whitelisted(_address);
     }
 
     function blacklist(address _address) public onlyOwner {
-        require(!_blacklist[_address], "already blacklisted");
-        require(!_whitelist[_address], "already whitelisted");
+        require(!_blacklist[_address], 'already blacklisted');
+        require(!_whitelist[_address], 'already whitelisted');
         _blacklist[_address] = true;
         emit Blacklisted(_address);
     }

@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "types": "index.d.ts",
   "scripts": {
-    "compile": "truffle compile && yarn run generate-types-truffle && yarn run generate-types-web3",
-    "generate-types-truffle": "typechain --target=truffle-v5 --out-dir types/truffle 'build/contracts/*.json'",
-    "generate-types-web3": "typechain --target=web3-v1 --out-dir types/web3 'build/contracts/*.json'",
-    "test": "truffle test",
-    "migrate": "truffle migrate",
-    "deploy": "truffle deploy"
+    "lint": "yarn g:solhint",
+    "compile": "yarn g:truffle-compile && yarn g:typechain-truffle && yarn g:typechain-web3",
+    "test": "yarn g:truffle-test",
+    "migrate": "yarn g:truffle-migrate",
+    "deploy": "yarn g:truffle-deploy"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.3"

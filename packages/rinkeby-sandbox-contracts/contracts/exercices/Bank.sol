@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.17;
+pragma solidity 0.8.17.0;
  
 contract Bank {
    mapping(address => uint) _balances;
@@ -9,8 +9,8 @@ contract Bank {
    }
 
    function transer(address _recipient, uint _amout) public {
-        require(_recipient != address(0), "You cannot transfer to the address zero");
-        require(_balances[msg.sender] >= _amout, "balance is too low");
+        require(_recipient != address(0), 'You cannot transfer to the address zero');
+        require(_balances[msg.sender] >= _amout, 'balance is too low');
         _balances[msg.sender] -= _amout;
         _balances[_recipient] += _amout;
    }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.17;
+pragma solidity 0.8.17.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import '@openzeppelin/contracts/access/Ownable.sol';
 
 contract Notes is Ownable{
 
@@ -51,17 +51,17 @@ contract Notes is Ownable{
 
     function setNote(string memory _course, string memory _nameStudent, uint _note) public {
         uint idStudent=getStudentFromName(_nameStudent);
-        require(msg.sender==teachers[students[idStudent].class][_course], "you re not the teacher of this student course");
-        if (stringsEquals(_course,"biology")){
+        require(msg.sender==teachers[students[idStudent].class][_course], 'you re not the teacher of this student course');
+        if (stringsEquals(_course,'biology')){
             students[idStudent].noteBiology=_note;
         }
-        else if (stringsEquals(_course,"maths")){
+        else if (stringsEquals(_course,'maths')){
             students[idStudent].noteMaths=_note;
         }
-        else if (stringsEquals(_course,"french")){
+        else if (stringsEquals(_course,'french')){
             students[idStudent].noteFr=_note;
         }
-        else {revert("type a real course");}
+        else {revert('type a real course');}
     }
 
     function calculateMoyennePerCourse(string memory _class, string memory _course) public view returns (uint){
@@ -70,15 +70,15 @@ contract Notes is Ownable{
         uint totalStudent;
         for (uint i=0; i<students.length;i++){
             if (stringsEquals(_class,students[i].class)){
-                if (stringsEquals(_course,"biology")){
+                if (stringsEquals(_course,'biology')){
                     totalNote+=students[i].noteBiology;
                     totalStudent+=1;
                 }
-                if (stringsEquals(_course,"maths")){
+                if (stringsEquals(_course,'maths')){
                     totalNote+=students[i].noteMaths;
                     totalStudent+=1;
                 }
-                if (stringsEquals(_course,"french")){
+                if (stringsEquals(_course,'french')){
                     totalNote+=students[i].noteFr;
                     totalStudent+=1;
                 }
