@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity  ^0.8.7.0;
+pragma solidity 0.8.17;
 
 contract Ex1 {
     address state;

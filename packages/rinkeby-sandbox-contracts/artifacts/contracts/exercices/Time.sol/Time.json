@@ -1,0 +1,24 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "Time",
+  "sourceName": "contracts/exercices/Time.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "getTime",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b50607680601d6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063557ed1ba14602d575b600080fd5b4260405190815260200160405180910390f3fea26469706673582212203d1fe2360fe85995dce568e92591d889687bb3e3bb2c5046a0ce06cd5efc88ff64736f6c63430008110033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060285760003560e01c8063557ed1ba14602d575b600080fd5b4260405190815260200160405180910390f3fea26469706673582212203d1fe2360fe85995dce568e92591d889687bb3e3bb2c5046a0ce06cd5efc88ff64736f6c63430008110033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

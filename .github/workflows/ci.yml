@@ -47,10 +47,6 @@ jobs:
     - name: Compile
       run: |
         yarn run compile:all
-    - name: Setup truffle ganache server
-      uses: ./.github/actions/truffle-ganache-action
-      with:
-        truffle_version: latest
     - name: Test
       run: |
         yarn run test:all

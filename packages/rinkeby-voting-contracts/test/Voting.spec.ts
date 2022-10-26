@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import { BN, expectEvent, expectRevert } from '@openzeppelin/test-helpers';
 
-import { VotingInstance } from "../types/truffle/Voting";
+import { VotingInstance } from "../types/truffle/contracts/Voting";
 
 const Voting = artifacts.require('Voting');
 

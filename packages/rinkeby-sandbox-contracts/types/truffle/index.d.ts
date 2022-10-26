@@ -2,83 +2,87 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { OwnableContract } from "./Ownable";
+import { ERC20Contract } from "./ERC20";
+import { IERC20MetadataContract } from "./IERC20Metadata";
+import { IERC20Contract } from "./IERC20";
+import { DeployedContract } from "./Deployed";
+import { ExistingContract } from "./Existing";
+import { NotesContract } from "./Notes";
+import { ERC20TokenContract } from "./ERC20Token";
 import { AlyraERC20TokenContract } from "./AlyraERC20Token";
 import { BankContract } from "./Bank";
+import { CrowdsaleContract } from "./Crowdsale";
+import { Ex1Contract } from "./Ex1";
+import { GuessAndWinContract } from "./GuessAndWin";
 import { CallerContract } from "./Caller";
 import { ChildContract } from "./Child";
-import { ContactsContract } from "./Contacts";
-import { CrowdsaleContract } from "./Crowdsale";
-import { DeployedContract } from "./Deployed";
-import { ERC20Contract } from "./ERC20";
-import { ERC20TokenContract } from "./ERC20Token";
-import { Ex1Contract } from "./Ex1";
-import { ExistingContract } from "./Existing";
-import { GuessAndWinContract } from "./GuessAndWin";
-import { IERC20Contract } from "./IERC20";
-import { IERC20MetadataContract } from "./IERC20Metadata";
-import { NotesContract } from "./Notes";
-import { OwnableContract } from "./Ownable";
 import { ParentContract } from "./Parent";
+import { NotesContract } from "./Notes";
 import { PeopleContract } from "./People";
 import { RandomContract } from "./Random";
 import { SavingContract } from "./Saving";
 import { SimpleStoragePayableContract } from "./SimpleStoragePayable";
+import { SPAContract } from "./SPA";
 import { TimeContract } from "./Time";
 import { WhitelistContract } from "./Whitelist";
+import { ContactsContract } from "./Contacts";
 
 declare global {
   namespace Truffle {
     interface Artifacts {
+      require(name: "Ownable"): OwnableContract;
+      require(name: "ERC20"): ERC20Contract;
+      require(name: "IERC20Metadata"): IERC20MetadataContract;
+      require(name: "IERC20"): IERC20Contract;
+      require(name: "Deployed"): DeployedContract;
+      require(name: "Existing"): ExistingContract;
+      require(name: "Notes"): NotesContract;
+      require(name: "ERC20Token"): ERC20TokenContract;
       require(name: "AlyraERC20Token"): AlyraERC20TokenContract;
       require(name: "Bank"): BankContract;
+      require(name: "Crowdsale"): CrowdsaleContract;
+      require(name: "Ex1"): Ex1Contract;
+      require(name: "GuessAndWin"): GuessAndWinContract;
       require(name: "Caller"): CallerContract;
       require(name: "Child"): ChildContract;
-      require(name: "Contacts"): ContactsContract;
-      require(name: "Crowdsale"): CrowdsaleContract;
-      require(name: "Deployed"): DeployedContract;
-      require(name: "ERC20"): ERC20Contract;
-      require(name: "ERC20Token"): ERC20TokenContract;
-      require(name: "Ex1"): Ex1Contract;
-      require(name: "Existing"): ExistingContract;
-      require(name: "GuessAndWin"): GuessAndWinContract;
-      require(name: "IERC20"): IERC20Contract;
-      require(name: "IERC20Metadata"): IERC20MetadataContract;
-      require(name: "Notes"): NotesContract;
-      require(name: "Ownable"): OwnableContract;
       require(name: "Parent"): ParentContract;
+      require(name: "Notes"): NotesContract;
       require(name: "People"): PeopleContract;
       require(name: "Random"): RandomContract;
       require(name: "Saving"): SavingContract;
       require(name: "SimpleStoragePayable"): SimpleStoragePayableContract;
+      require(name: "SPA"): SPAContract;
       require(name: "Time"): TimeContract;
       require(name: "Whitelist"): WhitelistContract;
+      require(name: "Contacts"): ContactsContract;
     }
   }
 }
 
+export { OwnableContract, OwnableInstance } from "./Ownable";
+export { ERC20Contract, ERC20Instance } from "./ERC20";
+export {
+  IERC20MetadataContract,
+  IERC20MetadataInstance,
+} from "./IERC20Metadata";
+export { IERC20Contract, IERC20Instance } from "./IERC20";
+export { DeployedContract, DeployedInstance } from "./Deployed";
+export { ExistingContract, ExistingInstance } from "./Existing";
+export { NotesContract, NotesInstance } from "./Notes";
+export { ERC20TokenContract, ERC20TokenInstance } from "./ERC20Token";
 export {
   AlyraERC20TokenContract,
   AlyraERC20TokenInstance,
 } from "./AlyraERC20Token";
 export { BankContract, BankInstance } from "./Bank";
+export { CrowdsaleContract, CrowdsaleInstance } from "./Crowdsale";
+export { Ex1Contract, Ex1Instance } from "./Ex1";
+export { GuessAndWinContract, GuessAndWinInstance } from "./GuessAndWin";
 export { CallerContract, CallerInstance } from "./Caller";
 export { ChildContract, ChildInstance } from "./Child";
-export { ContactsContract, ContactsInstance } from "./Contacts";
-export { CrowdsaleContract, CrowdsaleInstance } from "./Crowdsale";
-export { DeployedContract, DeployedInstance } from "./Deployed";
-export { ERC20Contract, ERC20Instance } from "./ERC20";
-export { ERC20TokenContract, ERC20TokenInstance } from "./ERC20Token";
-export { Ex1Contract, Ex1Instance } from "./Ex1";
-export { ExistingContract, ExistingInstance } from "./Existing";
-export { GuessAndWinContract, GuessAndWinInstance } from "./GuessAndWin";
-export { IERC20Contract, IERC20Instance } from "./IERC20";
-export {
-  IERC20MetadataContract,
-  IERC20MetadataInstance,
-} from "./IERC20Metadata";
-export { NotesContract, NotesInstance } from "./Notes";
-export { OwnableContract, OwnableInstance } from "./Ownable";
 export { ParentContract, ParentInstance } from "./Parent";
+export { NotesContract, NotesInstance } from "./Notes";
 export { PeopleContract, PeopleInstance } from "./People";
 export { RandomContract, RandomInstance } from "./Random";
 export { SavingContract, SavingInstance } from "./Saving";
@@ -86,5 +90,7 @@ export {
   SimpleStoragePayableContract,
   SimpleStoragePayableInstance,
 } from "./SimpleStoragePayable";
+export { SPAContract, SPAInstance } from "./SPA";
 export { TimeContract, TimeInstance } from "./Time";
 export { WhitelistContract, WhitelistInstance } from "./Whitelist";
+export { ContactsContract, ContactsInstance } from "./Contacts";

@@ -1,0 +1,37 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "Child",
+  "sourceName": "contracts/exercices/Inheritage.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "getValue",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "setValue",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b5060ac8061001e6000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c8063209652551460375780635524107714604c575b600080fd5b60005460405190815260200160405180910390f35b605c6057366004605e565b600055565b005b600060208284031215606f57600080fd5b503591905056fea2646970667358221220d0c21af54e245460f0afd5d539e90abe9f2a72ca5acc188d9427180b8ce86cc464736f6c63430008110033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060325760003560e01c8063209652551460375780635524107714604c575b600080fd5b60005460405190815260200160405180910390f35b605c6057366004605e565b600055565b005b600060208284031215606f57600080fd5b503591905056fea2646970667358221220d0c21af54e245460f0afd5d539e90abe9f2a72ca5acc188d9427180b8ce86cc464736f6c63430008110033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

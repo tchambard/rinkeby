@@ -1,7 +1,9 @@
 .idea
 .vscode
 node_modules
-/coverage/
+coverage
+coverage.json
+cache
 /.nyc_output/
 .yarn/*
 !.yarn/cache

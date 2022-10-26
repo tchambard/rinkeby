@@ -4,11 +4,11 @@
   "types": "index.d.ts",
   "scripts": {
     "lint": "yarn g:solhint",
-    "lint-fix": "yarn g:solhint-fix",
-    "compile": "yarn g:truffle-compile && yarn g:typechain-truffle && yarn g:typechain-web3",
-    "test": "yarn g:truffle-test",
-    "migrate": "yarn g:truffle-migrate",
-    "deploy": "yarn g:truffle-deploy"
+    "compile": "yarn g:hardhat-compile && yarn g:typechain-web3",
+    "test": "yarn g:hardhat-test",
+    "coverage": "yarn g:hardhat-coverage",
+    "migrate": "yarn g:hardhat-migrate",
+    "deploy": "yarn g:hardhat-deploy"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.3"
