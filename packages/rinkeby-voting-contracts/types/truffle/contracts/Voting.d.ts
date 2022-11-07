@@ -24,10 +24,12 @@ export interface ProposalRegistered {
   args: {
     sessionId: BN;
     proposalId: BN;
+    proposer: string;
     description: string;
     0: BN;
     1: BN;
     2: string;
+    3: string;
   };
 }
 
@@ -48,8 +50,10 @@ export interface Voted {
   args: {
     sessionId: BN;
     voter: string;
+    proposalId: BN;
     0: BN;
     1: string;
+    2: BN;
   };
 }
 

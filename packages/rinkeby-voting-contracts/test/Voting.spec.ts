@@ -5,16 +5,6 @@ import { VotingInstance } from "../types/truffle/contracts/Voting";
 
 const Voting = artifacts.require('Voting');
 
-enum WorkflowStatus {
-    None,
-    RegisteringVoters,
-    ProposalsRegistrationStarted,
-    ProposalsRegistrationEnded,
-    VotingSessionStarted,
-    VotingSessionEnded,
-    VotesTallied
-}
-
 const mapProposalRegisteredEvent = ({ returnValues }) => ({
      proposalId: +returnValues.proposalId, 
      description: returnValues.description,
@@ -139,7 +129,7 @@ contract('Voting', (accounts) => {
         describe('> getVote', () => {
             it('> should fail when called with non registered voter or owner address', async () => {
                 await expectRevert(votingInstance.getVote(sessionId, batman, { from: superman }), 
-                    'Caller is not owner or registered voter');
+                    'not owner or voter');
             });
         });
     });
@@ -170,12 +160,12 @@ contract('Voting', (accounts) => {
             describe('> getVote', () => {
                 it('> should fail when called with registered voter address', async () => {
                     await expectRevert(votingInstance.getVote(sessionId, batman, { from: batman }), 
-                        `Unexpected voting session status: expected>=${WorkflowStatus.VotingSessionEnded} current=${expectedStatus}`);
+                        `bad status`);
                 });
 
                 it('> should fail when called with contrat owner address', async () => {
                     await expectRevert(votingInstance.getVote(sessionId, batman, { from: administrator }), 
-                        `Unexpected voting session status: expected>=${WorkflowStatus.VotingSessionEnded} current=${expectedStatus}`);
+                        `bad status`);
                 });
             });
 
@@ -190,12 +180,12 @@ contract('Voting', (accounts) => {
 
                 it('> should fail when voter address is already registered', async () => {
                     await expectRevert(votingInstance.registerVoter(sessionId, batman, { from: administrator }), 
-                        'Voter is already registered');
+                        'already registered');
                 });
 
                 it('> should fail when voter address is owner contract address', async () => {
                     await expectRevert(votingInstance.registerVoter(sessionId, administrator, { from: administrator }), 
-                        'Owner can not be a voter');
+                        'can not be a voter');
                 });
             });
 
@@ -225,62 +215,62 @@ contract('Voting', (accounts) => {
             describe('> stopProposalsRegistration', () => {            
                 it('> should fail when called with contrat owner address', async () => {
                     await expectRevert(votingInstance.stopProposalsRegistration(sessionId, { from: administrator }), 
-                        `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationStarted} current=${expectedStatus}`);
+                        `bad status`);
                 });
             });
 
             describe('> startVotingSession', () => {
                 it('> should fail when called with contrat owner address', async () => {
                     await expectRevert(votingInstance.startVotingSession(sessionId, { from: administrator }), 
-                        `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationEnded} current=${expectedStatus}`);
+                        `bad status`);
                 });
             });
 
             describe('> stopVotingSession', () => {
                 it('> should fail when called with contrat owner address', async () => {
                     await expectRevert(votingInstance.stopVotingSession(sessionId, { from: administrator }), 
-                        `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionStarted} current=${expectedStatus}`);
+                        `bad status`);
                 });
             });
 
             describe('> registerProposal', () => {
                 it('> should fail when called with non registered voter address', async () => {
                     await expectRevert(votingInstance.registerProposal(sessionId, 'Humans should serve cryptonian people !!', { from: superman }), 
-                        'Caller is not registered voter');
+                        'not voter');
                 });
                 
                 it('> should fail when called with registered voter address', async () => {
                     await expectRevert(votingInstance.registerProposal(sessionId, 'We would never put the light in the streets', { from: batman }), 
-                        `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationStarted} current=${expectedStatus}`);
+                        `bad status`);
                 });            
                 
                 it('> should fail when called with contrat owner address', async () => {
                     await expectRevert(votingInstance.registerProposal(sessionId, 'Everybody should call me god !!', { from: administrator }), 
-                        'Caller is not registered voter');
+                        'not voter');
                 });
             });
 
             describe('> vote', () => {
                 it('> should fail when called with registered voter address', async () => {
                     await expectRevert(votingInstance.vote(sessionId, 1, { from: batman }),
-                        `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionStarted} current=${expectedStatus}`);
+                        `bad status`);
                 });
                 
                 it('> should fail when called with non registered voter address', async () => {
                     await expectRevert(votingInstance.vote(sessionId, 1, { from: superman }), 
-                        'Caller is not registered voter');
+                        'not voter');
                 });
                 
                 it('> should fail when called with contrat owner address', async () => {
                     await expectRevert(votingInstance.vote(sessionId, 1, { from: administrator }), 
-                        'Caller is not registered voter');
+                        'not voter');
                 });
             });
 
             describe('> tallyVotes', () => {   
                 it('> should fail when called with contrat owner address', async () => {
                     await expectRevert(votingInstance.tallyVotes(sessionId, { from: administrator }), 
-                        `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionEnded} current=${expectedStatus}`);
+                        `bad status`);
                 });
             });
 
@@ -306,26 +296,26 @@ contract('Voting', (accounts) => {
                 describe('> getVote', () => {
                     it('> should fail when called with registered voter address', async () => {
                         await expectRevert(votingInstance.getVote(sessionId, batman, { from: batman }), 
-                            `Unexpected voting session status: expected>=${WorkflowStatus.VotingSessionEnded} current=${expectedStatus}`);
+                            `bad status`);
                     });
         
                     it('> should fail when called with contrat owner address', async () => {
                         await expectRevert(votingInstance.getVote(sessionId, batman, { from: administrator }), 
-                            `Unexpected voting session status: expected>=${WorkflowStatus.VotingSessionEnded} current=${expectedStatus}`);
+                            `bad status`);
                     });
                 });
 
                 describe('> registerVoter', () => {
                     it('> should fail as session status is not RegisteringVoters', async () => {
                         await expectRevert(votingInstance.registerVoter(sessionId, superman, { from: administrator }), 
-                            `Unexpected voting session status: expected=${WorkflowStatus.RegisteringVoters} current=${expectedStatus}`);
+                            `bad status`);
                     });
                 });
 
                 describe('> startProposalsRegistration', () => {
                     it('> should fail when called with contrat owner address', async () => {
                         await expectRevert(votingInstance.startProposalsRegistration(sessionId, { from: administrator }), 
-                            `Unexpected voting session status: expected=${WorkflowStatus.RegisteringVoters} current=${expectedStatus}`);
+                            `bad status`);
                     });
                 });
 
@@ -344,21 +334,21 @@ contract('Voting', (accounts) => {
                 describe('> startVotingSession', () => {
                     it('> should fail when called with contrat owner address', async () => {
                         await expectRevert(votingInstance.startVotingSession(sessionId, { from: administrator }), 
-                            `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationEnded} current=${expectedStatus}`);
+                            `bad status`);
                     });
                 });
 
                 describe('> stopVotingSession', () => {
                     it('> should fail when called with contrat owner address', async () => {
                         await expectRevert(votingInstance.stopVotingSession(sessionId, { from: administrator }), 
-                            `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionStarted} current=${expectedStatus}`);
+                            `bad status`);
                     });
                 });
 
                 describe('> registerProposal', () => {
                     it('> should fail when called with non registered voter address', async () => {
                         await expectRevert(votingInstance.registerProposal(sessionId, 'Humans should serve cryptonian people !!', { from: superman }), 
-                            'Caller is not registered voter');
+                            'not voter');
                     });
                     
                     it('> should succeed when called with registered voter address', async () => {
@@ -384,30 +374,26 @@ contract('Voting', (accounts) => {
                             'ProposalRegistered', {
                                 sessionId: BN(sessionId),
                                 proposalId: BN(4), // expect 5rd element as abstention, blank and two batman votes have been registered before
-                            });
-
-                        await expectRevert(votingInstance.registerProposal(sessionId, 'Gotham should be the capital of the world', { from: batman }), 
-                            'You already posted 3 proposals which is the maximum allowed');
-                        
+                            });                        
                     });       
                     
                     it('> should fail when called with contrat owner address', async () => {
                         await expectRevert(votingInstance.registerProposal(sessionId, 'Everybody should call me god !!', { from: administrator }), 
-                            'Caller is not registered voter');
+                            'not voter');
                     });
                 });    
 
                 describe('> vote', () => {
                     it('> should fail when called with registered voter address', async () => {
                         await expectRevert(votingInstance.vote(sessionId, 1, { from: batman }), 
-                            `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionStarted} current=${expectedStatus}`);
+                            `bad status`);
                     });
                 });
 
                 describe('> tallyVotes', () => {
                     it('> should fail when called with contrat owner address', async () => {
                         await expectRevert(votingInstance.tallyVotes(sessionId, { from: administrator }), 
-                            `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionEnded} current=${expectedStatus}`);
+                            `bad status`);
                     });
                 });
 
@@ -432,33 +418,33 @@ contract('Voting', (accounts) => {
                     describe('> getVote', () => {
                         it('> should fail when called with registered voter address', async () => {
                             await expectRevert(votingInstance.getVote(sessionId, batman, { from: batman }), 
-                                `Unexpected voting session status: expected>=${WorkflowStatus.VotingSessionEnded} current=${expectedStatus}`);
+                                `bad status`);
                         });
             
                         it('> should fail when called with contrat owner address', async () => {
                             await expectRevert(votingInstance.getVote(sessionId, batman, { from: administrator }), 
-                                `Unexpected voting session status: expected>=${WorkflowStatus.VotingSessionEnded} current=${expectedStatus}`);
+                                `bad status`);
                         });
                     });
 
                     describe('> registerVoter', () => {
                         it('> should fail as session status is not RegisteringVoters', async () => {
                             await expectRevert(votingInstance.registerVoter(sessionId, superman, { from: administrator }), 
-                                `Unexpected voting session status: expected=${WorkflowStatus.RegisteringVoters} current=${expectedStatus}`);
+                                `bad status`);
                         });
                     });
 
                     describe('> startProposalsRegistration', () => {
                         it('> should fail when called with contrat owner address', async () => {
                             await expectRevert(votingInstance.startProposalsRegistration(sessionId, { from: administrator }), 
-                                `Unexpected voting session status: expected=${WorkflowStatus.RegisteringVoters} current=${expectedStatus}`);
+                                `bad status`);
                         });
                     });
 
                     describe('> stopProposalsRegistration', () => {
                         it('> should fail when called with contrat owner address', async () => {
                             await expectRevert(votingInstance.stopProposalsRegistration(sessionId, { from: administrator }), 
-                                `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationStarted} current=${expectedStatus}`);
+                                `bad status`);
                         });
                     });
 
@@ -477,28 +463,28 @@ contract('Voting', (accounts) => {
                     describe('> stopVotingSession', () => {
                         it('> should fail when called with contrat owner address', async () => {
                             await expectRevert(votingInstance.stopVotingSession(sessionId, { from: administrator }), 
-                                `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionStarted} current=${expectedStatus}`);
+                                `bad status`);
                         });
                     });
 
                     describe('> registerProposal', () => {
                         it('> should fail when called with registered voter address', async () => {
                             await expectRevert(votingInstance.registerProposal(sessionId, 'We would never put the light in the streets', { from: batman }), 
-                                `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationStarted} current=${expectedStatus}`);
+                                `bad status`);
                         });
                     });    
 
                     describe('> vote', () => {
                         it('> should fail when called with registered voter address', async () => {
                             await expectRevert(votingInstance.vote(sessionId, 1, { from: batman }), 
-                                `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionStarted} current=${expectedStatus}`);
+                                `bad status`);
                         });
                     });
 
                     describe('> tallyVotes', () => {
                         it('> should fail when called with contrat owner address', async () => {
                             await expectRevert(votingInstance.tallyVotes(sessionId, { from: administrator }), 
-                                `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionEnded} current=${expectedStatus}`);
+                                `bad status`);
                         });
                     });
 
@@ -520,43 +506,43 @@ contract('Voting', (accounts) => {
                             });
                         });
 
-                        describe('> getVote', () => {
-                            it('> should fail when called with registered voter address', async () => {
-                                await expectRevert(votingInstance.getVote(sessionId, batman, { from: batman }), 
-                                    `Unexpected voting session status: expected>=${WorkflowStatus.VotingSessionEnded} current=${expectedStatus}`);
+                        describe('> getVote', () => {                        
+                            it('> should succeed when called with registered voter address', async () => {
+                                const vote = await votingInstance.getVote(sessionId, batman, { from: batman });
+                                assert.equal(vote.toNumber(), 0);
                             });
-                
-                            it('> should fail when called with contrat owner address', async () => {
-                                await expectRevert(votingInstance.getVote(sessionId, batman, { from: administrator }), 
-                                    `Unexpected voting session status: expected>=${WorkflowStatus.VotingSessionEnded} current=${expectedStatus}`);
+                        
+                            it('> should succeed when called with contrat owner address', async () => {
+                                const vote = await votingInstance.getVote(sessionId, batman, { from: administrator });
+                                assert.equal(vote.toNumber(), 0);
                             });
                         });
 
                         describe('> registerVoter', () => {
                             it('> should fail as session status is not RegisteringVoters', async () => {
                                 await expectRevert(votingInstance.registerVoter(sessionId, superman, { from: administrator }),
-                                     `Unexpected voting session status: expected=${WorkflowStatus.RegisteringVoters} current=${expectedStatus}`);
+                                     `bad status`);
                             });
                         });
         
                         describe('> startProposalsRegistration', () => {
                             it('> should fail when called with contrat owner address', async () => {
                                 await expectRevert(votingInstance.startProposalsRegistration(sessionId, { from: administrator }), 
-                                    `Unexpected voting session status: expected=${WorkflowStatus.RegisteringVoters} current=${expectedStatus}`);
+                                    `bad status`);
                             });
                         });
         
                         describe('> stopProposalsRegistration', () => {
                             it('> should fail when called with contrat owner address', async () => {
                                 await expectRevert(votingInstance.stopProposalsRegistration(sessionId, { from: administrator }), 
-                                    `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationStarted} current=${expectedStatus}`);
+                                    `bad status`);
                             });
                         });
         
                         describe('> startVotingSession', () => {
                             it('> should fail when called with contrat owner address', async () => {
                                 await expectRevert(votingInstance.startVotingSession(sessionId, { from: administrator }), 
-                                    `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationEnded} current=${expectedStatus}`);
+                                    `bad status`);
                             });
                         });
         
@@ -575,7 +561,7 @@ contract('Voting', (accounts) => {
                         describe('> registerProposal', () => {
                             it('> should fail when called with registered voter address', async () => {
                                 await expectRevert(votingInstance.registerProposal(sessionId, 'We would never put the light in the streets', { from: batman }), 
-                                    `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationStarted} current=${expectedStatus}`);
+                                    `bad status`);
                             });            
                         });    
         
@@ -591,24 +577,19 @@ contract('Voting', (accounts) => {
                             it('> should fail when called with registered voter address that has already voted', async () => {
                                 await votingInstance.vote(sessionId, 1, { from: batman });
                                 await expectRevert(votingInstance.vote(sessionId, 1, { from: batman }), 
-                                    'Voter has already voted');
-                            });
-
-                            it('> should fail when called with registered voter address who votes for its own proposal', async () => {
-                                await expectRevert(votingInstance.vote(sessionId, 2, { from: batman }), 
-                                    'A voter can not vote for its own proposal');
+                                    'already voted');
                             });
 
                             it('> should fail when called with registered voter address who votes for abstention proposal', async () => {
                                 await expectRevert(votingInstance.vote(sessionId, 0, { from: batman }), 
-                                    'First proposal is reserved for abstention');
+                                    'abstention forbidden');
                             });
                         });
         
                         describe('> tallyVotes', () => {
                             it('> should fail when called with contrat owner address', async () => {
                                 await expectRevert(votingInstance.tallyVotes(sessionId, { from: administrator }),
-                                    `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionEnded} current=${expectedStatus}`);
+                                    `bad status`);
                             });
                         });
 
@@ -645,49 +626,49 @@ contract('Voting', (accounts) => {
                             describe('> registerVoter', () => {
                                 it('> should fail as session status is not RegisteringVoters', async () => {
                                     await expectRevert(votingInstance.registerVoter(sessionId, superman, { from: administrator }), 
-                                        `Unexpected voting session status: expected=${WorkflowStatus.RegisteringVoters} current=${expectedStatus}`);
+                                        `bad status`);
                                 });
                             });
             
                             describe('> startProposalsRegistration', () => {
                                 it('> should fail when called with contrat owner address', async () => {
                                     await expectRevert(votingInstance.startProposalsRegistration(sessionId, { from: administrator }), 
-                                        `Unexpected voting session status: expected=${WorkflowStatus.RegisteringVoters} current=${expectedStatus}`);
+                                        `bad status`);
                                 });
                             });
             
                             describe('> stopProposalsRegistration', () => {
                                 it('> should fail when called with contrat owner address', async () => {
                                     await expectRevert(votingInstance.stopProposalsRegistration(sessionId, { from: administrator }), 
-                                        `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationStarted} current=${expectedStatus}`);
+                                        `bad status`);
                                 });
                             });
             
                             describe('> startVotingSession', () => {
                                 it('> should fail when called with contrat owner address', async () => {
                                     await expectRevert(votingInstance.startVotingSession(sessionId, { from: administrator }), 
-                                        `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationEnded} current=${expectedStatus}`);
+                                        `bad status`);
                                 });
                             });
             
                             describe('> stopVotingSession', () => {
                                 it('> should fail when called with contrat owner address', async () => {
                                     await expectRevert(votingInstance.stopVotingSession(sessionId, { from: administrator }), 
-                                        `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionStarted} current=${expectedStatus}`);
+                                        `bad status`);
                                 });
                             });
             
                             describe('> registerProposal', () => {
                                 it('> should fail when called with registered voter address', async () => {
                                     await expectRevert(votingInstance.registerProposal(sessionId, 'We would never put the light in the streets', { from: batman }), 
-                                        `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationStarted} current=${expectedStatus}`);
+                                        `bad status`);
                                 });
                             });    
             
                             describe('> vote', () => {
                                 it('> should fail when called with registered voter address', async () => {
                                     await expectRevert(votingInstance.vote(sessionId, 1, { from: batman }), 
-                                        `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionStarted} current=${expectedStatus}`);
+                                        `bad status`);
                                 });
                             });
             
@@ -744,56 +725,56 @@ contract('Voting', (accounts) => {
                                 describe('> registerVoter', () => {
                                     it('> should fail as session status is not RegisteringVoters', async () => {
                                         await expectRevert(votingInstance.registerVoter(sessionId, superman, { from: administrator }), 
-                                            `Unexpected voting session status: expected=${WorkflowStatus.RegisteringVoters} current=${expectedStatus}`);
+                                            `bad status`);
                                     });
                                 });
                 
                                 describe('> startProposalsRegistration', () => {
                                     it('> should fail when called with contrat owner address', async () => {
                                         await expectRevert(votingInstance.startProposalsRegistration(sessionId, { from: administrator }), 
-                                            `Unexpected voting session status: expected=${WorkflowStatus.RegisteringVoters} current=${expectedStatus}`);
+                                            `bad status`);
                                     });
                                 });
                 
                                 describe('> stopProposalsRegistration', () => {
                                     it('> should fail when called with contrat owner address', async () => {
                                         await expectRevert(votingInstance.stopProposalsRegistration(sessionId, { from: administrator }), 
-                                            `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationStarted} current=${expectedStatus}`);
+                                            `bad status`);
                                     });
                                 });
                 
                                 describe('> startVotingSession', () => {
                                     it('> should fail when called with contrat owner address', async () => {
                                         await expectRevert(votingInstance.startVotingSession(sessionId, { from: administrator }), 
-                                            `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationEnded} current=${expectedStatus}`);
+                                            `bad status`);
                                     });
                                 });
                 
                                 describe('> stopVotingSession', () => {
                                     it('> should fail when called with contrat owner address', async () => {
                                         await expectRevert(votingInstance.stopVotingSession(sessionId, { from: administrator }), 
-                                            `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionStarted} current=${expectedStatus}`);
+                                            `bad status`);
                                     });
                                 });
                 
                                 describe('> registerProposal', () => {
                                     it('> should fail when called with registered voter address', async () => {
                                         await expectRevert(votingInstance.registerProposal(sessionId, 'We would never put the light in the streets', { from: batman }), 
-                                            `Unexpected voting session status: expected=${WorkflowStatus.ProposalsRegistrationStarted} current=${expectedStatus}`);
+                                            `bad status`);
                                     });
                                 });    
                 
                                 describe('> vote', () => {
                                     it('> should fail when called with registered voter address', async () => {
                                         await expectRevert(votingInstance.vote(sessionId, 1, { from: batman }), 
-                                            `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionStarted} current=${expectedStatus}`);
+                                            `bad status`);
                                     });
                                 });
                 
                                 describe('> tallyVotes', () => {
                                     it('> should fail when called with contrat owner address', async () => {
                                         await expectRevert(votingInstance.tallyVotes(sessionId, { from: administrator }), 
-                                            `Unexpected voting session status: expected=${WorkflowStatus.VotingSessionEnded} current=${expectedStatus}`);
+                                            `bad status`);
                                     });
                                 });
                             });
@@ -1082,6 +1063,26 @@ contract('Voting', (accounts) => {
                     proposer: spiderman
                 }]
             });
+        });
+    });
+
+    describe('> Number of proposal registration is limited to 256', function() {
+        this.timeout(10000);
+        const sessionId = 0;
+
+        before(async () => {
+            votingInstance = await Voting.new({ from: administrator });
+            await votingInstance.createVotingSession('Limit proposal registration to 256', 'test');
+            await votingInstance.registerVoter(sessionId, superman, { from: administrator });
+            await votingInstance.startProposalsRegistration(sessionId);
+        });
+
+        it('> should reject when adding 256th proposal', async () => {
+            for (let i = 1; i < 256; i++) {
+                await votingInstance.registerProposal(sessionId, `p${i}`, { from: superman });
+            }
+            await expectRevert(votingInstance.registerProposal(sessionId, `p256`, { from: superman }), 
+                `VM Exception while processing transaction: reverted with panic code 0x11 (Arithmetic operation underflowed or overflowed outside of an unchecked block)`);
         });
     });
 });

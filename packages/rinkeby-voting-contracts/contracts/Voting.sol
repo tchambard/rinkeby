@@ -21,14 +21,10 @@ import '@openzeppelin/contracts/utils/Strings.sol';
  * /!\ BONUS: I took some decisions to change initial specifications to improve the features available in the exercice:
  *
  * 1) Many voting sessions can be created and evolve in parallel
- * 2) Votes are kept secret until the end of session, then every votes become accessible to voters and contract owner
  * 3) Every events expose sessionId as first parameter
- * 4) `Voted` event does not expose chosen proposal ID in order to keep votes secret until the end of the session
- * 5) A session is limited to 256 proposals
- * 6) Two proposals are registered by default in every session: abstention and blank vote
- * 7) A voter can not do more than 3 proposals by session
- * 6) A voter can not vote for its own proposals
- * 7) A vote session can terminate with equality if many proposals obtain same number of votes
+ * 4) A session is limited to 256 proposals
+ * 5) Two proposals are registered by default in every session: abstention and blank vote
+ * 6) A vote session can terminate with equality if many proposals obtain same number of votes
  */
 contract Voting is Ownable {
 
@@ -69,18 +65,6 @@ contract Voting is Ownable {
          */
         WorkflowStatus status;
 
-        /**
-         * !!! WARNING !!!
-         * I decided to change a little the specifications to give more sense to the voting project:
-         * 
-         * Initial specifications were :
-         * ✔️ Le vote n'est pas secret pour les utilisateurs ajoutés à la Whitelist
-         * ✔️ Chaque électeur peut voir les votes des autres
-         *
-         * @dev In my implementation, voters mapping is never accessible from external so voter's choice (votedProposalId) 
-         * is not known until `getVote` become available after end of voting session.
-         * Informations like `isRegistered`, `hasVoted` or `nbProposals` are still available trough events.
-         */
         mapping(address => Voter) voters;
 
         /**
@@ -121,18 +105,16 @@ contract Voting is Ownable {
     event WorkflowStatusChange(uint indexed sessionId, WorkflowStatus previousStatus, WorkflowStatus newStatus);
 
     /**
-     * !!! WARNING !!!
-     * @dev I decided to add description into ProposalRegistered event in order to expose proposals during the voting session without the vote count.
-     * By this way voters are able to retrieve proposal information but they can not access to each proposal vote count before the end ot the session.
+     * !!! EDIT !!!
+     * @dev I decided to add proposer and description into ProposalRegistered event in order to give to the dapp the capability to list proposals only with events.
      */
-    event ProposalRegistered(uint indexed sessionId, uint8 proposalId, string description);
+    event ProposalRegistered(uint indexed sessionId, uint8 proposalId, address proposer, string description);
 
     /**
-     * !!! WARNING !!!
-     * @dev I decided to remove proposalId from Voted event despite the specification as 
-     * I think no one should be able to see voters choice before the end of voting session
+     * !!! EDIT !!!
+     * @dev To follow feedbacks given on project #1, I decided to revert my decision about removing proposalId from Voted event despite the specification.
      */
-    event Voted(uint indexed sessionId, address voter);
+    event Voted(uint indexed sessionId, address voter, uint proposalId);
 
     event VotesTallied(uint indexed sessionId, uint votersCount, uint totalVotes, uint blankVotes, uint abstention, Proposal[] winningProposals);
 
@@ -152,8 +134,7 @@ contract Voting is Ownable {
      * @dev Throws if called when status is not the expected one.
      */
     modifier statusIs(uint _sessionId, WorkflowStatus _status) {
-        require(sessions[_sessionId].status == _status, string.concat('Unexpected voting session status: expected=', 
-            Strings.toString(uint(_status)), ' current=', Strings.toString(uint(sessions[_sessionId].status))));
+        require(sessions[_sessionId].status == _status, 'bad status');
         _;
     }    
     
@@ -161,8 +142,7 @@ contract Voting is Ownable {
      * @dev Throws if called when status is not at least the given status.
      */
     modifier statusAtLeast(uint _sessionId, WorkflowStatus _status) {
-        require(sessions[_sessionId].status >= _status, string.concat('Unexpected voting session status: expected>=',
-            Strings.toString(uint(_status)), ' current=', Strings.toString(uint(sessions[_sessionId].status))));
+        require(sessions[_sessionId].status >= _status, 'bad status');
         _;
     }
 
@@ -170,7 +150,7 @@ contract Voting is Ownable {
      * @dev Throws if called by any account not registered as voter.
      */
     modifier onlyVoter(uint _sessionId) {
-        require(sessions[_sessionId].voters[msg.sender].isRegistered, 'Caller is not registered voter');
+        require(sessions[_sessionId].voters[msg.sender].isRegistered, 'not voter');
         _;
     }
 
@@ -178,7 +158,7 @@ contract Voting is Ownable {
      * @dev Throws if called by any account not registered as voter or if it is not owner.
      */
     modifier onlyVoterOrOwner(uint _sessionId) {
-        require(owner() == msg.sender || sessions[_sessionId].voters[msg.sender].isRegistered, 'Caller is not owner or registered voter');
+        require(owner() == msg.sender || sessions[_sessionId].voters[msg.sender].isRegistered, 'not owner or voter');
         _;
     }
 
@@ -209,8 +189,8 @@ contract Voting is Ownable {
      * @param _voter The address to add into voters registry
      */
     function registerVoter(uint _sessionId, address _voter) external onlyOwner statusIs(_sessionId, WorkflowStatus.RegisteringVoters) {
-        require(_voter != owner(), 'Owner can not be a voter');
-        require(!sessions[_sessionId].voters[_voter].isRegistered, 'Voter is already registered');
+        require(_voter != owner(), 'can not be a voter');
+        require(!sessions[_sessionId].voters[_voter].isRegistered, 'already registered');
         sessions[_sessionId].voters[_voter] = Voter(true, false, 0, 0);
         sessions[_sessionId].votersCount++;
         emit VoterRegistered(_sessionId, _voter);
@@ -320,15 +300,13 @@ contract Voting is Ownable {
      * A voter can register a new proposal.
      * 
      * @dev Each voter can register many proposals.
-     * As the vote is considered to be done in small organization context, the maximum number of proposals is limited to 256.
-     * Maximum number of proposals per voter is also limited to 3.
+     * As the vote is considered to be done in small organization context, and to prevent dos gas limit, the maximum number of proposals is limited to 256.
      * A vote can be added only by registered voter when status is set to VotingSessionStarted
      * 
      * @param _sessionId The session identifier
      * @param _description The proposal description
      */
     function registerProposal(uint _sessionId, string calldata _description) public onlyVoter(_sessionId) statusIs(_sessionId, WorkflowStatus.ProposalsRegistrationStarted) {
-        require(sessions[_sessionId].voters[msg.sender].nbProposals < 3, 'You already posted 3 proposals which is the maximum allowed');
         _registerProposal(_sessionId, _description);
     }
 
@@ -342,17 +320,16 @@ contract Voting is Ownable {
      * @param _proposalId The chosen proposal identifier
      */
     function vote(uint _sessionId, uint8 _proposalId) external onlyVoter(_sessionId) statusIs(_sessionId, WorkflowStatus.VotingSessionStarted) {
-        require(!sessions[_sessionId].voters[msg.sender].hasVoted, 'Voter has already voted');
-        require(_proposalId < sessions[_sessionId].proposals.length, string.concat('Proposal ', Strings.toString(_proposalId), ' does not exist'));
-        require(sessions[_sessionId].proposals[_proposalId].proposer != msg.sender, 'A voter can not vote for its own proposal');
-        require(_proposalId > 0, 'First proposal is reserved for abstention');
+        require(!sessions[_sessionId].voters[msg.sender].hasVoted, 'already voted');
+        require(_proposalId < sessions[_sessionId].proposals.length, 'not found');
+        require(_proposalId > 0, 'abstention forbidden');
 
         sessions[_sessionId].proposals[_proposalId].voteCount++;
         sessions[_sessionId].voters[msg.sender].hasVoted = true;
         sessions[_sessionId].voters[msg.sender].votedProposalId = _proposalId;
         sessions[_sessionId].totalVotesCount++;
         
-        emit Voted(_sessionId, msg.sender);
+        emit Voted(_sessionId, msg.sender, _proposalId);
     }
 
     // ===============
@@ -362,13 +339,13 @@ contract Voting is Ownable {
     /**
      * Retreive vote
      * 
-     * @dev Administrator and registered voters can all access to everybody votes but only at the end of voting session.
+     * @dev Administrator and registered voters can all access to everybody votes.
      * 
      * @param _sessionId The session identifier
      * @param _voter The voter address
      * @return uint8 target voter proposal choice
      */    
-    function getVote(uint _sessionId, address _voter) external view onlyVoterOrOwner(_sessionId) statusAtLeast(_sessionId, WorkflowStatus.VotingSessionEnded) returns (uint8) {
+    function getVote(uint _sessionId, address _voter) external view onlyVoterOrOwner(_sessionId) statusAtLeast(_sessionId, WorkflowStatus.VotingSessionStarted) returns (uint8) {
         return sessions[_sessionId].voters[_voter].votedProposalId;
     }
 
@@ -387,10 +364,9 @@ contract Voting is Ownable {
     // private functions
     // ===============
     function _registerProposal(uint _sessionId, string memory _description) private {
-        require(sessions[_sessionId].proposals.length < 2 ** 8 - 1, 'Too many proposals'); // limit total proposals count to 256
         sessions[_sessionId].proposals.push(Proposal(_description, 0, msg.sender));
         sessions[_sessionId].voters[msg.sender].nbProposals++;
         uint8 proposalId = uint8(sessions[_sessionId].proposals.length - 1);
-        emit ProposalRegistered(_sessionId, proposalId, sessions[_sessionId].proposals[proposalId].description);
+        emit ProposalRegistered(_sessionId, proposalId, msg.sender, sessions[_sessionId].proposals[proposalId].description);
     }
 }
