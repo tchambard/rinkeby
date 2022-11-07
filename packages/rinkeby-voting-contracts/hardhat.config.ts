@@ -5,7 +5,7 @@ import "hardhat-gas-reporter";
 import "hardhat-deploy";
 
 require('dotenv').config();
-const { MNEMONIC, INFURA_ID } = process.env;
+const { MNEMONIC, GOERLI_PRIVATE_KEY, INFURA_API_KEY } = process.env;
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -33,10 +33,10 @@ const config: HardhatUserConfig = {
   }
 };
 
-if (INFURA_ID && MNEMONIC) {
+if (INFURA_API_KEY && GOERLI_PRIVATE_KEY) {
   config.networks!.goerli = {
-    url: `https://goerli.infura.io/v3/${INFURA_ID}`,
-    accounts: { mnemonic: MNEMONIC }
+    url: `https://goerli.infura.io/v3/${INFURA_API_KEY}`,
+    accounts: [GOERLI_PRIVATE_KEY]
   };
 }
 
