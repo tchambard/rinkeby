@@ -46,11 +46,7 @@ export default () => {
 					<Grid item xs={12} md={6}>
 						<Item>
 							<PageTitleWrapper>
-								<Grid
-									container
-									justifyContent={'space-between'}
-									alignItems={'center'}
-								>
+								<Grid container justifyContent={'space-between'} alignItems={'center'}>
 									<Grid item>
 										<Typography variant={'h3'} component={'h3'} gutterBottom>
 											Winning proposals
@@ -85,11 +81,7 @@ export default () => {
 					<Grid item xs={12} md={6}>
 						<Item>
 							<PageTitleWrapper>
-								<Grid
-									container
-									justifyContent={'space-between'}
-									alignItems={'center'}
-								>
+								<Grid container justifyContent={'space-between'} alignItems={'center'}>
 									<Grid item>
 										<Typography variant={'h3'} component={'h3'} gutterBottom>
 											Statistics

@@ -73,11 +73,7 @@ export default ({ dialogVisible, setDialogVisible }: IAddVoterDialogProps) => {
 				</FormContainer>
 			</DialogContent>
 			<DialogActions>
-				<Button
-					autoFocus
-					onClick={() => setDialogVisible(false)}
-					color={'primary'}
-				>
+				<Button autoFocus onClick={() => setDialogVisible(false)} color={'primary'}>
 					Cancel
 				</Button>
 			</DialogActions>

@@ -7,8 +7,7 @@ import {
 } from 'src/eth-network/helpers';
 
 const imports: IDynamicContractImportDefinitions = {
-	localhost: () =>
-		import('rinkeby-voting-contracts/deployments/localhost.json'),
+	localhost: () => import('rinkeby-voting-contracts/deployments/localhost.json'),
 	goerli: () => import('rinkeby-voting-contracts/deployments/goerli.json'),
 };
 

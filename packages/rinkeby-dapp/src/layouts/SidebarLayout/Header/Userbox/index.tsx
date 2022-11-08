@@ -76,9 +76,7 @@ function HeaderUserbox() {
 				<AddressAvatar address={account} />
 				<Hidden mdDown>
 					<UserBoxText>
-						<UserBoxLabel variant="body1">
-							{account.substring(0, 8)}
-						</UserBoxLabel>
+						<UserBoxLabel variant="body1">{account.substring(0, 8)}</UserBoxLabel>
 					</UserBoxText>
 				</Hidden>
 				<Hidden smDown>

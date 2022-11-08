@@ -43,11 +43,7 @@ export default ({
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Button
-					autoFocus
-					onClick={() => setDialogVisible(false)}
-					color={'primary'}
-				>
+				<Button autoFocus onClick={() => setDialogVisible(false)} color={'primary'}>
 					Cancel
 				</Button>
 				<Button

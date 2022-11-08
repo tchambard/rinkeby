@@ -44,9 +44,7 @@ export default () => {
 							<Tooltip placement={'bottom'} title={'Register new voter'}>
 								<IconButton
 									color={'primary'}
-									onClick={() =>
-										setAddVoterDialogVisible(!addVoterDialogVisible)
-									}
+									onClick={() => setAddVoterDialogVisible(!addVoterDialogVisible)}
 								>
 									<AddCircleIcon />
 								</IconButton>

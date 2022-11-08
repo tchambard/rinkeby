@@ -5,14 +5,8 @@ import SuspenseLoader from '../SuspenseLoader/index';
 
 const ListboxComponent: any = React.forwardRef<any, IListboxComponentProps>(
 	(props, ref) => {
-		const {
-			children,
-			loadNextPage,
-			hasNextPage,
-			totalItems,
-			loading,
-			...other
-		} = props;
+		const { children, loadNextPage, hasNextPage, totalItems, loading, ...other } =
+			props;
 		const itemCount = Array.isArray(children) ? children.length : 0;
 		const itemSize = 36;
 

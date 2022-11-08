@@ -53,9 +53,7 @@ export default () => {
 							<Tooltip placement={'bottom'} title={'Register new proposal'}>
 								<IconButton
 									color={'primary'}
-									onClick={() =>
-										setAddProposalDialogVisible(!addProposalDialogVisible)
-									}
+									onClick={() => setAddProposalDialogVisible(!addProposalDialogVisible)}
 								>
 									<AddCircleIcon />
 								</IconButton>
@@ -71,8 +69,7 @@ export default () => {
 				sx={{
 					width: '100%',
 					// hover states
-					'& .MuiListItem-root:hover': currentSession.item.$capabilities
-						.$canVote
+					'& .MuiListItem-root:hover': currentSession.item.$capabilities.$canVote
 						? {
 								bgcolor: theme.palette.action.hover,
 								cursor: 'pointer',

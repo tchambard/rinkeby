@@ -130,23 +130,21 @@ export const listenVotingSessionCreated: Epic<
 			const contract = state$.value.voting.contract.info.contract;
 
 			return new Observable<IVotingSessionListItem>((obs) => {
-				contract.events
-					.SessionCreated()
-					.on('data', async (evt: SessionCreated) => {
-						const session: IVotingSessionListItem = {
-							id: evt.returnValues.sessionId,
-							name: evt.returnValues.name,
-							description: evt.returnValues.description,
-							$capabilities: {
-								$canChangeStatus: state$.value.voting.contract.info.isOwner,
-							},
-						};
-						logger.log(
-							'=== Voting session created ===\n',
-							JSON.stringify(session, null, 2),
-						);
-						obs.next(session);
-					});
+				contract.events.SessionCreated().on('data', async (evt: SessionCreated) => {
+					const session: IVotingSessionListItem = {
+						id: evt.returnValues.sessionId,
+						name: evt.returnValues.name,
+						description: evt.returnValues.description,
+						$capabilities: {
+							$canChangeStatus: state$.value.voting.contract.info.isOwner,
+						},
+					};
+					logger.log(
+						'=== Voting session created ===\n',
+						JSON.stringify(session, null, 2),
+					);
+					obs.next(session);
+				});
 
 				return () => null;
 			}).pipe(
@@ -226,15 +224,12 @@ export const findVotingSession: Epic<
 						$canChangeStatus:
 							isOwner && status < VotingSessionWorkflowStatus.VotesTallied,
 						$canRegisterVoter:
-							isOwner &&
-							status === VotingSessionWorkflowStatus.RegisteringVoters,
+							isOwner && status === VotingSessionWorkflowStatus.RegisteringVoters,
 						$canRegisterProposal:
 							!isOwner &&
-							status ===
-								VotingSessionWorkflowStatus.ProposalsRegistrationStarted,
+							status === VotingSessionWorkflowStatus.ProposalsRegistrationStarted,
 						$canVote:
-							!isOwner &&
-							status === VotingSessionWorkflowStatus.VotingSessionStarted,
+							!isOwner && status === VotingSessionWorkflowStatus.VotingSessionStarted,
 					},
 				};
 				logger.log(
@@ -319,9 +314,7 @@ export const nextVotingSessionStep: Epic<
 							.send({ from: account });
 						break;
 					case VotingSessionWorkflowStatus.VotingSessionEnded:
-						await contract.methods
-							.tallyVotes(sessionId)
-							.send({ from: account });
+						await contract.methods.tallyVotes(sessionId).send({ from: account });
 						break;
 					default:
 						throw new Error('Invalid current voting session status');
@@ -418,10 +411,7 @@ export const listenVoterRegistered: Epic<
 							hasVoted: false,
 							nbProposals: 0,
 						};
-						logger.log(
-							'=== Voter registered ===\n',
-							evt.returnValues.voterAddress,
-						);
+						logger.log('=== Voter registered ===\n', evt.returnValues.voterAddress);
 						obs.next(voters);
 					});
 
@@ -551,9 +541,7 @@ export const vote: Epic<RootAction, RootAction, RootState, Services> = (
 
 				const { sessionId, proposalId } = action.payload;
 
-				await contract.methods
-					.vote(sessionId, proposalId)
-					.send({ from: account });
+				await contract.methods.vote(sessionId, proposalId).send({ from: account });
 				return VOTE.success();
 			} catch (e) {
 				return VOTE.failure(findRpcMessage(e));

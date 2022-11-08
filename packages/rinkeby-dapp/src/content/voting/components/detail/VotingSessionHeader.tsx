@@ -82,9 +82,7 @@ export default () => {
 									);
 								}}
 							>
-								{currentSession.item.status === steps.length - 1
-									? 'Finish'
-									: 'Next'}
+								{currentSession.item.status === steps.length - 1 ? 'Finish' : 'Next'}
 							</Button>
 						)
 					}
@@ -95,8 +93,7 @@ export default () => {
 		};
 		if (contract.info.isOwner) {
 			if (
-				currentSession.item.status ===
-				VotingSessionWorkflowStatus.RegisteringVoters
+				currentSession.item.status === VotingSessionWorkflowStatus.RegisteringVoters
 			) {
 				return renderAlert('You can register new voters !', 'info');
 			}
@@ -139,8 +136,7 @@ export default () => {
 			}
 		} else {
 			if (
-				currentSession.item.status ===
-				VotingSessionWorkflowStatus.RegisteringVoters
+				currentSession.item.status === VotingSessionWorkflowStatus.RegisteringVoters
 			) {
 				return renderAlert('Please wait during voters registration !', 'info');
 			}

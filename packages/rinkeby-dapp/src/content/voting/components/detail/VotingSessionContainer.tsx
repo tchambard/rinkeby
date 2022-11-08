@@ -71,9 +71,7 @@ export default () => {
 							currentSession.item.status ===
 							VotingSessionWorkflowStatus.ProposalsRegistrationStarted
 						) {
-							dispatch(
-								LISTEN_PROPOSAL_REGISTERED.request(currentSession.item.id),
-							);
+							dispatch(LISTEN_PROPOSAL_REGISTERED.request(currentSession.item.id));
 						}
 					}
 
@@ -85,8 +83,7 @@ export default () => {
 					}
 
 					if (
-						currentSession.item.status ===
-						VotingSessionWorkflowStatus.VotesTallied
+						currentSession.item.status === VotingSessionWorkflowStatus.VotesTallied
 					) {
 						dispatch(GET_VOTES_RESULT.request(currentSession.item.id));
 					}

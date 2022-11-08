@@ -1,21 +1,21 @@
 {
-  "name": "rinkeby-sandbox-contracts",
-  "version": "1.0.0",
-  "types": "index.d.ts",
-  "scripts": {
-    "lint": "yarn g:solhint",
+	"name": "rinkeby-sandbox-contracts",
+	"version": "1.0.0",
+	"types": "index.d.ts",
+	"scripts": {
+		"lint": "yarn g:solhint",
 		"pretty": "yarn g:pretty",
-    "compile": "yarn g:hardhat-compile && yarn g:typechain-web3",
-    "test": "yarn g:hardhat-test",
-    "coverage": "yarn g:hardhat-coverage",
-    "deploy-localhost": "yarn g:hardhat-deploy-localhost"
-  },
-  "dependencies": {
-    "@openzeppelin/contracts": "^4.7.3"
-  },
-  "author": "teddy.chambard@gmail.com",
-  "license": "MIT",
-  "devDependencies": {
-    "@codechecks/client": "^0.1.12"
-  }
+		"compile": "yarn g:hardhat-compile && yarn g:typechain-web3",
+		"test": "yarn g:hardhat-test",
+		"coverage": "yarn g:hardhat-coverage",
+		"deploy-localhost": "yarn g:hardhat-deploy-localhost"
+	},
+	"dependencies": {
+		"@openzeppelin/contracts": "^4.7.3"
+	},
+	"author": "teddy.chambard@gmail.com",
+	"license": "MIT",
+	"devDependencies": {
+		"@codechecks/client": "^0.1.12"
+	}
 }

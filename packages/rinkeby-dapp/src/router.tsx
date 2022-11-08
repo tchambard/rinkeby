@@ -19,8 +19,7 @@ const Home = Loader(lazy(() => import('src/content/home/components/Home')));
 
 const VotingSessionList = Loader(
 	lazy(
-		() =>
-			import('src/content/voting/components/list/VotingSessionListContainer'),
+		() => import('src/content/voting/components/list/VotingSessionListContainer'),
 	),
 );
 const VotingSession = Loader(

@@ -306,8 +306,7 @@ export default createReducer(initialState)
 								action.payload < VotingSessionWorkflowStatus.VotesTallied,
 							$canRegisterVoter:
 								state.contract.info.isOwner &&
-								action.payload ===
-									VotingSessionWorkflowStatus.RegisteringVoters,
+								action.payload === VotingSessionWorkflowStatus.RegisteringVoters,
 							$canRegisterProposal:
 								!state.contract.info.isOwner &&
 								state.voters.items?.[state.contract.info.account] &&
@@ -316,8 +315,7 @@ export default createReducer(initialState)
 							$canVote:
 								!state.contract.info.isOwner &&
 								state.voters.items?.[state.contract.info.account] &&
-								action.payload ===
-									VotingSessionWorkflowStatus.VotingSessionStarted,
+								action.payload === VotingSessionWorkflowStatus.VotingSessionStarted,
 						},
 					},
 				},
@@ -542,8 +540,7 @@ export default createReducer(initialState)
 						...state.voters.items,
 						[action.payload.proposer]: {
 							...state.voters.items[action.payload.proposer],
-							nbProposals:
-								state.voters.items[action.payload.proposer].nbProposals + 1,
+							nbProposals: state.voters.items[action.payload.proposer].nbProposals + 1,
 						},
 					},
 				},
@@ -603,9 +600,7 @@ export default createReducer(initialState)
 				proposals: {
 					...state.proposals,
 					items: state.proposals.items.map((p) => {
-						if (
-							_.find(action.payload, (_p) => _p.proposalId === p.proposalId)
-						) {
+						if (_.find(action.payload, (_p) => _p.proposalId === p.proposalId)) {
 							p.voteCount = (p.voteCount || 0) + 1;
 						}
 						return p;

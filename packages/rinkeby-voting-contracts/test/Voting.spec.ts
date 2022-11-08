@@ -221,11 +221,9 @@ contract('Voting', (accounts) => {
 
 			describe('> registerVoter', () => {
 				it('> should succeed when called with contrat owner address', async () => {
-					const receipt = await votingInstance.registerVoter(
-						sessionId,
-						superman,
-						{ from: administrator },
-					);
+					const receipt = await votingInstance.registerVoter(sessionId, superman, {
+						from: administrator,
+					});
 					await expectEvent(receipt, 'VoterRegistered', {
 						sessionId: BN(0),
 						voterAddress: superman,
@@ -496,8 +494,7 @@ contract('Voting', (accounts) => {
 					});
 
 					it('> should succeed when called with registered voter address', async () => {
-						const batmanProposal =
-							'We would never put the light in the streets';
+						const batmanProposal = 'We would never put the light in the streets';
 						const expectedProposalId = 3;
 
 						const receipt = await votingInstance.registerProposal(
@@ -647,10 +644,9 @@ contract('Voting', (accounts) => {
 
 					describe('> startVotingSession', () => {
 						it('> should succeed when called with contrat owner address', async () => {
-							const receipt = await votingInstance.startVotingSession(
-								sessionId,
-								{ from: administrator },
-							);
+							const receipt = await votingInstance.startVotingSession(sessionId, {
+								from: administrator,
+							});
 
 							await expectEvent(receipt, 'WorkflowStatusChange', {
 								sessionId: BN(sessionId),
@@ -788,10 +784,9 @@ contract('Voting', (accounts) => {
 
 						describe('> stopVotingSession', () => {
 							it('> should succeed when called with contrat owner address', async () => {
-								const receipt = await votingInstance.stopVotingSession(
-									sessionId,
-									{ from: administrator },
-								);
+								const receipt = await votingInstance.stopVotingSession(sessionId, {
+									from: administrator,
+								});
 
 								await expectEvent(receipt, 'WorkflowStatusChange', {
 									sessionId: BN(sessionId),
@@ -1015,20 +1010,16 @@ contract('Voting', (accounts) => {
 
 								describe('> getVote', () => {
 									it('> should succeed when called with registered voter address', async () => {
-										const vote = await votingInstance.getVote(
-											sessionId,
-											batman,
-											{ from: batman },
-										);
+										const vote = await votingInstance.getVote(sessionId, batman, {
+											from: batman,
+										});
 										assert.equal(vote.toNumber(), 0);
 									});
 
 									it('> should succeed when called with contrat owner address', async () => {
-										const vote = await votingInstance.getVote(
-											sessionId,
-											batman,
-											{ from: administrator },
-										);
+										const vote = await votingInstance.getVote(sessionId, batman, {
+											from: administrator,
+										});
 										assert.equal(vote.toNumber(), 0);
 									});
 								});
@@ -1335,10 +1326,7 @@ contract('Voting', (accounts) => {
 			await votingInstance.createVotingSession('Super Heroes', 'All supers');
 			await votingInstance.registerVoter(s0, superman, { from: administrator });
 			await votingInstance.registerVoter(s0, ironman, { from: administrator });
-			await votingInstance.createVotingSession(
-				'Best Super Heroes',
-				'Only girls',
-			);
+			await votingInstance.createVotingSession('Best Super Heroes', 'Only girls');
 			await votingInstance.registerVoter(s0, antman, { from: administrator });
 			await votingInstance.registerVoter(s1, wonderwoman, {
 				from: administrator,

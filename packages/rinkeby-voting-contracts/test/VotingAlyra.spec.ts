@@ -206,9 +206,7 @@ contract('VotingAlyra', (accounts) => {
 		describe('> winningProposalID', () => {
 			it('> should succeed when called with non registered voter', async () => {
 				assert.equal(
-					(
-						await votingInstance.winningProposalID({ from: superman })
-					).toNumber(),
+					(await votingInstance.winningProposalID({ from: superman })).toNumber(),
 					0,
 				);
 			});
@@ -247,9 +245,7 @@ contract('VotingAlyra', (accounts) => {
 
 			it('> should succeed when called with contrat owner address', async () => {
 				assert.equal(
-					(
-						await votingInstance.workflowStatus({ from: administrator })
-					).toNumber(),
+					(await votingInstance.workflowStatus({ from: administrator })).toNumber(),
 					0,
 				);
 			});
@@ -268,9 +264,7 @@ contract('VotingAlyra', (accounts) => {
 			describe('> winningProposalID', () => {
 				it('> should succeed when called with registered voter', async () => {
 					assert.equal(
-						(
-							await votingInstance.winningProposalID({ from: superman })
-						).toNumber(),
+						(await votingInstance.winningProposalID({ from: superman })).toNumber(),
 						0,
 					);
 				});
@@ -399,9 +393,7 @@ contract('VotingAlyra', (accounts) => {
 					describe('> winningProposalID', () => {
 						it('> should succeed when called with registered voter', async () => {
 							assert.equal(
-								(
-									await votingInstance.winningProposalID({ from: superman })
-								).toNumber(),
+								(await votingInstance.winningProposalID({ from: superman })).toNumber(),
 								0,
 							);
 						});
@@ -474,8 +466,7 @@ contract('VotingAlyra', (accounts) => {
 
 					describe('> addProposal', () => {
 						it('> should succeed when called with registered voter address', async () => {
-							const batmanProposal =
-								'We would never put the light in the streets';
+							const batmanProposal = 'We would never put the light in the streets';
 							const expectedProposalId = 2;
 
 							const receipt = await votingInstance.addProposal(batmanProposal, {
@@ -1088,8 +1079,7 @@ contract('VotingAlyra', (accounts) => {
 				BN(3),
 			);
 			assert.equal(
-				(await votingInstance.getVoter(batman, { from: superman }))
-					.votedProposalId,
+				(await votingInstance.getVoter(batman, { from: superman })).votedProposalId,
 				BN(2),
 			);
 			assert.equal(
@@ -1108,8 +1098,7 @@ contract('VotingAlyra', (accounts) => {
 				BN(5),
 			);
 			assert.equal(
-				(await votingInstance.getVoter(antman, { from: superman }))
-					.votedProposalId,
+				(await votingInstance.getVoter(antman, { from: superman })).votedProposalId,
 				BN(0),
 			);
 			assert.equal(
@@ -1121,33 +1110,27 @@ contract('VotingAlyra', (accounts) => {
 
 		it('> should allow to get a proposal with corresponding description and votes count', async () => {
 			assert.equal(
-				(await votingInstance.getOneProposal(0, { from: superman }))
-					.description,
+				(await votingInstance.getOneProposal(0, { from: superman })).description,
 				'GENESIS',
 			);
 			assert.equal(
-				(await votingInstance.getOneProposal(1, { from: superman }))
-					.description,
+				(await votingInstance.getOneProposal(1, { from: superman })).description,
 				'Humans should serve cryptonian people !!',
 			);
 			assert.equal(
-				(await votingInstance.getOneProposal(2, { from: superman }))
-					.description,
+				(await votingInstance.getOneProposal(2, { from: superman })).description,
 				'Cryptonian people should serve me',
 			);
 			assert.equal(
-				(await votingInstance.getOneProposal(3, { from: superman }))
-					.description,
+				(await votingInstance.getOneProposal(3, { from: superman })).description,
 				'We would never put the light in the streets',
 			);
 			assert.equal(
-				(await votingInstance.getOneProposal(4, { from: superman }))
-					.description,
+				(await votingInstance.getOneProposal(4, { from: superman })).description,
 				'Only women should be allowed to vote here next time',
 			);
 			assert.equal(
-				(await votingInstance.getOneProposal(5, { from: superman }))
-					.description,
+				(await votingInstance.getOneProposal(5, { from: superman })).description,
 				'We should make a big tsunami!',
 			);
 		});

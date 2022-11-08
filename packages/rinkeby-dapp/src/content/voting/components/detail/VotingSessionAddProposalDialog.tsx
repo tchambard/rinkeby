@@ -30,9 +30,7 @@ export default ({
 	const { txPending, currentSession } = useSelector(
 		(state: RootState) => state.voting,
 	);
-	const [formData, setFormData] = useState<Partial<IRegisterProposalParams>>(
-		{},
-	);
+	const [formData, setFormData] = useState<Partial<IRegisterProposalParams>>({});
 
 	return (
 		<Dialog
@@ -80,11 +78,7 @@ export default ({
 				</FormContainer>
 			</DialogContent>
 			<DialogActions>
-				<Button
-					autoFocus
-					onClick={() => setDialogVisible(false)}
-					color={'primary'}
-				>
+				<Button autoFocus onClick={() => setDialogVisible(false)} color={'primary'}>
 					Cancel
 				</Button>
 			</DialogActions>
