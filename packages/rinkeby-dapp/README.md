@@ -1,6 +1,9 @@
 # Projet - Système de vote 3 - dApp React + web3.js
 
+## Vidéo
+
 ## Rappel
+
 - [Le contrat utilsé](https://github.com/tchambard/rinkeby/blob/master/packages/rinkeby-voting-contracts/contracts/Voting.sol)
 - [Le README du rendu précédant](https://github.com/tchambard/rinkeby/tree/master/packages/rinkeby-voting-contracts/test)
 
@@ -16,7 +19,7 @@
 
 La faille présente dans la correction du contrat fournie par Alyra est une faille Dos Gas limit qui peut avoir lieu lors de l'execution de la fonction `tallyVotes`.
 
-Dans ma version du contrat rendu lors du projet 1, j'avais déja comblé cette faille en limitant le nombre de proposals simplement en utilisant le type `uint8` sur la déclaration du tableau de proposals. 
+Dans ma version du contrat rendu lors du projet 1, j'avais déja comblé cette faille en limitant le nombre de proposals simplement en utilisant le type `uint8` sur la déclaration du tableau de proposals.
 
 J'avais également ajouté le require suivant dans la fonction `registerProposal`:
 
@@ -28,10 +31,10 @@ Celui-ci permettait à l'appelant d'avoir un message d'erreur clair, mais avec d
 
 J'ai ajouté un test unitaire permettant de vérifier qu'il n'est pas possible d'enregistrer plus de 255 proposals. Par curiosité j'ai voulu voir s'il était possible d'utiliser un `uint16` (ce qui correspondrait à un tableau de 65536 proposals). Je n'ai pas procédé à une dicotomie très fine, cependant simplement avec 10000 proposalsals enregistrées, j'obtient l'erreur `out of gas`, ce qui me conforte dans mon choix.
 
-## dApp
+## développement
 
 Le projet React est assez conséquent, et il n'est clairement pas nécessaire de s'interresser à l'ensemble du code.
-L'essentiel du code concernant le projet voting se trouve [içi](./src/content/voting/)
+L'essentiel du code concernant le projet voting se trouve [içi](./src/content/voting/) (les intéractions avec la blockchain sont toutes centralisées dans le fichier [epics.ts](./src/content/voting/epics.ts))
 
 ### Les outils utilisés
 
@@ -39,3 +42,9 @@ L'essentiel du code concernant le projet voting se trouve [içi](./src/content/v
 - React
 - web3
 - rxjs + redux-observable + typesafe-actions
+
+## Déploiement
+
+Le déploiement de l'application décentralisée se fait par integration continue à l'aide de [github actions](../../.github/workflows).
+A chaque commit poussé sur une branche faisant l'objet d'une Pull Request, l'application est construite puis déployée sur Vercel (en preview).
+Puis lors de la validation de la Pull Request, l'application est déployée en production à l'adresse suivante: https://rinkeby-dapp-tchambard.vercel.app/voting
