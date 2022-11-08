@@ -4,7 +4,7 @@ import "@nomiclabs/hardhat-truffle5";
 import "hardhat-gas-reporter";
 import "hardhat-deploy";
 
-require('dotenv').config();
+require("dotenv").config();
 const { MNEMONIC, INFURA_ID } = process.env;
 
 const config: HardhatUserConfig = {
@@ -13,13 +13,13 @@ const config: HardhatUserConfig = {
     settings: {
       optimizer: {
         enabled: true,
-        runs: 200
-      }
+        runs: 200,
+      },
     },
   },
   typechain: {
-    outDir: 'types/truffle',
-    target: 'truffle-v5',
+    outDir: "types/truffle",
+    target: "truffle-v5",
   },
   networks: {
     localhost: {
@@ -27,16 +27,16 @@ const config: HardhatUserConfig = {
     },
   },
   gasReporter: {
-    currency: 'EUR',
-    enabled: (process.env.REPORT_GAS) ? true : false,
+    currency: "EUR",
+    enabled: process.env.REPORT_GAS ? true : false,
     showTimeSpent: true,
-  }
+  },
 };
 
 if (INFURA_ID && MNEMONIC) {
   config.networks!.goerli = {
     url: `https://goerli.infura.io/v3/${INFURA_ID}`,
-    accounts: { mnemonic: MNEMONIC }
+    accounts: { mnemonic: MNEMONIC },
   };
 }
 

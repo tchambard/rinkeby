@@ -8,19 +8,19 @@ const config: HardhatUserConfig = {
     settings: {
       optimizer: {
         enabled: true,
-        runs: 200
-      }
+        runs: 200,
+      },
     },
   },
   typechain: {
-    outDir: 'types/truffle',
-    target: 'truffle-v5',
+    outDir: "types/truffle",
+    target: "truffle-v5",
   },
   networks: {
     localhost: {
       url: "http://127.0.0.1:8545/",
     },
-  }
+  },
 };
 
 export default config;

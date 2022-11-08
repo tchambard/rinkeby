@@ -13,25 +13,26 @@ import { useNetwork } from './eth-network/helpers';
 import SuspenseLoader from './components/SuspenseLoader';
 
 export default () => {
+	const { account, networkId } = useSelector(
+		(state: RootState) => state.ethNetwork,
+	);
 
-    const { account, networkId } = useSelector((state: RootState) => state.ethNetwork);
+	useNetwork(account);
 
-    useNetwork(account);
+	const content = useRoutes(routes);
 
-    const content = useRoutes(routes);
+	if (!networkId) {
+		return <SuspenseLoader />;
+	}
 
-    if (!networkId) {
-        return <SuspenseLoader/>;
-    }
-
-    return (
-        <>
-            <ThemeProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <CssBaseline/>
-                    {content}
-                </LocalizationProvider>
-            </ThemeProvider>
-        </>
-    );
+	return (
+		<>
+			<ThemeProvider>
+				<LocalizationProvider dateAdapter={AdapterDayjs}>
+					<CssBaseline />
+					{content}
+				</LocalizationProvider>
+			</ThemeProvider>
+		</>
+	);
 };

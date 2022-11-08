@@ -12,38 +12,42 @@ import Footer from 'src/components/Footer';
 import { Routes } from 'src/router';
 
 export default () => {
-  return (
-    <>
-      <Helmet>
-        <title>Welcome to rinkeby dapps</title>
-      </Helmet>
-      <Container sx={{ mt: 3, minHeight: '1024px' }} maxWidth="xl">
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-          <Grid item xs={3}>
-            <Card sx={{ maxWidth: 345 }}>
-              <Link to={Routes.VOTING_SESSION_LIST}>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image="/static/images/cards/eth-voting-240.jpeg"
-                    alt="ethereum voting"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      Voting
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      The voting project
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Link>
-            </Card>
-          </Grid>
-        </Grid>
-      </Container>
-      <Footer />
-    </>
-  );
-}
+	return (
+		<>
+			<Helmet>
+				<title>Welcome to rinkeby dapps</title>
+			</Helmet>
+			<Container sx={{ mt: 3, minHeight: '1024px' }} maxWidth="xl">
+				<Grid
+					container
+					spacing={{ xs: 2, md: 3 }}
+					columns={{ xs: 4, sm: 8, md: 12 }}
+				>
+					<Grid item xs={3}>
+						<Card sx={{ maxWidth: 345 }}>
+							<Link to={Routes.VOTING_SESSION_LIST}>
+								<CardActionArea>
+									<CardMedia
+										component="img"
+										height="140"
+										image="/static/images/cards/eth-voting-240.jpeg"
+										alt="ethereum voting"
+									/>
+									<CardContent>
+										<Typography gutterBottom variant="h5" component="div">
+											Voting
+										</Typography>
+										<Typography variant="body2" color="text.secondary">
+											The voting project
+										</Typography>
+									</CardContent>
+								</CardActionArea>
+							</Link>
+						</Card>
+					</Grid>
+				</Grid>
+			</Container>
+			<Footer />
+		</>
+	);
+};

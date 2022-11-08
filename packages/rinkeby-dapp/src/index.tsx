@@ -10,19 +10,19 @@ import { SidebarProvider } from './contexts/SidebarContext';
 import store from './store/index';
 
 const Root = () => {
-    return (
-        <HelmetProvider>
-            <SidebarProvider>
-                <Provider store={store}>
-                    <BrowserRouter>
-                        <App/>
-                    </BrowserRouter>
-                </Provider>
-            </SidebarProvider>
-        </HelmetProvider>
-    );
+	return (
+		<HelmetProvider>
+			<SidebarProvider>
+				<Provider store={store}>
+					<BrowserRouter>
+						<App />
+					</BrowserRouter>
+				</Provider>
+			</SidebarProvider>
+		</HelmetProvider>
+	);
 };
 
-ReactDOM.render(<Root/>, document.getElementById('root'));
+ReactDOM.render(<Root />, document.getElementById('root'));
 
 serviceWorker.unregister();

@@ -23,94 +23,117 @@ import VotingSessionAddProposalDialog from './VotingSessionAddProposalDialog';
 import VotingSessionConfirmVoteDialog from './VotingSessionConfirmVoteDialog';
 
 export default () => {
-    const theme = useTheme();
-    
-    const [addProposalDialogVisible, setAddProposalDialogVisible] = useState(false);
-    const [confirmVoteDialogVisible, setConfirmVoteDialogVisible] = useState(false);
-    const [selectedProposal, setSelectedProposal] = useState<IProposal>();
+	const theme = useTheme();
 
-    const { proposals, voters, currentSession } = useSelector((state: RootState) => state.voting);
-  
-    if (proposals.loading) {
-        return <SuspenseLoader/>;
-    }
+	const [addProposalDialogVisible, setAddProposalDialogVisible] =
+		useState(false);
+	const [confirmVoteDialogVisible, setConfirmVoteDialogVisible] =
+		useState(false);
+	const [selectedProposal, setSelectedProposal] = useState<IProposal>();
 
-    return (
-        <>
-            <PageTitleWrapper>
-                <Grid container justifyContent={'space-between'} alignItems={'center'}>
-                    <Grid item>
-                        <Typography variant={'h3'} component={'h3'} gutterBottom>
-                            List of proposals
-                        </Typography>
+	const { proposals, voters, currentSession } = useSelector(
+		(state: RootState) => state.voting,
+	);
 
-                    </Grid>
-                    <Grid item>
-                        {currentSession.item.$capabilities.$canRegisterProposal && 
-                            <Tooltip placement={'bottom'} title={'Register new proposal'}>
-                                <IconButton color={'primary'} onClick={() => setAddProposalDialogVisible(!addProposalDialogVisible)}>
-                                    <AddCircleIcon/>
-                                </IconButton>
-                            </Tooltip>
-                        }
-                    </Grid>
-                </Grid>
-            </PageTitleWrapper>
+	if (proposals.loading) {
+		return <SuspenseLoader />;
+	}
 
-            <Divider variant={'middle'}/>
-                    
-            <List sx={{ 
-                width: '100%', 
-                // hover states
-                '& .MuiListItem-root:hover': currentSession.item.$capabilities.$canVote ? {
-                    bgcolor: theme.palette.action.hover,
-                    cursor: 'pointer',
-                } : undefined,
-            }}>
-                {proposals.items.filter(p => p.proposalId !== '0').map((proposal) => {
+	return (
+		<>
+			<PageTitleWrapper>
+				<Grid container justifyContent={'space-between'} alignItems={'center'}>
+					<Grid item>
+						<Typography variant={'h3'} component={'h3'} gutterBottom>
+							List of proposals
+						</Typography>
+					</Grid>
+					<Grid item>
+						{currentSession.item.$capabilities.$canRegisterProposal && (
+							<Tooltip placement={'bottom'} title={'Register new proposal'}>
+								<IconButton
+									color={'primary'}
+									onClick={() =>
+										setAddProposalDialogVisible(!addProposalDialogVisible)
+									}
+								>
+									<AddCircleIcon />
+								</IconButton>
+							</Tooltip>
+						)}
+					</Grid>
+				</Grid>
+			</PageTitleWrapper>
 
-                    const proposalVoterAddresses = _.reduce(voters.items, (acc, v: IVoter, address: string) => {
-                        if (v.votedProposalId === proposal.proposalId) {
-                            acc.push(address);
-                        }
-                        return acc;
-                    }, []);
+			<Divider variant={'middle'} />
 
-                    return <ListItem 
-                        key={`proposal_${proposal.proposalId}`} 
-                        onClick={() => {
-                            if (currentSession.item.$capabilities.$canVote) {
-                                console.log('Vote for ', proposal.proposalId);
-                                setSelectedProposal(proposal);
-                                setConfirmVoteDialogVisible(true);
-                            }
-                        }}
-                    >
-                        <ListItemText primary={proposal.description} />
-                        <AvatarGroup max={3} >
-                            {proposalVoterAddresses.map((address) => {
-                                return <AddressAvatar key={`proposal_voter_avatar-${address}`} address={address} size={24}/>
-                            })}
-                        </AvatarGroup>
-                    </ListItem>
-                })}
-            </List>
+			<List
+				sx={{
+					width: '100%',
+					// hover states
+					'& .MuiListItem-root:hover': currentSession.item.$capabilities
+						.$canVote
+						? {
+								bgcolor: theme.palette.action.hover,
+								cursor: 'pointer',
+						  }
+						: undefined,
+				}}
+			>
+				{proposals.items
+					.filter((p) => p.proposalId !== '0')
+					.map((proposal) => {
+						const proposalVoterAddresses = _.reduce(
+							voters.items,
+							(acc, v: IVoter, address: string) => {
+								if (v.votedProposalId === proposal.proposalId) {
+									acc.push(address);
+								}
+								return acc;
+							},
+							[],
+						);
 
-            {
-                addProposalDialogVisible &&
-                <VotingSessionAddProposalDialog
-                    dialogVisible={addProposalDialogVisible}
-                    setDialogVisible={setAddProposalDialogVisible}
-                />
-            }
-            {
-                confirmVoteDialogVisible &&
-                <VotingSessionConfirmVoteDialog
-                    proposal={selectedProposal}
-                    dialogVisible={confirmVoteDialogVisible}
-                    setDialogVisible={setConfirmVoteDialogVisible}
-                />
-            }
-        </>
-    );
-}
+						return (
+							<ListItem
+								key={`proposal_${proposal.proposalId}`}
+								onClick={() => {
+									if (currentSession.item.$capabilities.$canVote) {
+										setSelectedProposal(proposal);
+										setConfirmVoteDialogVisible(true);
+									}
+								}}
+							>
+								<ListItemText primary={proposal.description} />
+								<AvatarGroup max={3}>
+									{proposalVoterAddresses.map((address) => {
+										return (
+											<AddressAvatar
+												key={`proposal_voter_avatar-${address}`}
+												address={address}
+												size={24}
+											/>
+										);
+									})}
+								</AvatarGroup>
+							</ListItem>
+						);
+					})}
+			</List>
+
+			{addProposalDialogVisible && (
+				<VotingSessionAddProposalDialog
+					dialogVisible={addProposalDialogVisible}
+					setDialogVisible={setAddProposalDialogVisible}
+				/>
+			)}
+			{confirmVoteDialogVisible && (
+				<VotingSessionConfirmVoteDialog
+					proposal={selectedProposal}
+					dialogVisible={confirmVoteDialogVisible}
+					setDialogVisible={setConfirmVoteDialogVisible}
+				/>
+			)}
+		</>
+	);
+};

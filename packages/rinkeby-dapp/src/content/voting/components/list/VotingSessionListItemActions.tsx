@@ -7,52 +7,54 @@ import ActionsMenu from 'src/components/ActionsMenu';
 import { IVotingSessionDetailCapabilities } from '../../actions';
 
 interface IProps {
-    currentView: 'list' | 'edit' | 'detail';
-    sessionId: string;
-    capabilities: IVotingSessionDetailCapabilities;
+	currentView: 'list' | 'edit' | 'detail';
+	sessionId: string;
+	capabilities: IVotingSessionDetailCapabilities;
 }
 
 export interface IActionMenuItem {
-    title: string;
-    url: string;
-    color: string;
-    icon: any;
-    hidden?: boolean;
-    description?: string;
-    onClick?: () => void;
+	title: string;
+	url: string;
+	color: string;
+	icon: any;
+	hidden?: boolean;
+	description?: string;
+	onClick?: () => void;
 }
 
 export default ({ sessionId, capabilities, currentView }: IProps) => {
+	const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
 
-    const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
+	const menuItems: IActionMenuItem[] = [
+		{
+			title: 'Details',
+			description: 'View voting session details',
+			url: `/voting/${sessionId}`,
+			color: 'primary',
+			icon: <AutoGraphIcon fontSize={'small'} />,
+			hidden: currentView === 'detail',
+		},
+		{
+			title: 'Delete',
+			description: 'Delete voting session',
+			color: 'error',
+			icon: <DeleteIcon fontSize={'small'} />,
+			url: '',
+			hidden: !capabilities.$canDelete,
+			onClick: () => setDeleteDialogVisible(!deleteDialogVisible),
+		},
+	];
 
-    const menuItems: IActionMenuItem[] = [{
-        title: 'Details',
-        description: 'View voting session details',
-        url: `/voting/${sessionId}`,
-        color: 'primary',
-        icon: <AutoGraphIcon fontSize={'small'}/>,
-        hidden: currentView === 'detail',
-    }, {
-        title: 'Delete',
-        description: 'Delete voting session',
-        color: 'error',
-        icon: <DeleteIcon fontSize={'small'}/>,
-        url: '',
-        hidden: !capabilities.$canDelete,
-        onClick: () => setDeleteDialogVisible(!deleteDialogVisible),
-    }];
-
-    return (
-        <>
-            <ActionsMenu items={menuItems}/>
-            {
-                deleteDialogVisible && <VotingSessionDeleteDialog
-                    sessionId={sessionId}
-                    dialogVisible={deleteDialogVisible}
-                    setDialogVisible={setDeleteDialogVisible}
-                />
-            }
-        </>
-    );
+	return (
+		<>
+			<ActionsMenu items={menuItems} />
+			{deleteDialogVisible && (
+				<VotingSessionDeleteDialog
+					sessionId={sessionId}
+					dialogVisible={deleteDialogVisible}
+					setDialogVisible={setDeleteDialogVisible}
+				/>
+			)}
+		</>
+	);
 };

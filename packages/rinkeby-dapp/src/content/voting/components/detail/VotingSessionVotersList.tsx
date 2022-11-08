@@ -20,57 +20,74 @@ import VotingSessionAddVoterDialog from './VotingSessionAddVoterDialog';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import Chip from '@mui/material/Chip';
 
-
 export default () => {
-    
-    const [addVoterDialogVisible, setAddVoterDialogVisible] = useState(false);
-    const { currentSession, voters, proposals } = useSelector((state: RootState) => state.voting);
-  
-    if (!voters.items || voters.loading) {
-        return <SuspenseLoader/>;
-    }
+	const [addVoterDialogVisible, setAddVoterDialogVisible] = useState(false);
+	const { currentSession, voters, proposals } = useSelector(
+		(state: RootState) => state.voting,
+	);
 
-    return (
-        <>
-            <PageTitleWrapper>
-                <Grid container justifyContent={'space-between'} alignItems={'center'}>
-                    <Grid item>
-                        <Typography variant={'h3'} component={'h3'} gutterBottom>
-                        List of voters
-                        </Typography>
+	if (!voters.items || voters.loading) {
+		return <SuspenseLoader />;
+	}
 
-                    </Grid>
-                    <Grid item>
-                        {currentSession.item.$capabilities.$canRegisterVoter && 
-                            <Tooltip placement={'bottom'} title={'Register new voter'}>
-                                <IconButton color={'primary'} onClick={() => setAddVoterDialogVisible(!addVoterDialogVisible)}>
-                                    <AddCircleIcon/>
-                                </IconButton>
-                            </Tooltip>
-                        }
-                    </Grid>
-                </Grid>
-            </PageTitleWrapper>
+	return (
+		<>
+			<PageTitleWrapper>
+				<Grid container justifyContent={'space-between'} alignItems={'center'}>
+					<Grid item>
+						<Typography variant={'h3'} component={'h3'} gutterBottom>
+							List of voters
+						</Typography>
+					</Grid>
+					<Grid item>
+						{currentSession.item.$capabilities.$canRegisterVoter && (
+							<Tooltip placement={'bottom'} title={'Register new voter'}>
+								<IconButton
+									color={'primary'}
+									onClick={() =>
+										setAddVoterDialogVisible(!addVoterDialogVisible)
+									}
+								>
+									<AddCircleIcon />
+								</IconButton>
+							</Tooltip>
+						)}
+					</Grid>
+				</Grid>
+			</PageTitleWrapper>
 
-            <Divider variant={'middle'}/>
+			<Divider variant={'middle'} />
 
-            <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                {_.map(voters.items, (voter, address) => {
-                    return <ListItem key={`voter_${address}`}>
-                        <ListItemAvatar>
-                            <AddressAvatar address={address}/>
-                        </ListItemAvatar>
-                        <ListItemText primary={address} secondary={voter.hasVoted && <Chip label="voted" color="success" size={'small'} variant="outlined" />} />
-                    </ListItem>
-                })}
-            </List>
-            {
-                addVoterDialogVisible &&
-                <VotingSessionAddVoterDialog
-                    dialogVisible={addVoterDialogVisible}
-                    setDialogVisible={setAddVoterDialogVisible}
-                />
-            }
-        </>
-    );
-}
+			<List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+				{_.map(voters.items, (voter, address) => {
+					return (
+						<ListItem key={`voter_${address}`}>
+							<ListItemAvatar>
+								<AddressAvatar address={address} />
+							</ListItemAvatar>
+							<ListItemText
+								primary={address}
+								secondary={
+									voter.hasVoted && (
+										<Chip
+											label={'voted'}
+											color={'success'}
+											size={'small'}
+											variant={'outlined'}
+										/>
+									)
+								}
+							/>
+						</ListItem>
+					);
+				})}
+			</List>
+			{addVoterDialogVisible && (
+				<VotingSessionAddVoterDialog
+					dialogVisible={addVoterDialogVisible}
+					setDialogVisible={setAddVoterDialogVisible}
+				/>
+			)}
+		</>
+	);
+};
