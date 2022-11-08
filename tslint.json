@@ -3,6 +3,7 @@
   "rulesDirectory": "tslint-microsoft-contrib",
   "rules": {
     "semicolon": [true, "always", "ignore-bound-class-methods"],
+    "ter-indent": [false, 2],
     "indent": [true, "tabs", 2],
     "object-literal-key-quotes": [true, "as-needed"],
     "object-literal-sort-keys": false,

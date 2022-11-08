@@ -4,6 +4,7 @@
   "types": "index.d.ts",
   "scripts": {
     "lint": "yarn g:solhint",
+		"pretty": "yarn g:pretty",
     "compile": "yarn g:hardhat-compile && yarn g:typechain-web3",
     "test": "yarn g:hardhat-test",
     "coverage": "yarn g:hardhat-coverage",
