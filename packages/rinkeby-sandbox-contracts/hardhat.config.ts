@@ -5,7 +5,13 @@ import 'hardhat-gas-reporter';
 import 'hardhat-deploy';
 
 require('dotenv').config();
-const { MNEMONIC, INFURA_ID } = process.env;
+const {
+	MNEMONIC,
+	GOERLI_PRIVATE_KEY,
+	INFURA_API_KEY,
+	POLYGONSCAN_API_KEY,
+	MUMBAI_PRIVATE_KEY,
+} = process.env;
 
 const config: HardhatUserConfig = {
 	solidity: {
@@ -23,7 +29,7 @@ const config: HardhatUserConfig = {
 	},
 	networks: {
 		localhost: {
-			url: 'http://127.0.0.1:8545/',
+			url: 'http://localhost:8545/',
 		},
 	},
 	gasReporter: {
@@ -33,11 +39,22 @@ const config: HardhatUserConfig = {
 	},
 };
 
-if (INFURA_ID && MNEMONIC) {
+if (INFURA_API_KEY && GOERLI_PRIVATE_KEY) {
 	config.networks!.goerli = {
-		url: `https://goerli.infura.io/v3/${INFURA_ID}`,
-		accounts: { mnemonic: MNEMONIC },
+		url: `https://goerli.infura.io/v3/${INFURA_API_KEY}`,
+		accounts: [GOERLI_PRIVATE_KEY],
 	};
+}
+if (MUMBAI_PRIVATE_KEY) {
+	config.networks!.mumbai = {
+		url: `https://rpc-mumbai.maticvigil.com`,
+		accounts: [MUMBAI_PRIVATE_KEY],
+	};
+	if (POLYGONSCAN_API_KEY) {
+		config.etherscan = {
+			apiKey: process.env.POLYGONSCAN_API_KEY,
+		};
+	}
 }
 
 export default config;

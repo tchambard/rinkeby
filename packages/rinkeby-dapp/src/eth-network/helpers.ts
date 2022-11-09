@@ -25,6 +25,7 @@ export interface IDynamicContractImportDefinitions {
 export const NETWORKS = {
 	1: 'mainnet',
 	5: 'goerli',
+	80001: 'mumbai',
 	31337: 'localhost',
 };
 

@@ -8,6 +8,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+
 import Footer from 'src/components/Footer';
 import { Routes } from 'src/router';
 
@@ -17,7 +18,7 @@ export default () => {
 			<Helmet>
 				<title>Welcome to rinkeby dapps</title>
 			</Helmet>
-			<Container sx={{ mt: 3, minHeight: '1024px' }} maxWidth="xl">
+			<Container sx={{ mt: 3, minHeight: '1024px' }} maxWidth={'xl'}>
 				<Grid
 					container
 					spacing={{ xs: 2, md: 3 }}
@@ -28,16 +29,16 @@ export default () => {
 							<Link to={Routes.VOTING_SESSION_LIST}>
 								<CardActionArea>
 									<CardMedia
-										component="img"
-										height="140"
-										image="/static/images/cards/eth-voting-240.jpeg"
-										alt="ethereum voting"
+										component={'img'}
+										height={'140'}
+										image={'/static/images/cards/eth-voting-240.jpeg'}
+										alt={'ethereum voting'}
 									/>
 									<CardContent>
-										<Typography gutterBottom variant="h5" component="div">
+										<Typography gutterBottom variant={'h5'} component={'div'}>
 											Voting
 										</Typography>
-										<Typography variant="body2" color="text.secondary">
+										<Typography variant={'body2'} color={'text.secondary'}>
 											The voting project
 										</Typography>
 									</CardContent>

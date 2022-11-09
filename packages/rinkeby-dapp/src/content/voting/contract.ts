@@ -9,6 +9,7 @@ import {
 const imports: IDynamicContractImportDefinitions = {
 	localhost: () => import('rinkeby-voting-contracts/deployments/localhost.json'),
 	goerli: () => import('rinkeby-voting-contracts/deployments/goerli.json'),
+	mumbai: () => import('rinkeby-voting-contracts/deployments/mumbai.json'),
 };
 
 export async function getVotingContract(web3: Web3): Promise<contracts.Voting> {
