@@ -9,9 +9,9 @@
 		"test": "yarn g:hardhat-test",
 		"coverage": "yarn g:hardhat-coverage",
 		"migrate": "yarn g:hardhat-migrate",
-		"deploy-localhost": "yarn g:hardhat-deploy-localhost",
-		"deploy-goerli": "yarn g:hardhat-deploy-goerli",
-		"deploy-mumbai": "yarn g:hardhat-deploy-mumbai"
+		"deploy:localhost": "yarn g:hardhat-deploy-localhost",
+		"deploy:goerli": "yarn g:hardhat-deploy-goerli",
+		"deploy:mumbai": "yarn g:hardhat-deploy-mumbai"
 	},
 	"devDependencies": {
 		"@openzeppelin/contracts": "^4.7.3"

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "hardhat-start": "hardhat node",
+    "ganache-start": "ganache -h localhost -m \"test test test test test test test test test test test junk\"",
     "lint:all": "yarn workspaces foreach -p run lint",
     "clean:all": "yarn workspaces foreach -p run clean",
     "compile:all": "yarn workspaces foreach -pt run compile",

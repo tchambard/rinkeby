@@ -2,9 +2,11 @@
 
 ## Vidéo
 
+[Voir la vidéo sur Ubstream](https://ubstream.com/_h/6tygvg)
+
 ## Rappel
 
-- [Le contrat utilsé](https://github.com/tchambard/rinkeby/blob/master/packages/rinkeby-voting-contracts/contracts/Voting.sol)
+- [Le contrat utilisé](https://github.com/tchambard/rinkeby/blob/master/packages/rinkeby-voting-contracts/contracts/Voting.sol)
 - [Le README du rendu précédant](https://github.com/tchambard/rinkeby/tree/master/packages/rinkeby-voting-contracts/test)
 
 ## Modification apportées au contrat rendu lors du projet #1
@@ -42,9 +44,40 @@ L'essentiel du code concernant le projet voting se trouve [içi](./src/content/v
 - React
 - web3
 - rxjs + redux-observable + typesafe-actions
+- Material UI
 
 ## Déploiement
+
+### Le contrat
+
+Le contrat est déployé sur les réseaux de tesnet suivants:
+
+- Goerli: 0x2cf7ACEd94cEc9d8307b90db1Fb6DFC8fEe56F35
+- Mumbai: 0x83Fd73196c93107920e7f51442ECE376eB6d344B
+
+Pour déployer le contrat en local:
+
+```sh
+# Démarrer Ganache
+yarn ganache-start
+
+# Déployer le contrat
+cd $REPOSITORY/packages/rinkeby-voting-contracts
+yarn deploy:localhost
+
+```
+
+### Le frontend
 
 Le déploiement de l'application décentralisée se fait par integration continue à l'aide de [github actions](../../.github/workflows).
 A chaque commit poussé sur une branche faisant l'objet d'une Pull Request, l'application est construite puis déployée sur Vercel (en preview).
 Puis lors de la validation de la Pull Request, l'application est déployée en production à l'adresse suivante: https://rinkeby-dapp-tchambard.vercel.app/voting
+
+Pour démarrer le server de dévelopement:
+
+```sh
+# Démarrer webpack server
+cd $REPOSITORY/packages/rinkeby-dapp
+yarn start
+
+```

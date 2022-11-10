@@ -8,7 +8,7 @@
 		"compile": "yarn g:hardhat-compile && yarn g:typechain-web3",
 		"test": "yarn g:hardhat-test",
 		"coverage": "yarn g:hardhat-coverage",
-		"deploy-localhost": "yarn g:hardhat-deploy-localhost"
+		"deploy:localhost": "yarn g:hardhat-deploy-localhost"
 	},
 	"dependencies": {
 		"@openzeppelin/contracts": "^4.7.3"
