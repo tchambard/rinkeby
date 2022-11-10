@@ -6,7 +6,7 @@ import SidebarMenuItem from './item';
 import menuItems, { IMenuItem } from './items';
 
 const MenuWrapper = styled(List)(
-  ({ theme }) => `
+	({ theme }) => `
     margin-bottom: ${theme.spacing(1)};
     padding: 0;
 
@@ -26,7 +26,7 @@ const MenuWrapper = styled(List)(
 );
 
 const SubMenuWrapper = styled(List)(
-  ({ theme }) => `
+	({ theme }) => `
     &.MuiList-root {
       padding: 0;
 
@@ -126,91 +126,103 @@ const SubMenuWrapper = styled(List)(
 );
 
 const renderSidebarMenuItems = ({
-  items,
-  path,
+	items,
+	path,
 }: {
-    items: IMenuItem[];
-    path: string;
+	items: IMenuItem[];
+	path: string;
 }): JSX.Element => (
-  <SubMenuWrapper>
-    {items.reduce((ev, item) => reduceChildRoutes({ ev, item, path }), [])}
-  </SubMenuWrapper>
+	<SubMenuWrapper>
+		{items.reduce((ev, item) => reduceChildRoutes({ ev, item, path }), [])}
+	</SubMenuWrapper>
 );
 
 const reduceChildRoutes = ({
-  ev,
-  path,
-  item,
+	ev,
+	path,
+	item,
 }: {
-    ev: JSX.Element[];
-    path: string;
-    item: IMenuItem;
+	ev: JSX.Element[];
+	path: string;
+	item: IMenuItem;
 }): JSX.Element[] => {
-    const key = item.name;
+	const key = item.name;
 
-    const exactMatch = item.link ? !!matchPath({
-        path: item.link,
-        end: true,
-    }, path) : false;
+	const exactMatch = item.link
+		? !!matchPath(
+				{
+					path: item.link,
+					end: true,
+				},
+				path,
+		  )
+		: false;
 
-    if (item.items) {
-        const partialMatch = item.link ? !!matchPath({
-            path: item.link,
-            end: false,
-        }, path) : false;
+	if (item.items) {
+		const partialMatch = item.link
+			? !!matchPath(
+					{
+						path: item.link,
+						end: false,
+					},
+					path,
+			  )
+			: false;
 
-        ev.push(
-      <SidebarMenuItem
-        key={key}
-        active={partialMatch}
-        open={partialMatch}
-        name={item.name}
-        icon={item.icon}
-        link={item.link}
-        badge={item.badge}
-      >
-        {renderSidebarMenuItems({
-            path,
-            items: item.items,
-        })}
-      </SidebarMenuItem>,
-    );
-    } else {
-        ev.push(
-      <SidebarMenuItem
-        key={key}
-        active={exactMatch}
-        name={item.name}
-        link={item.link}
-        badge={item.badge}
-        icon={item.icon}
-      />,
-    );
-    }
+		ev.push(
+			<SidebarMenuItem
+				key={key}
+				active={partialMatch}
+				open={partialMatch}
+				name={item.name}
+				icon={item.icon}
+				link={item.link}
+				badge={item.badge}
+			>
+				{renderSidebarMenuItems({
+					path,
+					items: item.items,
+				})}
+			</SidebarMenuItem>,
+		);
+	} else {
+		ev.push(
+			<SidebarMenuItem
+				key={key}
+				active={exactMatch}
+				name={item.name}
+				link={item.link}
+				badge={item.badge}
+				icon={item.icon}
+			/>,
+		);
+	}
 
-    return ev;
+	return ev;
 };
 
 function SidebarMenu() {
-    const location = useLocation();
+	const location = useLocation();
 
-    return (
-    <>
-      {menuItems.map((section) => (
-        <MenuWrapper
-          key={section.heading}
-          subheader={
-            <ListSubheader component='div' disableSticky>{section.heading}</ListSubheader>
-          }
-        >
-          {renderSidebarMenuItems({
-              items: section.items,
-              path: location.pathname,
-          })}
-        </MenuWrapper>
-      ))}
-    </>
-    );
+	return (
+		<>
+			{menuItems.map((section) => (
+				<MenuWrapper
+					key={section.heading}
+					subheader={
+						<ListSubheader component="div" disableSticky>
+							{section.heading}
+						</ListSubheader>
+					}
+				>
+					{renderSidebarMenuItems({
+						items: section.items,
+						path: location.pathname,
+					})}
+				</MenuWrapper>
+			))}
+		</>
+	);
 }
 
 export default SidebarMenu;

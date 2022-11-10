@@ -1,0 +1,849 @@
+{
+  "address": "0x83Fd73196c93107920e7f51442ECE376eB6d344B",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint8",
+          "name": "proposalId",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "proposer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        }
+      ],
+      "name": "ProposalRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        }
+      ],
+      "name": "SessionCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "voter",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "proposalId",
+          "type": "uint256"
+        }
+      ],
+      "name": "Voted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "voterAddress",
+          "type": "address"
+        }
+      ],
+      "name": "VoterRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "votersCount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "totalVotes",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "blankVotes",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "abstention",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "voteCount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "proposer",
+              "type": "address"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct Voting.Proposal[]",
+          "name": "winningProposals",
+          "type": "tuple[]"
+        }
+      ],
+      "name": "VotesTallied",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "sessionId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "enum Voting.WorkflowStatus",
+          "name": "previousStatus",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "enum Voting.WorkflowStatus",
+          "name": "newStatus",
+          "type": "uint8"
+        }
+      ],
+      "name": "WorkflowStatusChange",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_description",
+          "type": "string"
+        }
+      ],
+      "name": "createVotingSession",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_sessionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_voter",
+          "type": "address"
+        }
+      ],
+      "name": "getVote",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_sessionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getWinners",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "voteCount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "proposer",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct Voting.Proposal[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_sessionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_description",
+          "type": "string"
+        }
+      ],
+      "name": "registerProposal",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_sessionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_voter",
+          "type": "address"
+        }
+      ],
+      "name": "registerVoter",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_sessionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "startProposalsRegistration",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_sessionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "startVotingSession",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_sessionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "stopProposalsRegistration",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_sessionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "stopVotingSession",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_sessionId",
+          "type": "uint256"
+        }
+      ],
+      "name": "tallyVotes",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_sessionId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_proposalId",
+          "type": "uint8"
+        }
+      ],
+      "name": "vote",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x1fa1d048c5595a485b92ee92d776d6b555ce260f6100528629a2f1db43805c6a",
+  "receipt": {
+    "to": null,
+    "from": "0x3827b4a96Ce521f8E408c124D7DbE2B6c1F78E1F",
+    "contractAddress": "0x83Fd73196c93107920e7f51442ECE376eB6d344B",
+    "transactionIndex": 12,
+    "gasUsed": "1694570",
+    "logsBloom": "0x00000000000000020000000000000000000400000200000000800000000000000000000000000000000000000000000000008000000000000000000000040000000000000000000000000000000000800001000000000000000100000000000000000000020000000000000000000800000000000000000080000000000000400000000000000000000000000000000000000000000000000000000000000000200000000000000020000000000000000001000002000000000000000000004000000000001000000001000000000000000000000000000000100000000020000020000000000000000000000000000000000000000000000000000000100000",
+    "blockHash": "0xe5871daf45c2a772175a3dd2f4a94fafa784f86d5312f25c8e7874e805585c0d",
+    "transactionHash": "0x1fa1d048c5595a485b92ee92d776d6b555ce260f6100528629a2f1db43805c6a",
+    "logs": [
+      {
+        "transactionIndex": 12,
+        "blockNumber": 29066744,
+        "transactionHash": "0x1fa1d048c5595a485b92ee92d776d6b555ce260f6100528629a2f1db43805c6a",
+        "address": "0x83Fd73196c93107920e7f51442ECE376eB6d344B",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000003827b4a96ce521f8e408c124d7dbe2b6c1f78e1f"
+        ],
+        "data": "0x",
+        "logIndex": 32,
+        "blockHash": "0xe5871daf45c2a772175a3dd2f4a94fafa784f86d5312f25c8e7874e805585c0d"
+      },
+      {
+        "transactionIndex": 12,
+        "blockNumber": 29066744,
+        "transactionHash": "0x1fa1d048c5595a485b92ee92d776d6b555ce260f6100528629a2f1db43805c6a",
+        "address": "0x0000000000000000000000000000000000001010",
+        "topics": [
+          "0x4dfe1bbbcf077ddc3e01291eea2d5c70c2b422b415d95645b9adcfd678cb1d63",
+          "0x0000000000000000000000000000000000000000000000000000000000001010",
+          "0x0000000000000000000000003827b4a96ce521f8e408c124d7dbe2b6c1f78e1f",
+          "0x000000000000000000000000c26880a0af2ea0c7e8130e6ec47af756465452e8"
+        ],
+        "data": "0x000000000000000000000000000000000000000000000000000907cdbc5876000000000000000000000000000000000000000000000000000c74696d8cb2aeb000000000000000000000000000000000000000000000176c69b9190424066c990000000000000000000000000000000000000000000000000c6b619fd05a38b000000000000000000000000000000000000000000000176c69c220d1e05ee299",
+        "logIndex": 33,
+        "blockHash": "0xe5871daf45c2a772175a3dd2f4a94fafa784f86d5312f25c8e7874e805585c0d"
+      }
+    ],
+    "blockNumber": 29066744,
+    "cumulativeGasUsed": "2961434",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "6f78b26b22b30eb7c66ecf115f9c04b7",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"sessionId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint8\",\"name\":\"proposalId\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"proposer\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"}],\"name\":\"ProposalRegistered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"sessionId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"}],\"name\":\"SessionCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"sessionId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"voter\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"proposalId\",\"type\":\"uint256\"}],\"name\":\"Voted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"sessionId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"voterAddress\",\"type\":\"address\"}],\"name\":\"VoterRegistered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"sessionId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"votersCount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"totalVotes\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"blankVotes\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"abstention\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"voteCount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"proposer\",\"type\":\"address\"}],\"indexed\":false,\"internalType\":\"struct Voting.Proposal[]\",\"name\":\"winningProposals\",\"type\":\"tuple[]\"}],\"name\":\"VotesTallied\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"sessionId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"enum Voting.WorkflowStatus\",\"name\":\"previousStatus\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"enum Voting.WorkflowStatus\",\"name\":\"newStatus\",\"type\":\"uint8\"}],\"name\":\"WorkflowStatusChange\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_description\",\"type\":\"string\"}],\"name\":\"createVotingSession\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_sessionId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"_voter\",\"type\":\"address\"}],\"name\":\"getVote\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_sessionId\",\"type\":\"uint256\"}],\"name\":\"getWinners\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"voteCount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"proposer\",\"type\":\"address\"}],\"internalType\":\"struct Voting.Proposal[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_sessionId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"_description\",\"type\":\"string\"}],\"name\":\"registerProposal\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_sessionId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"_voter\",\"type\":\"address\"}],\"name\":\"registerVoter\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_sessionId\",\"type\":\"uint256\"}],\"name\":\"startProposalsRegistration\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_sessionId\",\"type\":\"uint256\"}],\"name\":\"startVotingSession\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_sessionId\",\"type\":\"uint256\"}],\"name\":\"stopProposalsRegistration\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_sessionId\",\"type\":\"uint256\"}],\"name\":\"stopVotingSession\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_sessionId\",\"type\":\"uint256\"}],\"name\":\"tallyVotes\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_sessionId\",\"type\":\"uint256\"},{\"internalType\":\"uint8\",\"name\":\"_proposalId\",\"type\":\"uint8\"}],\"name\":\"vote\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Teddy Chambard\",\"details\":\"Only the contract owner is able to create new voting session. The contract owner is also able to change the session status and activate next session steps. The word `Administrator` in contract documentation corresponds to contract owner. /!\\\\ BONUS: I took some decisions to change initial specifications to improve the features available in the exercice: 1) Many voting sessions can be created and evolve in parallel 3) Every events expose sessionId as first parameter 4) A session is limited to 256 proposals 5) Two proposals are registered by default in every session: abstention and blank vote 6) A vote session can terminate with equality if many proposals obtain same number of votes\",\"events\":{\"ProposalRegistered(uint256,uint8,address,string)\":{\"details\":\"I decided to add proposer and description into ProposalRegistered event in order to give to the dapp the capability to list proposals only with events.\"},\"SessionCreated(uint256,string,string)\":{\"details\":\"All events signatures integrate sessionId parameter that was not required in specification\"},\"Voted(uint256,address,uint256)\":{\"details\":\"To follow feedbacks given on project #1, I decided to revert my decision about removing proposalId from Voted event despite the specification.\"}},\"kind\":\"dev\",\"methods\":{\"createVotingSession(string,string)\":{\"params\":{\"_description\":\"The session description \",\"_name\":\"The session name \"}},\"getVote(uint256,address)\":{\"details\":\"Administrator and registered voters can all access to everybody votes. \",\"params\":{\"_sessionId\":\"The session identifier\",\"_voter\":\"The voter address\"},\"returns\":{\"_0\":\"uint8 target voter proposal choice\"}},\"getWinners(uint256)\":{\"details\":\"Administrator and registered voters can retreive winning proposals but only at the end of voting session. \",\"returns\":{\"_0\":\"Proposal[] The winning proposals\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"registerProposal(uint256,string)\":{\"details\":\"Each voter can register many proposals. As the vote is considered to be done in small organization context, and to prevent dos gas limit, the maximum number of proposals is limited to 256. A vote can be added only by registered voter when status is set to VotingSessionStarted \",\"params\":{\"_description\":\"The proposal description\",\"_sessionId\":\"The session identifier\"}},\"registerVoter(uint256,address)\":{\"details\":\"voters can be added only by contract owner when status is set to RegisteringVoters An event VoterRegistered is emitted \",\"params\":{\"_sessionId\":\"The session identifier \",\"_voter\":\"The address to add into voters registry\"}},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"startProposalsRegistration(uint256)\":{\"details\":\"Can be called only when status is set to RegisteringVoters. Two default proposals are registered at the beginning of this step: `Abstention` and `Blank`. That means a registered voter that forget to vote will be counted as `abstention` thanks to `proposals` array index 0 An event WorkflowStatusChange is emitted\",\"params\":{\"_sessionId\":\"The session identifier \"}},\"startVotingSession(uint256)\":{\"details\":\"Can be called only when status is set to ProposalsRegistrationEnded. An event WorkflowStatusChange is emitted\",\"params\":{\"_sessionId\":\"The session identifier \"}},\"stopProposalsRegistration(uint256)\":{\"details\":\"Can be called only when status is set to ProposalsRegistrationStarted. An event WorkflowStatusChange is emitted\",\"params\":{\"_sessionId\":\"The session identifier \"}},\"stopVotingSession(uint256)\":{\"details\":\"Can be called only when status is set to VotingSessionStarted. An event WorkflowStatusChange is emitted\",\"params\":{\"_sessionId\":\"The session identifier \"}},\"tallyVotes(uint256)\":{\"details\":\"After votes talling, it is possible that we got many winning proposals. Votes talling can be triggered only by contract owner when voting session status is set to VotingSessionEnded An event WorkflowStatusChange is emitted\",\"params\":{\"_sessionId\":\"The session identifier \"}},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"},\"vote(uint256,uint8)\":{\"details\":\"Each voter can vote only once for one proposal. Votes can be added only by registered voter when status is set to VotingSessionStarted \",\"params\":{\"_proposalId\":\"The chosen proposal identifier\",\"_sessionId\":\"The session identifier\"}}},\"title\":\"Alyra Project: Voting system\",\"version\":1},\"userdoc\":{\"events\":{\"ProposalRegistered(uint256,uint8,address,string)\":{\"notice\":\"!!! EDIT !!!\"},\"SessionCreated(uint256,string,string)\":{\"notice\":\"!!! WARNING !!!\"},\"Voted(uint256,address,uint256)\":{\"notice\":\"!!! EDIT !!!\"}},\"kind\":\"user\",\"methods\":{\"createVotingSession(string,string)\":{\"notice\":\"Administrator can create new voting session\"},\"getVote(uint256,address)\":{\"notice\":\"Retreive vote \"},\"getWinners(uint256)\":{\"notice\":\"Retreive winning proposals \"},\"registerProposal(uint256,string)\":{\"notice\":\"A voter can register a new proposal. \"},\"registerVoter(uint256,address)\":{\"notice\":\"Administrator can register voters. \"},\"startProposalsRegistration(uint256)\":{\"notice\":\"Administrator can close voters registration and open proposals registration. \"},\"startVotingSession(uint256)\":{\"notice\":\"Administrator can open voting session. \"},\"stopProposalsRegistration(uint256)\":{\"notice\":\"Administrator can close proposals registration. \"},\"stopVotingSession(uint256)\":{\"notice\":\"Administrator can close voting session. \"},\"tallyVotes(uint256)\":{\"notice\":\"Administrator can trigger votes talling. \"},\"vote(uint256,uint8)\":{\"notice\":\"A voter can register his vote for a proposal. \"}},\"notice\":\"This contract defines a basic voting system including different steps: 1) voting session creation 1) voters registration 2) proposals registration 3) votes recording 4) votes talling \",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Voting.sol\":\"Voting\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v4.7.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.0;\\n\\nimport \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * By default, the owner account will be the one that deploys the contract. This\\n * can later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the deployer as the initial owner.\\n     */\\n    constructor() {\\n        _transferOwnership(_msgSender());\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        require(owner() == _msgSender(), \\\"Ownable: caller is not the owner\\\");\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions anymore. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby removing any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        require(newOwner != address(0), \\\"Ownable: new owner is the zero address\\\");\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xa94b34880e3c1b0b931662cb1c09e5dfa6662f31cba80e07c5ee71cd135c9673\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts v4.4.1 (utils/Context.sol)\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n}\\n\",\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Strings.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v4.7.0) (utils/Strings.sol)\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev String operations.\\n */\\nlibrary Strings {\\n    bytes16 private constant _HEX_SYMBOLS = \\\"0123456789abcdef\\\";\\n    uint8 private constant _ADDRESS_LENGTH = 20;\\n\\n    /**\\n     * @dev Converts a `uint256` to its ASCII `string` decimal representation.\\n     */\\n    function toString(uint256 value) internal pure returns (string memory) {\\n        // Inspired by OraclizeAPI's implementation - MIT licence\\n        // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol\\n\\n        if (value == 0) {\\n            return \\\"0\\\";\\n        }\\n        uint256 temp = value;\\n        uint256 digits;\\n        while (temp != 0) {\\n            digits++;\\n            temp /= 10;\\n        }\\n        bytes memory buffer = new bytes(digits);\\n        while (value != 0) {\\n            digits -= 1;\\n            buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));\\n            value /= 10;\\n        }\\n        return string(buffer);\\n    }\\n\\n    /**\\n     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation.\\n     */\\n    function toHexString(uint256 value) internal pure returns (string memory) {\\n        if (value == 0) {\\n            return \\\"0x00\\\";\\n        }\\n        uint256 temp = value;\\n        uint256 length = 0;\\n        while (temp != 0) {\\n            length++;\\n            temp >>= 8;\\n        }\\n        return toHexString(value, length);\\n    }\\n\\n    /**\\n     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation with fixed length.\\n     */\\n    function toHexString(uint256 value, uint256 length) internal pure returns (string memory) {\\n        bytes memory buffer = new bytes(2 * length + 2);\\n        buffer[0] = \\\"0\\\";\\n        buffer[1] = \\\"x\\\";\\n        for (uint256 i = 2 * length + 1; i > 1; --i) {\\n            buffer[i] = _HEX_SYMBOLS[value & 0xf];\\n            value >>= 4;\\n        }\\n        require(value == 0, \\\"Strings: hex length insufficient\\\");\\n        return string(buffer);\\n    }\\n\\n    /**\\n     * @dev Converts an `address` with fixed length of 20 bytes to its not checksummed ASCII `string` hexadecimal representation.\\n     */\\n    function toHexString(address addr) internal pure returns (string memory) {\\n        return toHexString(uint256(uint160(addr)), _ADDRESS_LENGTH);\\n    }\\n}\\n\",\"keccak256\":\"0xaf159a8b1923ad2a26d516089bceca9bdeaeacd04be50983ea00ba63070f08a3\",\"license\":\"MIT\"},\"contracts/Voting.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0\\npragma solidity 0.8.17;\\n\\nimport '@openzeppelin/contracts/access/Ownable.sol';\\nimport '@openzeppelin/contracts/utils/Strings.sol';\\n\\n/** \\n * @title Alyra Project: Voting system\\n * @author Teddy Chambard\\n * @notice This contract defines a basic voting system including different steps:\\n * 1) voting session creation\\n * 1) voters registration\\n * 2) proposals registration\\n * 3) votes recording\\n * 4) votes talling\\n * \\n * @dev Only the contract owner is able to create new voting session.\\n * The contract owner is also able to change the session status and activate next session steps.\\n * The word `Administrator` in contract documentation corresponds to contract owner.\\n *\\n * /!\\\\ BONUS: I took some decisions to change initial specifications to improve the features available in the exercice:\\n *\\n * 1) Many voting sessions can be created and evolve in parallel\\n * 3) Every events expose sessionId as first parameter\\n * 4) A session is limited to 256 proposals\\n * 5) Two proposals are registered by default in every session: abstention and blank vote\\n * 6) A vote session can terminate with equality if many proposals obtain same number of votes\\n */\\ncontract Voting is Ownable {\\n\\n    // ===============\\n    // types\\n    // ===============\\n\\n    enum WorkflowStatus {\\n        None,\\n        RegisteringVoters,\\n        ProposalsRegistrationStarted,\\n        ProposalsRegistrationEnded,\\n        VotingSessionStarted,\\n        VotingSessionEnded,\\n        VotesTallied\\n    }\\n\\n    struct Voter {\\n        bool isRegistered;\\n        bool hasVoted;\\n        uint8 votedProposalId;\\n        uint8 nbProposals;\\n    }\\n\\n    struct Proposal {\\n        string description;\\n        uint voteCount;\\n        address proposer;\\n    }\\n    \\n    struct Session {\\n\\n        /**\\n         * @dev status is set to RegisteringVoters by createVotingSession function.\\n         * The inilial value `None` does not match with any expected status used with `isStatus` modifier.\\n         * Note: every functions are covered by `isStatus` modifier and that's why we can be sure a \\n         * session exist when its status is different than None.\\n         */\\n        WorkflowStatus status;\\n\\n        mapping(address => Voter) voters;\\n\\n        /**\\n         * @dev Voters count will be used to compute abstention\\n         */\\n        uint votersCount;\\n\\n        /**\\n         * @dev Total votes count can be different than voters count and it will be used to compute abstention.\\n         */\\n        uint totalVotesCount;\\n\\n        /**\\n         * @dev proposals are not available directly to protect `voteCount` information during voting process.\\n         * However, informations like `description` or `proposer` are still available trough events.\\n         */\\n        Proposal[] proposals;\\n\\n        /**\\n         * winningProposals can be retrive after votes tallied with the function `getWinners`\\n         */\\n        Proposal[] winningProposals;\\n    }\\n\\n    // ===============\\n    // events\\n    // ===============\\n\\n    /**\\n     * !!! WARNING !!!\\n     * @dev All events signatures integrate sessionId parameter that was not required in specification\\n     */\\n\\n    event SessionCreated(uint indexed sessionId, string name, string description);\\n\\n    event VoterRegistered(uint indexed sessionId, address voterAddress);\\n\\n    event WorkflowStatusChange(uint indexed sessionId, WorkflowStatus previousStatus, WorkflowStatus newStatus);\\n\\n    /**\\n     * !!! EDIT !!!\\n     * @dev I decided to add proposer and description into ProposalRegistered event in order to give to the dapp the capability to list proposals only with events.\\n     */\\n    event ProposalRegistered(uint indexed sessionId, uint8 proposalId, address proposer, string description);\\n\\n    /**\\n     * !!! EDIT !!!\\n     * @dev To follow feedbacks given on project #1, I decided to revert my decision about removing proposalId from Voted event despite the specification.\\n     */\\n    event Voted(uint indexed sessionId, address voter, uint proposalId);\\n\\n    event VotesTallied(uint indexed sessionId, uint votersCount, uint totalVotes, uint blankVotes, uint abstention, Proposal[] winningProposals);\\n\\n    // ===============\\n    // storage\\n    // ===============\\n\\n    mapping(uint => Session) private sessions;\\n\\n    uint sessionsCount;\\n\\n    // ===============\\n    // modifiers\\n    // ===============\\n\\n    /**\\n     * @dev Throws if called when status is not the expected one.\\n     */\\n    modifier statusIs(uint _sessionId, WorkflowStatus _status) {\\n        require(sessions[_sessionId].status == _status, 'bad status');\\n        _;\\n    }    \\n    \\n    /**\\n     * @dev Throws if called when status is not at least the given status.\\n     */\\n    modifier statusAtLeast(uint _sessionId, WorkflowStatus _status) {\\n        require(sessions[_sessionId].status >= _status, 'bad status');\\n        _;\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account not registered as voter.\\n     */\\n    modifier onlyVoter(uint _sessionId) {\\n        require(sessions[_sessionId].voters[msg.sender].isRegistered, 'not voter');\\n        _;\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account not registered as voter or if it is not owner.\\n     */\\n    modifier onlyVoterOrOwner(uint _sessionId) {\\n        require(owner() == msg.sender || sessions[_sessionId].voters[msg.sender].isRegistered, 'not owner or voter');\\n        _;\\n    }\\n\\n    // ===============\\n    // only owner functions\\n    // ===============\\n\\n    /**\\n     * Administrator can create new voting session\\n     *\\n     * @param _name The session name \\n     * @param _description The session description \\n     */\\n    function createVotingSession(string calldata _name, string calldata _description) external onlyOwner {\\n        sessions[sessionsCount].status = WorkflowStatus.RegisteringVoters;\\n        emit SessionCreated(sessionsCount, _name, _description);\\n        emit WorkflowStatusChange(sessionsCount, WorkflowStatus.None, WorkflowStatus.RegisteringVoters);\\n        sessionsCount++;\\n    }\\n\\n    /**\\n     * Administrator can register voters.\\n     * \\n     * @dev voters can be added only by contract owner when status is set to RegisteringVoters\\n     * An event VoterRegistered is emitted\\n     * \\n     * @param _sessionId The session identifier \\n     * @param _voter The address to add into voters registry\\n     */\\n    function registerVoter(uint _sessionId, address _voter) external onlyOwner statusIs(_sessionId, WorkflowStatus.RegisteringVoters) {\\n        require(_voter != owner(), 'can not be a voter');\\n        require(!sessions[_sessionId].voters[_voter].isRegistered, 'already registered');\\n        sessions[_sessionId].voters[_voter] = Voter(true, false, 0, 0);\\n        sessions[_sessionId].votersCount++;\\n        emit VoterRegistered(_sessionId, _voter);\\n    }\\n\\n    /**\\n     * Administrator can close voters registration and open proposals registration.\\n     * \\n     * @dev Can be called only when status is set to RegisteringVoters.\\n     * Two default proposals are registered at the beginning of this step: `Abstention` and `Blank`.\\n     * That means a registered voter that forget to vote will be counted as `abstention` thanks to `proposals` array index 0\\n     * An event WorkflowStatusChange is emitted\\n     *\\n     * @param _sessionId The session identifier \\n     */\\n    function startProposalsRegistration(uint _sessionId) external onlyOwner statusIs(_sessionId, WorkflowStatus.RegisteringVoters) {\\n        _registerProposal(_sessionId, 'Abstention');\\n        _registerProposal(_sessionId, 'Blank');\\n        sessions[_sessionId].status = WorkflowStatus.ProposalsRegistrationStarted;\\n        emit WorkflowStatusChange(_sessionId, WorkflowStatus.RegisteringVoters, WorkflowStatus.ProposalsRegistrationStarted);\\n    }\\n\\n    /**\\n     * Administrator can close proposals registration.\\n     * \\n     * @dev Can be called only when status is set to ProposalsRegistrationStarted.\\n     * An event WorkflowStatusChange is emitted\\n     *\\n     * @param _sessionId The session identifier \\n     */\\n    function stopProposalsRegistration(uint _sessionId) external onlyOwner statusIs(_sessionId, WorkflowStatus.ProposalsRegistrationStarted) {\\n        sessions[_sessionId].status = WorkflowStatus.ProposalsRegistrationEnded;\\n        emit WorkflowStatusChange(_sessionId, WorkflowStatus.ProposalsRegistrationStarted, WorkflowStatus.ProposalsRegistrationEnded);\\n    }\\n\\n    /**\\n     * Administrator can open voting session.\\n     * \\n     * @dev Can be called only when status is set to ProposalsRegistrationEnded.\\n     * An event WorkflowStatusChange is emitted\\n     *\\n     * @param _sessionId The session identifier \\n     */\\n    function startVotingSession(uint _sessionId) external onlyOwner statusIs(_sessionId, WorkflowStatus.ProposalsRegistrationEnded) {\\n        sessions[_sessionId].status = WorkflowStatus.VotingSessionStarted;\\n        emit WorkflowStatusChange(_sessionId, WorkflowStatus.ProposalsRegistrationEnded, WorkflowStatus.VotingSessionStarted);\\n    }\\n\\n    /**\\n     * Administrator can close voting session.\\n     * \\n     * @dev Can be called only when status is set to VotingSessionStarted.\\n     * An event WorkflowStatusChange is emitted\\n     *\\n     * @param _sessionId The session identifier \\n     */\\n    function stopVotingSession(uint _sessionId) external onlyOwner statusIs(_sessionId, WorkflowStatus.VotingSessionStarted) {\\n        sessions[_sessionId].status = WorkflowStatus.VotingSessionEnded;\\n        emit WorkflowStatusChange(_sessionId, WorkflowStatus.VotingSessionStarted, WorkflowStatus.VotingSessionEnded);\\n    }\\n\\n    /**\\n     * Administrator can trigger votes talling.\\n     * \\n     * @dev After votes talling, it is possible that we got many winning proposals.\\n     * Votes talling can be triggered only by contract owner when voting session status is set to VotingSessionEnded\\n     * An event WorkflowStatusChange is emitted\\n     *\\n     * @param _sessionId The session identifier \\n     */\\n    function tallyVotes(uint _sessionId) external onlyOwner statusIs(_sessionId, WorkflowStatus.VotingSessionEnded) {\\n        uint _bestVoteCount = 0;\\n        uint _winnersCount = 0;\\n        \\n        // use memory here to not write too many times in storage in the first loop below\\n        // not sure it's better because of static array size\\n        Proposal[] memory _winningProposals = new Proposal[](sessions[_sessionId].proposals.length);\\n\\n        // we do not consider two first proposal elements (abstention and blank)\\n        for (uint i = 2; i < sessions[_sessionId].proposals.length; i++) {\\n            if (sessions[_sessionId].proposals[i].voteCount > _bestVoteCount) {\\n                _bestVoteCount = sessions[_sessionId].proposals[i].voteCount;\\n                _winnersCount = 1;\\n                _winningProposals[_winnersCount - 1] = sessions[_sessionId].proposals[i];\\n            } else if (sessions[_sessionId].proposals[i].voteCount > 0 && sessions[_sessionId].proposals[i].voteCount == _bestVoteCount) {\\n                _winnersCount++;\\n                _winningProposals[_winnersCount - 1] = sessions[_sessionId].proposals[i];\\n            }\\n        }\\n\\n        for (uint i = 0; i < _winnersCount; i++) {\\n            sessions[_sessionId].winningProposals.push(_winningProposals[i]);\\n        }\\n\\n        sessions[_sessionId].status = WorkflowStatus.VotesTallied;\\n        emit WorkflowStatusChange(_sessionId, WorkflowStatus.VotingSessionEnded, WorkflowStatus.VotesTallied);\\n\\n        uint abstention = sessions[_sessionId].votersCount > 0 ? sessions[_sessionId].votersCount - sessions[_sessionId].totalVotesCount : 0;\\n        emit VotesTallied(_sessionId, sessions[_sessionId].votersCount, sessions[_sessionId].totalVotesCount, sessions[_sessionId].proposals[1].voteCount, abstention, sessions[_sessionId].winningProposals);\\n    }\\n\\n    // ===============\\n    // only voter functions\\n    // ===============\\n\\n    /**\\n     * A voter can register a new proposal.\\n     * \\n     * @dev Each voter can register many proposals.\\n     * As the vote is considered to be done in small organization context, and to prevent dos gas limit, the maximum number of proposals is limited to 256.\\n     * A vote can be added only by registered voter when status is set to VotingSessionStarted\\n     * \\n     * @param _sessionId The session identifier\\n     * @param _description The proposal description\\n     */\\n    function registerProposal(uint _sessionId, string calldata _description) public onlyVoter(_sessionId) statusIs(_sessionId, WorkflowStatus.ProposalsRegistrationStarted) {\\n        _registerProposal(_sessionId, _description);\\n    }\\n\\n    /**\\n     * A voter can register his vote for a proposal.\\n     * \\n     * @dev Each voter can vote only once for one proposal.\\n     * Votes can be added only by registered voter when status is set to VotingSessionStarted\\n     * \\n     * @param _sessionId The session identifier\\n     * @param _proposalId The chosen proposal identifier\\n     */\\n    function vote(uint _sessionId, uint8 _proposalId) external onlyVoter(_sessionId) statusIs(_sessionId, WorkflowStatus.VotingSessionStarted) {\\n        require(!sessions[_sessionId].voters[msg.sender].hasVoted, 'already voted');\\n        require(_proposalId < sessions[_sessionId].proposals.length, 'not found');\\n        require(_proposalId > 0, 'abstention forbidden');\\n\\n        sessions[_sessionId].proposals[_proposalId].voteCount++;\\n        sessions[_sessionId].voters[msg.sender].hasVoted = true;\\n        sessions[_sessionId].voters[msg.sender].votedProposalId = _proposalId;\\n        sessions[_sessionId].totalVotesCount++;\\n        \\n        emit Voted(_sessionId, msg.sender, _proposalId);\\n    }\\n\\n    // ===============\\n    // only owner or voter functions\\n    // ===============\\n\\n    /**\\n     * Retreive vote\\n     * \\n     * @dev Administrator and registered voters can all access to everybody votes.\\n     * \\n     * @param _sessionId The session identifier\\n     * @param _voter The voter address\\n     * @return uint8 target voter proposal choice\\n     */    \\n    function getVote(uint _sessionId, address _voter) external view onlyVoterOrOwner(_sessionId) statusAtLeast(_sessionId, WorkflowStatus.VotingSessionStarted) returns (uint8) {\\n        return sessions[_sessionId].voters[_voter].votedProposalId;\\n    }\\n\\n    /**\\n     * Retreive winning proposals\\n     * \\n     * @dev Administrator and registered voters can retreive winning proposals but only at the end of voting session.\\n     * \\n     * @return Proposal[] The winning proposals\\n     */    \\n    function getWinners(uint _sessionId) external view onlyVoterOrOwner(_sessionId) statusAtLeast(_sessionId, WorkflowStatus.VotesTallied) returns (Proposal[] memory) {\\n        return sessions[_sessionId].winningProposals;\\n    }\\n\\n    // ===============\\n    // private functions\\n    // ===============\\n    function _registerProposal(uint _sessionId, string memory _description) private {\\n        sessions[_sessionId].proposals.push(Proposal(_description, 0, msg.sender));\\n        sessions[_sessionId].voters[msg.sender].nbProposals++;\\n        uint8 proposalId = uint8(sessions[_sessionId].proposals.length - 1);\\n        emit ProposalRegistered(_sessionId, proposalId, msg.sender, sessions[_sessionId].proposals[proposalId].description);\\n    }\\n}\",\"keccak256\":\"0x03326084b177faaa6ed1cb7a9ad1bc01955f8e7b202dc3ac0207b23539ac04d7\",\"license\":\"GPL-3.0\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061001a3361001f565b61006f565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b611d3d8061007e6000396000f3fe608060405234801561001057600080fd5b50600436106100ea5760003560e01c80638da5cb5b1161008c5780639980a55a116100665780639980a55a146101c2578063bc3f931f146101d5578063c82de38f146101fa578063f2fde38b1461020d57600080fd5b80638da5cb5b14610181578063943e82161461019c57806394c790bb146101af57600080fd5b80636f3dc556116100c85780636f3dc55614610140578063715018a6146101535780637ace41841461015b5780638bc6a6dd1461016e57600080fd5b8063153bc95b146100ef5780634d318b0e146101045780636b1426a414610117575b600080fd5b6101026100fd3660046116a9565b610220565b005b610102610112366004611715565b6102d0565b61012a610125366004611715565b6108f0565b604051610137919061172e565b60405180910390f35b61010261014e366004611715565b610add565b610102610b74565b6101026101693660046117f4565b610b88565b61010261017c366004611715565b610c6d565b6000546040516001600160a01b039091168152602001610137565b6101026101aa366004611840565b610d4c565b6101026101bd366004611892565b610fc0565b6101026101d0366004611715565b6111c8565b6101e86101e3366004611892565b611252565b60405160ff9091168152602001610137565b610102610208366004611715565b611356565b61010261021b3660046118be565b6113e0565b610228611459565b6002546000908152600160208190526040909120805460ff1916828002179055506002547fb824462ec90945eb31146c1c4ce6515d44b184facb795bea5d1f52355b243f8b85858585604051610281949392919061191f565b60405180910390a2600254600080516020611ce8833981519152600060016040516102ad929190611973565b60405180910390a2600280549060006102c5836119a4565b919050555050505050565b6102d8611459565b8060058060008381526001602052604090205460ff1660068111156102ff576102ff6118e0565b146103255760405162461bcd60e51b815260040161031c906119bd565b60405180910390fd5b6000838152600160205260408120600401548190819067ffffffffffffffff811115610353576103536119e1565b6040519080825280602002602001820160405280156103b157816020015b61039e6040518060600160405280606081526020016000815260200160006001600160a01b031681525090565b8152602001906001900390816103715790505b50905060025b6000878152600160205260409020600401548110156107185760008781526001602052604090206004018054859190839081106103f6576103f66119f7565b9060005260206000209060030201600101541115610566576000878152600160205260409020600401805482908110610431576104316119f7565b906000526020600020906003020160010154935060019250600160008881526020019081526020016000206004018181548110610470576104706119f7565b906000526020600020906003020160405180606001604052908160008201805461049990611a0d565b80601f01602080910402602001604051908101604052809291908181526020018280546104c590611a0d565b80156105125780601f106104e757610100808354040283529160200191610512565b820191906000526020600020905b8154815290600101906020018083116104f557829003601f168201915b505050918352505060018281015460208301526002909201546001600160a01b031660409091015283906105469086611a47565b81518110610556576105566119f7565b6020026020010181905250610706565b6000878152600160205260408120600401805483908110610589576105896119f7565b9060005260206000209060030201600101541180156105dd575060008781526001602052604090206004018054859190839081106105c9576105c96119f7565b906000526020600020906003020160010154145b1561070657826105ec816119a4565b60008981526001602052604090206004018054919550915082908110610614576106146119f7565b906000526020600020906003020160405180606001604052908160008201805461063d90611a0d565b80601f016020809104026020016040519081016040528092919081815260200182805461066990611a0d565b80156106b65780601f1061068b576101008083540402835291602001916106b6565b820191906000526020600020905b81548152906001019060200180831161069957829003601f168201915b505050918352505060018281015460208301526002909201546001600160a01b031660409091015283906106ea9086611a47565b815181106106fa576106fa6119f7565b60200260200101819052505b80610710816119a4565b9150506103b7565b5060005b828110156107c3576001600088815260200190815260200160002060050182828151811061074c5761074c6119f7565b6020908102919091018101518254600181018455600093845291909220825160039092020190819061077e9082611aab565b5060208201516001820155604090910151600290910180546001600160a01b0319166001600160a01b03909216919091179055806107bb816119a4565b91505061071c565b5060008681526001602052604090819020805460ff1916600690811790915590518791600080516020611ce88339815191529161080291600591611973565b60405180910390a260008681526001602052604081206002015461082757600061084a565b6000878152600160205260409020600381015460029091015461084a9190611a47565b600088815260016020819052604090912060028101546003820154600490920180549495508b947f8231621024a2914f448f5821e1168fa08ea32be09db6a89d94e306e0352d12f4949293929081106108a5576108a56119f7565b90600052602060002090600302016001015485600160008e81526020019081526020016000206005016040516108df959493929190611be8565b60405180910390a250505050505050565b606081336109066000546001600160a01b031690565b6001600160a01b0316148061093657506000818152600160208181526040808420338552909201905290205460ff165b6109775760405162461bcd60e51b81526020600482015260126024820152713737ba1037bbb732b91037b9103b37ba32b960711b604482015260640161031c565b8260068060008381526001602052604090205460ff16600681111561099e5761099e6118e0565b10156109bc5760405162461bcd60e51b815260040161031c906119bd565b600085815260016020908152604080832060050180548251818502810185019093528083529193909284015b82821015610acf5783829060005260206000209060030201604051806060016040529081600082018054610a1b90611a0d565b80601f0160208091040260200160405190810160405280929190818152602001828054610a4790611a0d565b8015610a945780601f10610a6957610100808354040283529160200191610a94565b820191906000526020600020905b815481529060010190602001808311610a7757829003601f168201915b50505091835250506001828101546020808401919091526002909301546001600160a01b0316604090920191909152918352920191016109e8565b505050509350505050919050565b610ae5611459565b8060048060008381526001602052604090205460ff166006811115610b0c57610b0c6118e0565b14610b295760405162461bcd60e51b815260040161031c906119bd565b60008381526001602052604090819020805460ff1916600590811790915590518491600080516020611ce883398151915291610b6791600491611973565b60405180910390a2505050565b610b7c611459565b610b8660006114b3565b565b60008381526001602081815260408084203385529092019052902054839060ff16610be15760405162461bcd60e51b81526020600482015260096024820152683737ba103b37ba32b960b91b604482015260640161031c565b8360028060008381526001602052604090205460ff166006811115610c0857610c086118e0565b14610c255760405162461bcd60e51b815260040161031c906119bd565b610c658686868080601f01602080910402602001604051908101604052809392919081815260200183838082843760009201919091525061150392505050565b505050505050565b610c75611459565b8060018060008381526001602052604090205460ff166006811115610c9c57610c9c6118e0565b14610cb95760405162461bcd60e51b815260040161031c906119bd565b610ce5836040518060400160405280600a81526020016920b139ba32b73a34b7b760b11b815250611503565b610d0c8360405180604001604052806005815260200164426c616e6b60d81b815250611503565b600083815260016020819052604091829020805460ff1916600290811790915591518592600080516020611ce883398151915292610b6792909190611973565b60008281526001602081815260408084203385529092019052902054829060ff16610da55760405162461bcd60e51b81526020600482015260096024820152683737ba103b37ba32b960b91b604482015260640161031c565b8260048060008381526001602052604090205460ff166006811115610dcc57610dcc6118e0565b14610de95760405162461bcd60e51b815260040161031c906119bd565b60008581526001602081815260408084203385529092019052902054610100900460ff1615610e4a5760405162461bcd60e51b815260206004820152600d60248201526c185b1c9958591e481d9bdd1959609a1b604482015260640161031c565b60008581526001602052604090206004015460ff851610610e995760405162461bcd60e51b81526020600482015260096024820152681b9bdd08199bdd5b9960ba1b604482015260640161031c565b60008460ff1611610ee35760405162461bcd60e51b815260206004820152601460248201527330b139ba32b73a34b7b7103337b93134b23232b760611b604482015260640161031c565b6000858152600160205260409020600401805460ff8616908110610f0957610f096119f7565b600091825260208220600160039092020101805491610f27836119a4565b909155505060008581526001602081815260408084203385528084018352908420805460ff8a16620100000262ffff001990911617610100179055888452919052600301805491610f77836119a4565b90915550506040805133815260ff8616602082015286917f1abe610cf2bf87e57dcc1181fcf5ac0934e843d8344ab9eed6e86c799f62585e910160405180910390a25050505050565b610fc8611459565b8160018060008381526001602052604090205460ff166006811115610fef57610fef6118e0565b1461100c5760405162461bcd60e51b815260040161031c906119bd565b6000546001600160a01b03166001600160a01b0316836001600160a01b03160361106d5760405162461bcd60e51b815260206004820152601260248201527131b0b7103737ba1031329030903b37ba32b960711b604482015260640161031c565b60008481526001602081815260408084206001600160a01b0388168552909201905290205460ff16156110d75760405162461bcd60e51b8152602060048201526012602482015271185b1c9958591e481c9959da5cdd195c995960721b604482015260640161031c565b60408051608081018252600180825260006020808401828152848601838152606086018481528b85528584528785206001600160a01b038c16865280870185529785209651875493519251915161ffff1990941690151561ff00191617610100921515929092029190911763ffff000019166201000060ff9283160263ff00000019161763010000009190921602179093558781529152600290910180549161117f836119a4565b90915550506040516001600160a01b038416815284907ff45b8429c36d478f9a6d081c4811a819b98aa5b608588bed9d406405cf2824739060200160405180910390a250505050565b6111d0611459565b8060038060008381526001602052604090205460ff1660068111156111f7576111f76118e0565b146112145760405162461bcd60e51b815260040161031c906119bd565b60008381526001602052604090819020805460ff1916600490811790915590518491600080516020611ce883398151915291610b6791600391611973565b600082336112686000546001600160a01b031690565b6001600160a01b0316148061129857506000818152600160208181526040808420338552909201905290205460ff165b6112d95760405162461bcd60e51b81526020600482015260126024820152713737ba1037bbb732b91037b9103b37ba32b960711b604482015260640161031c565b8360048060008381526001602052604090205460ff166006811115611300576113006118e0565b101561131e5760405162461bcd60e51b815260040161031c906119bd565b5050506000928352506001602081815260408085206001600160a01b0394909416855292909101905290205462010000900460ff1690565b61135e611459565b8060028060008381526001602052604090205460ff166006811115611385576113856118e0565b146113a25760405162461bcd60e51b815260040161031c906119bd565b60008381526001602052604090819020805460ff1916600390811790915590518491600080516020611ce883398151915291610b6791600291611973565b6113e8611459565b6001600160a01b03811661144d5760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b606482015260840161031c565b611456816114b3565b50565b6000546001600160a01b03163314610b865760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e6572604482015260640161031c565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b600082815260016020818152604080842081516060810183528681528084018690523392810192909252600401805493840181558452922082516003909202019081906115509082611aab565b50602082810151600183810191909155604093840151600290930180546001600160a01b0319166001600160a01b0390941693909317909255600085815282825283812033825290920190522080546301000000900460ff169060036115b583611c92565b825460ff9182166101009390930a92830291909202199091161790555060008281526001602081905260408220600401546115f09190611a47565b9050827f048eae4d262615439a255cdd7a71642b5286b208834157822bc2cd3eecf6836f8233600160008881526020019081526020016000206004018560ff1681548110611640576116406119f7565b9060005260206000209060030201600001604051610b6793929190611cb1565b60008083601f84011261167257600080fd5b50813567ffffffffffffffff81111561168a57600080fd5b6020830191508360208285010111156116a257600080fd5b9250929050565b600080600080604085870312156116bf57600080fd5b843567ffffffffffffffff808211156116d757600080fd5b6116e388838901611660565b909650945060208701359150808211156116fc57600080fd5b5061170987828801611660565b95989497509550505050565b60006020828403121561172757600080fd5b5035919050565b60006020808301818452808551808352604092508286019150828160051b8701018488016000805b848110156117e557603f198a8503018652825160608151818752805180838901528592505b80831015611799578183018c015188840160800152918b019161177b565b608092508583828a0101528b8401518c8901528a84015193506117c68b8901856001600160a01b03169052565b988b0198601f01601f1916969096010194505091870191600101611756565b50919998505050505050505050565b60008060006040848603121561180957600080fd5b83359250602084013567ffffffffffffffff81111561182757600080fd5b61183386828701611660565b9497909650939450505050565b6000806040838503121561185357600080fd5b82359150602083013560ff8116811461186b57600080fd5b809150509250929050565b80356001600160a01b038116811461188d57600080fd5b919050565b600080604083850312156118a557600080fd5b823591506118b560208401611876565b90509250929050565b6000602082840312156118d057600080fd5b6118d982611876565b9392505050565b634e487b7160e01b600052602160045260246000fd5b81835281816020850137506000828201602090810191909152601f909101601f19169091010190565b6040815260006119336040830186886118f6565b82810360208401526119468185876118f6565b979650505050505050565b6007811061196f57634e487b7160e01b600052602160045260246000fd5b9052565b604081016119818285611951565b6118d96020830184611951565b634e487b7160e01b600052601160045260246000fd5b6000600182016119b6576119b661198e565b5060010190565b6020808252600a90820152696261642073746174757360b01b604082015260600190565b634e487b7160e01b600052604160045260246000fd5b634e487b7160e01b600052603260045260246000fd5b600181811c90821680611a2157607f821691505b602082108103611a4157634e487b7160e01b600052602260045260246000fd5b50919050565b81810381811115611a5a57611a5a61198e565b92915050565b601f821115611aa657600081815260208120601f850160051c81016020861015611a875750805b601f850160051c820191505b81811015610c6557828155600101611a93565b505050565b815167ffffffffffffffff811115611ac557611ac56119e1565b611ad981611ad38454611a0d565b84611a60565b602080601f831160018114611b0e5760008415611af65750858301515b600019600386901b1c1916600185901b178555610c65565b600085815260208120601f198616915b82811015611b3d57888601518255948401946001909101908401611b1e565b5085821015611b5b5787850151600019600388901b60f8161c191681555b5050505050600190811b01905550565b60008154611b7881611a0d565b808552602060018381168015611b955760018114611baf57611bdd565b60ff1985168884015283151560051b880183019550611bdd565b866000528260002060005b85811015611bd55781548a8201860152908301908401611bba565b890184019650505b505050505092915050565b600060a0820187835260208781850152604087818601526060878187015260a0608087015283875480865260c08801915060c08160051b8901019550886000528460002060005b82811015611c7f5789880360bf19018452848852611c4f85890183611b6b565b6001838101548a8a015260028401546001600160a01b031699880199909952979387019360039092019101611c2f565b50959d9c50505050505050505050505050565b600060ff821660ff8103611ca857611ca861198e565b60010192915050565b60ff841681526001600160a01b0383166020820152606060408201819052600090611cde90830184611b6b565b9594505050505056feb067099e10826978a3867510ad1e0dcf4ca5cef8e422fd8df2fc3d679167fe8da26469706673582212200d5b48fe7574e2cbc743cfe82640a2ffed9e3e66cae6c15089039dda4926832164736f6c63430008110033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100ea5760003560e01c80638da5cb5b1161008c5780639980a55a116100665780639980a55a146101c2578063bc3f931f146101d5578063c82de38f146101fa578063f2fde38b1461020d57600080fd5b80638da5cb5b14610181578063943e82161461019c57806394c790bb146101af57600080fd5b80636f3dc556116100c85780636f3dc55614610140578063715018a6146101535780637ace41841461015b5780638bc6a6dd1461016e57600080fd5b8063153bc95b146100ef5780634d318b0e146101045780636b1426a414610117575b600080fd5b6101026100fd3660046116a9565b610220565b005b610102610112366004611715565b6102d0565b61012a610125366004611715565b6108f0565b604051610137919061172e565b60405180910390f35b61010261014e366004611715565b610add565b610102610b74565b6101026101693660046117f4565b610b88565b61010261017c366004611715565b610c6d565b6000546040516001600160a01b039091168152602001610137565b6101026101aa366004611840565b610d4c565b6101026101bd366004611892565b610fc0565b6101026101d0366004611715565b6111c8565b6101e86101e3366004611892565b611252565b60405160ff9091168152602001610137565b610102610208366004611715565b611356565b61010261021b3660046118be565b6113e0565b610228611459565b6002546000908152600160208190526040909120805460ff1916828002179055506002547fb824462ec90945eb31146c1c4ce6515d44b184facb795bea5d1f52355b243f8b85858585604051610281949392919061191f565b60405180910390a2600254600080516020611ce8833981519152600060016040516102ad929190611973565b60405180910390a2600280549060006102c5836119a4565b919050555050505050565b6102d8611459565b8060058060008381526001602052604090205460ff1660068111156102ff576102ff6118e0565b146103255760405162461bcd60e51b815260040161031c906119bd565b60405180910390fd5b6000838152600160205260408120600401548190819067ffffffffffffffff811115610353576103536119e1565b6040519080825280602002602001820160405280156103b157816020015b61039e6040518060600160405280606081526020016000815260200160006001600160a01b031681525090565b8152602001906001900390816103715790505b50905060025b6000878152600160205260409020600401548110156107185760008781526001602052604090206004018054859190839081106103f6576103f66119f7565b9060005260206000209060030201600101541115610566576000878152600160205260409020600401805482908110610431576104316119f7565b906000526020600020906003020160010154935060019250600160008881526020019081526020016000206004018181548110610470576104706119f7565b906000526020600020906003020160405180606001604052908160008201805461049990611a0d565b80601f01602080910402602001604051908101604052809291908181526020018280546104c590611a0d565b80156105125780601f106104e757610100808354040283529160200191610512565b820191906000526020600020905b8154815290600101906020018083116104f557829003601f168201915b505050918352505060018281015460208301526002909201546001600160a01b031660409091015283906105469086611a47565b81518110610556576105566119f7565b6020026020010181905250610706565b6000878152600160205260408120600401805483908110610589576105896119f7565b9060005260206000209060030201600101541180156105dd575060008781526001602052604090206004018054859190839081106105c9576105c96119f7565b906000526020600020906003020160010154145b1561070657826105ec816119a4565b60008981526001602052604090206004018054919550915082908110610614576106146119f7565b906000526020600020906003020160405180606001604052908160008201805461063d90611a0d565b80601f016020809104026020016040519081016040528092919081815260200182805461066990611a0d565b80156106b65780601f1061068b576101008083540402835291602001916106b6565b820191906000526020600020905b81548152906001019060200180831161069957829003601f168201915b505050918352505060018281015460208301526002909201546001600160a01b031660409091015283906106ea9086611a47565b815181106106fa576106fa6119f7565b60200260200101819052505b80610710816119a4565b9150506103b7565b5060005b828110156107c3576001600088815260200190815260200160002060050182828151811061074c5761074c6119f7565b6020908102919091018101518254600181018455600093845291909220825160039092020190819061077e9082611aab565b5060208201516001820155604090910151600290910180546001600160a01b0319166001600160a01b03909216919091179055806107bb816119a4565b91505061071c565b5060008681526001602052604090819020805460ff1916600690811790915590518791600080516020611ce88339815191529161080291600591611973565b60405180910390a260008681526001602052604081206002015461082757600061084a565b6000878152600160205260409020600381015460029091015461084a9190611a47565b600088815260016020819052604090912060028101546003820154600490920180549495508b947f8231621024a2914f448f5821e1168fa08ea32be09db6a89d94e306e0352d12f4949293929081106108a5576108a56119f7565b90600052602060002090600302016001015485600160008e81526020019081526020016000206005016040516108df959493929190611be8565b60405180910390a250505050505050565b606081336109066000546001600160a01b031690565b6001600160a01b0316148061093657506000818152600160208181526040808420338552909201905290205460ff165b6109775760405162461bcd60e51b81526020600482015260126024820152713737ba1037bbb732b91037b9103b37ba32b960711b604482015260640161031c565b8260068060008381526001602052604090205460ff16600681111561099e5761099e6118e0565b10156109bc5760405162461bcd60e51b815260040161031c906119bd565b600085815260016020908152604080832060050180548251818502810185019093528083529193909284015b82821015610acf5783829060005260206000209060030201604051806060016040529081600082018054610a1b90611a0d565b80601f0160208091040260200160405190810160405280929190818152602001828054610a4790611a0d565b8015610a945780601f10610a6957610100808354040283529160200191610a94565b820191906000526020600020905b815481529060010190602001808311610a7757829003601f168201915b50505091835250506001828101546020808401919091526002909301546001600160a01b0316604090920191909152918352920191016109e8565b505050509350505050919050565b610ae5611459565b8060048060008381526001602052604090205460ff166006811115610b0c57610b0c6118e0565b14610b295760405162461bcd60e51b815260040161031c906119bd565b60008381526001602052604090819020805460ff1916600590811790915590518491600080516020611ce883398151915291610b6791600491611973565b60405180910390a2505050565b610b7c611459565b610b8660006114b3565b565b60008381526001602081815260408084203385529092019052902054839060ff16610be15760405162461bcd60e51b81526020600482015260096024820152683737ba103b37ba32b960b91b604482015260640161031c565b8360028060008381526001602052604090205460ff166006811115610c0857610c086118e0565b14610c255760405162461bcd60e51b815260040161031c906119bd565b610c658686868080601f01602080910402602001604051908101604052809392919081815260200183838082843760009201919091525061150392505050565b505050505050565b610c75611459565b8060018060008381526001602052604090205460ff166006811115610c9c57610c9c6118e0565b14610cb95760405162461bcd60e51b815260040161031c906119bd565b610ce5836040518060400160405280600a81526020016920b139ba32b73a34b7b760b11b815250611503565b610d0c8360405180604001604052806005815260200164426c616e6b60d81b815250611503565b600083815260016020819052604091829020805460ff1916600290811790915591518592600080516020611ce883398151915292610b6792909190611973565b60008281526001602081815260408084203385529092019052902054829060ff16610da55760405162461bcd60e51b81526020600482015260096024820152683737ba103b37ba32b960b91b604482015260640161031c565b8260048060008381526001602052604090205460ff166006811115610dcc57610dcc6118e0565b14610de95760405162461bcd60e51b815260040161031c906119bd565b60008581526001602081815260408084203385529092019052902054610100900460ff1615610e4a5760405162461bcd60e51b815260206004820152600d60248201526c185b1c9958591e481d9bdd1959609a1b604482015260640161031c565b60008581526001602052604090206004015460ff851610610e995760405162461bcd60e51b81526020600482015260096024820152681b9bdd08199bdd5b9960ba1b604482015260640161031c565b60008460ff1611610ee35760405162461bcd60e51b815260206004820152601460248201527330b139ba32b73a34b7b7103337b93134b23232b760611b604482015260640161031c565b6000858152600160205260409020600401805460ff8616908110610f0957610f096119f7565b600091825260208220600160039092020101805491610f27836119a4565b909155505060008581526001602081815260408084203385528084018352908420805460ff8a16620100000262ffff001990911617610100179055888452919052600301805491610f77836119a4565b90915550506040805133815260ff8616602082015286917f1abe610cf2bf87e57dcc1181fcf5ac0934e843d8344ab9eed6e86c799f62585e910160405180910390a25050505050565b610fc8611459565b8160018060008381526001602052604090205460ff166006811115610fef57610fef6118e0565b1461100c5760405162461bcd60e51b815260040161031c906119bd565b6000546001600160a01b03166001600160a01b0316836001600160a01b03160361106d5760405162461bcd60e51b815260206004820152601260248201527131b0b7103737ba1031329030903b37ba32b960711b604482015260640161031c565b60008481526001602081815260408084206001600160a01b0388168552909201905290205460ff16156110d75760405162461bcd60e51b8152602060048201526012602482015271185b1c9958591e481c9959da5cdd195c995960721b604482015260640161031c565b60408051608081018252600180825260006020808401828152848601838152606086018481528b85528584528785206001600160a01b038c16865280870185529785209651875493519251915161ffff1990941690151561ff00191617610100921515929092029190911763ffff000019166201000060ff9283160263ff00000019161763010000009190921602179093558781529152600290910180549161117f836119a4565b90915550506040516001600160a01b038416815284907ff45b8429c36d478f9a6d081c4811a819b98aa5b608588bed9d406405cf2824739060200160405180910390a250505050565b6111d0611459565b8060038060008381526001602052604090205460ff1660068111156111f7576111f76118e0565b146112145760405162461bcd60e51b815260040161031c906119bd565b60008381526001602052604090819020805460ff1916600490811790915590518491600080516020611ce883398151915291610b6791600391611973565b600082336112686000546001600160a01b031690565b6001600160a01b0316148061129857506000818152600160208181526040808420338552909201905290205460ff165b6112d95760405162461bcd60e51b81526020600482015260126024820152713737ba1037bbb732b91037b9103b37ba32b960711b604482015260640161031c565b8360048060008381526001602052604090205460ff166006811115611300576113006118e0565b101561131e5760405162461bcd60e51b815260040161031c906119bd565b5050506000928352506001602081815260408085206001600160a01b0394909416855292909101905290205462010000900460ff1690565b61135e611459565b8060028060008381526001602052604090205460ff166006811115611385576113856118e0565b146113a25760405162461bcd60e51b815260040161031c906119bd565b60008381526001602052604090819020805460ff1916600390811790915590518491600080516020611ce883398151915291610b6791600291611973565b6113e8611459565b6001600160a01b03811661144d5760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b606482015260840161031c565b611456816114b3565b50565b6000546001600160a01b03163314610b865760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e6572604482015260640161031c565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b600082815260016020818152604080842081516060810183528681528084018690523392810192909252600401805493840181558452922082516003909202019081906115509082611aab565b50602082810151600183810191909155604093840151600290930180546001600160a01b0319166001600160a01b0390941693909317909255600085815282825283812033825290920190522080546301000000900460ff169060036115b583611c92565b825460ff9182166101009390930a92830291909202199091161790555060008281526001602081905260408220600401546115f09190611a47565b9050827f048eae4d262615439a255cdd7a71642b5286b208834157822bc2cd3eecf6836f8233600160008881526020019081526020016000206004018560ff1681548110611640576116406119f7565b9060005260206000209060030201600001604051610b6793929190611cb1565b60008083601f84011261167257600080fd5b50813567ffffffffffffffff81111561168a57600080fd5b6020830191508360208285010111156116a257600080fd5b9250929050565b600080600080604085870312156116bf57600080fd5b843567ffffffffffffffff808211156116d757600080fd5b6116e388838901611660565b909650945060208701359150808211156116fc57600080fd5b5061170987828801611660565b95989497509550505050565b60006020828403121561172757600080fd5b5035919050565b60006020808301818452808551808352604092508286019150828160051b8701018488016000805b848110156117e557603f198a8503018652825160608151818752805180838901528592505b80831015611799578183018c015188840160800152918b019161177b565b608092508583828a0101528b8401518c8901528a84015193506117c68b8901856001600160a01b03169052565b988b0198601f01601f1916969096010194505091870191600101611756565b50919998505050505050505050565b60008060006040848603121561180957600080fd5b83359250602084013567ffffffffffffffff81111561182757600080fd5b61183386828701611660565b9497909650939450505050565b6000806040838503121561185357600080fd5b82359150602083013560ff8116811461186b57600080fd5b809150509250929050565b80356001600160a01b038116811461188d57600080fd5b919050565b600080604083850312156118a557600080fd5b823591506118b560208401611876565b90509250929050565b6000602082840312156118d057600080fd5b6118d982611876565b9392505050565b634e487b7160e01b600052602160045260246000fd5b81835281816020850137506000828201602090810191909152601f909101601f19169091010190565b6040815260006119336040830186886118f6565b82810360208401526119468185876118f6565b979650505050505050565b6007811061196f57634e487b7160e01b600052602160045260246000fd5b9052565b604081016119818285611951565b6118d96020830184611951565b634e487b7160e01b600052601160045260246000fd5b6000600182016119b6576119b661198e565b5060010190565b6020808252600a90820152696261642073746174757360b01b604082015260600190565b634e487b7160e01b600052604160045260246000fd5b634e487b7160e01b600052603260045260246000fd5b600181811c90821680611a2157607f821691505b602082108103611a4157634e487b7160e01b600052602260045260246000fd5b50919050565b81810381811115611a5a57611a5a61198e565b92915050565b601f821115611aa657600081815260208120601f850160051c81016020861015611a875750805b601f850160051c820191505b81811015610c6557828155600101611a93565b505050565b815167ffffffffffffffff811115611ac557611ac56119e1565b611ad981611ad38454611a0d565b84611a60565b602080601f831160018114611b0e5760008415611af65750858301515b600019600386901b1c1916600185901b178555610c65565b600085815260208120601f198616915b82811015611b3d57888601518255948401946001909101908401611b1e565b5085821015611b5b5787850151600019600388901b60f8161c191681555b5050505050600190811b01905550565b60008154611b7881611a0d565b808552602060018381168015611b955760018114611baf57611bdd565b60ff1985168884015283151560051b880183019550611bdd565b866000528260002060005b85811015611bd55781548a8201860152908301908401611bba565b890184019650505b505050505092915050565b600060a0820187835260208781850152604087818601526060878187015260a0608087015283875480865260c08801915060c08160051b8901019550886000528460002060005b82811015611c7f5789880360bf19018452848852611c4f85890183611b6b565b6001838101548a8a015260028401546001600160a01b031699880199909952979387019360039092019101611c2f565b50959d9c50505050505050505050505050565b600060ff821660ff8103611ca857611ca861198e565b60010192915050565b60ff841681526001600160a01b0383166020820152606060408201819052600090611cde90830184611b6b565b9594505050505056feb067099e10826978a3867510ad1e0dcf4ca5cef8e422fd8df2fc3d679167fe8da26469706673582212200d5b48fe7574e2cbc743cfe82640a2ffed9e3e66cae6c15089039dda4926832164736f6c63430008110033",
+  "devdoc": {
+    "author": "Teddy Chambard",
+    "details": "Only the contract owner is able to create new voting session. The contract owner is also able to change the session status and activate next session steps. The word `Administrator` in contract documentation corresponds to contract owner. /!\\ BONUS: I took some decisions to change initial specifications to improve the features available in the exercice: 1) Many voting sessions can be created and evolve in parallel 3) Every events expose sessionId as first parameter 4) A session is limited to 256 proposals 5) Two proposals are registered by default in every session: abstention and blank vote 6) A vote session can terminate with equality if many proposals obtain same number of votes",
+    "events": {
+      "ProposalRegistered(uint256,uint8,address,string)": {
+        "details": "I decided to add proposer and description into ProposalRegistered event in order to give to the dapp the capability to list proposals only with events."
+      },
+      "SessionCreated(uint256,string,string)": {
+        "details": "All events signatures integrate sessionId parameter that was not required in specification"
+      },
+      "Voted(uint256,address,uint256)": {
+        "details": "To follow feedbacks given on project #1, I decided to revert my decision about removing proposalId from Voted event despite the specification."
+      }
+    },
+    "kind": "dev",
+    "methods": {
+      "createVotingSession(string,string)": {
+        "params": {
+          "_description": "The session description ",
+          "_name": "The session name "
+        }
+      },
+      "getVote(uint256,address)": {
+        "details": "Administrator and registered voters can all access to everybody votes. ",
+        "params": {
+          "_sessionId": "The session identifier",
+          "_voter": "The voter address"
+        },
+        "returns": {
+          "_0": "uint8 target voter proposal choice"
+        }
+      },
+      "getWinners(uint256)": {
+        "details": "Administrator and registered voters can retreive winning proposals but only at the end of voting session. ",
+        "returns": {
+          "_0": "Proposal[] The winning proposals"
+        }
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "registerProposal(uint256,string)": {
+        "details": "Each voter can register many proposals. As the vote is considered to be done in small organization context, and to prevent dos gas limit, the maximum number of proposals is limited to 256. A vote can be added only by registered voter when status is set to VotingSessionStarted ",
+        "params": {
+          "_description": "The proposal description",
+          "_sessionId": "The session identifier"
+        }
+      },
+      "registerVoter(uint256,address)": {
+        "details": "voters can be added only by contract owner when status is set to RegisteringVoters An event VoterRegistered is emitted ",
+        "params": {
+          "_sessionId": "The session identifier ",
+          "_voter": "The address to add into voters registry"
+        }
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+      },
+      "startProposalsRegistration(uint256)": {
+        "details": "Can be called only when status is set to RegisteringVoters. Two default proposals are registered at the beginning of this step: `Abstention` and `Blank`. That means a registered voter that forget to vote will be counted as `abstention` thanks to `proposals` array index 0 An event WorkflowStatusChange is emitted",
+        "params": {
+          "_sessionId": "The session identifier "
+        }
+      },
+      "startVotingSession(uint256)": {
+        "details": "Can be called only when status is set to ProposalsRegistrationEnded. An event WorkflowStatusChange is emitted",
+        "params": {
+          "_sessionId": "The session identifier "
+        }
+      },
+      "stopProposalsRegistration(uint256)": {
+        "details": "Can be called only when status is set to ProposalsRegistrationStarted. An event WorkflowStatusChange is emitted",
+        "params": {
+          "_sessionId": "The session identifier "
+        }
+      },
+      "stopVotingSession(uint256)": {
+        "details": "Can be called only when status is set to VotingSessionStarted. An event WorkflowStatusChange is emitted",
+        "params": {
+          "_sessionId": "The session identifier "
+        }
+      },
+      "tallyVotes(uint256)": {
+        "details": "After votes talling, it is possible that we got many winning proposals. Votes talling can be triggered only by contract owner when voting session status is set to VotingSessionEnded An event WorkflowStatusChange is emitted",
+        "params": {
+          "_sessionId": "The session identifier "
+        }
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      },
+      "vote(uint256,uint8)": {
+        "details": "Each voter can vote only once for one proposal. Votes can be added only by registered voter when status is set to VotingSessionStarted ",
+        "params": {
+          "_proposalId": "The chosen proposal identifier",
+          "_sessionId": "The session identifier"
+        }
+      }
+    },
+    "title": "Alyra Project: Voting system",
+    "version": 1
+  },
+  "userdoc": {
+    "events": {
+      "ProposalRegistered(uint256,uint8,address,string)": {
+        "notice": "!!! EDIT !!!"
+      },
+      "SessionCreated(uint256,string,string)": {
+        "notice": "!!! WARNING !!!"
+      },
+      "Voted(uint256,address,uint256)": {
+        "notice": "!!! EDIT !!!"
+      }
+    },
+    "kind": "user",
+    "methods": {
+      "createVotingSession(string,string)": {
+        "notice": "Administrator can create new voting session"
+      },
+      "getVote(uint256,address)": {
+        "notice": "Retreive vote "
+      },
+      "getWinners(uint256)": {
+        "notice": "Retreive winning proposals "
+      },
+      "registerProposal(uint256,string)": {
+        "notice": "A voter can register a new proposal. "
+      },
+      "registerVoter(uint256,address)": {
+        "notice": "Administrator can register voters. "
+      },
+      "startProposalsRegistration(uint256)": {
+        "notice": "Administrator can close voters registration and open proposals registration. "
+      },
+      "startVotingSession(uint256)": {
+        "notice": "Administrator can open voting session. "
+      },
+      "stopProposalsRegistration(uint256)": {
+        "notice": "Administrator can close proposals registration. "
+      },
+      "stopVotingSession(uint256)": {
+        "notice": "Administrator can close voting session. "
+      },
+      "tallyVotes(uint256)": {
+        "notice": "Administrator can trigger votes talling. "
+      },
+      "vote(uint256,uint8)": {
+        "notice": "A voter can register his vote for a proposal. "
+      }
+    },
+    "notice": "This contract defines a basic voting system including different steps: 1) voting session creation 1) voters registration 2) proposals registration 3) votes recording 4) votes talling ",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 7,
+        "contract": "contracts/Voting.sol:Voting",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 483,
+        "contract": "contracts/Voting.sol:Voting",
+        "label": "sessions",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_uint256,t_struct(Session)417_storage)"
+      },
+      {
+        "astId": 485,
+        "contract": "contracts/Voting.sol:Voting",
+        "label": "sessionsCount",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_uint256"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_struct(Proposal)391_storage)dyn_storage": {
+        "base": "t_struct(Proposal)391_storage",
+        "encoding": "dynamic_array",
+        "label": "struct Voting.Proposal[]",
+        "numberOfBytes": "32"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_enum(WorkflowStatus)375": {
+        "encoding": "inplace",
+        "label": "enum Voting.WorkflowStatus",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_address,t_struct(Voter)384_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => struct Voting.Voter)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Voter)384_storage"
+      },
+      "t_mapping(t_uint256,t_struct(Session)417_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct Voting.Session)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Session)417_storage"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_struct(Proposal)391_storage": {
+        "encoding": "inplace",
+        "label": "struct Voting.Proposal",
+        "members": [
+          {
+            "astId": 386,
+            "contract": "contracts/Voting.sol:Voting",
+            "label": "description",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 388,
+            "contract": "contracts/Voting.sol:Voting",
+            "label": "voteCount",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 390,
+            "contract": "contracts/Voting.sol:Voting",
+            "label": "proposer",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_address"
+          }
+        ],
+        "numberOfBytes": "96"
+      },
+      "t_struct(Session)417_storage": {
+        "encoding": "inplace",
+        "label": "struct Voting.Session",
+        "members": [
+          {
+            "astId": 395,
+            "contract": "contracts/Voting.sol:Voting",
+            "label": "status",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_enum(WorkflowStatus)375"
+          },
+          {
+            "astId": 400,
+            "contract": "contracts/Voting.sol:Voting",
+            "label": "voters",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_mapping(t_address,t_struct(Voter)384_storage)"
+          },
+          {
+            "astId": 403,
+            "contract": "contracts/Voting.sol:Voting",
+            "label": "votersCount",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 406,
+            "contract": "contracts/Voting.sol:Voting",
+            "label": "totalVotesCount",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 411,
+            "contract": "contracts/Voting.sol:Voting",
+            "label": "proposals",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_array(t_struct(Proposal)391_storage)dyn_storage"
+          },
+          {
+            "astId": 416,
+            "contract": "contracts/Voting.sol:Voting",
+            "label": "winningProposals",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_array(t_struct(Proposal)391_storage)dyn_storage"
+          }
+        ],
+        "numberOfBytes": "192"
+      },
+      "t_struct(Voter)384_storage": {
+        "encoding": "inplace",
+        "label": "struct Voting.Voter",
+        "members": [
+          {
+            "astId": 377,
+            "contract": "contracts/Voting.sol:Voting",
+            "label": "isRegistered",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bool"
+          },
+          {
+            "astId": 379,
+            "contract": "contracts/Voting.sol:Voting",
+            "label": "hasVoted",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool"
+          },
+          {
+            "astId": 381,
+            "contract": "contracts/Voting.sol:Voting",
+            "label": "votedProposalId",
+            "offset": 2,
+            "slot": "0",
+            "type": "t_uint8"
+          },
+          {
+            "astId": 383,
+            "contract": "contracts/Voting.sol:Voting",
+            "label": "nbProposals",
+            "offset": 3,
+            "slot": "0",
+            "type": "t_uint8"
+          }
+        ],
+        "numberOfBytes": "32"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_uint8": {
+        "encoding": "inplace",
+        "label": "uint8",
+        "numberOfBytes": "1"
+      }
+    }
+  }
+}

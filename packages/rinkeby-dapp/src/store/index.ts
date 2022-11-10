@@ -13,8 +13,13 @@ import createRootReducer from './root-reducer';
 export const history = createBrowserHistory();
 const routerMiddleware = createRouterMiddleware(history);
 
-export const epicMiddleware = createEpicMiddleware<RootAction, RootAction, RootState, any>({
-    dependencies: services,
+export const epicMiddleware = createEpicMiddleware<
+	RootAction,
+	RootAction,
+	RootState,
+	any
+>({
+	dependencies: services,
 });
 
 // configure middlewares

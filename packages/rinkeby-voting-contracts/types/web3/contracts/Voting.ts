@@ -30,10 +30,12 @@ export type OwnershipTransferred = ContractEventLog<{
 export type ProposalRegistered = ContractEventLog<{
   sessionId: string;
   proposalId: string;
+  proposer: string;
   description: string;
   0: string;
   1: string;
   2: string;
+  3: string;
 }>;
 export type SessionCreated = ContractEventLog<{
   sessionId: string;
@@ -46,8 +48,10 @@ export type SessionCreated = ContractEventLog<{
 export type Voted = ContractEventLog<{
   sessionId: string;
   voter: string;
+  proposalId: string;
   0: string;
   1: string;
+  2: string;
 }>;
 export type VoterRegistered = ContractEventLog<{
   sessionId: string;

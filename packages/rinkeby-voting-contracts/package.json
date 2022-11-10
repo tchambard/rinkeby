@@ -1,18 +1,21 @@
 {
-  "name": "rinkeby-voting-contracts",
-  "version": "1.0.0",
-  "types": "index.d.ts",
-  "scripts": {
-    "lint": "yarn g:solhint",
-    "compile": "yarn g:hardhat-compile && yarn g:typechain-web3",
-    "test": "yarn g:hardhat-test",
-    "coverage": "yarn g:hardhat-coverage",
-    "migrate": "yarn g:hardhat-migrate",
-    "deploy": "yarn g:hardhat-deploy"
-  },
-  "dependencies": {
-    "@openzeppelin/contracts": "^4.7.3"
-  },
-  "author": "teddy.chambard@gmail.com",
-  "license": "MIT"
+	"name": "rinkeby-voting-contracts",
+	"version": "1.0.0",
+	"types": "index.d.ts",
+	"scripts": {
+		"lint": "yarn g:solhint",
+		"pretty": "yarn g:pretty",
+		"compile": "yarn g:hardhat-compile && yarn g:typechain-web3",
+		"test": "yarn g:hardhat-test",
+		"coverage": "yarn g:hardhat-coverage",
+		"migrate": "yarn g:hardhat-migrate",
+		"deploy:localhost": "yarn g:hardhat-deploy-localhost",
+		"deploy:goerli": "yarn g:hardhat-deploy-goerli",
+		"deploy:mumbai": "yarn g:hardhat-deploy-mumbai"
+	},
+	"devDependencies": {
+		"@openzeppelin/contracts": "^4.7.3"
+	},
+	"author": "teddy.chambard@gmail.com",
+	"license": "MIT"
 }
