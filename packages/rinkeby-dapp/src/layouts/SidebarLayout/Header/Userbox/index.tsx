@@ -66,11 +66,11 @@ function HeaderUserbox() {
 	}
 	return (
 		<>
-			<UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
+			<UserBoxButton color={'secondary'} ref={ref} onClick={handleOpen}>
 				<AddressAvatar address={account} />
 				<Hidden mdDown>
 					<UserBoxText>
-						<UserBoxLabel variant="body1">{account.substring(0, 8)}</UserBoxLabel>
+						<UserBoxLabel variant={'body1'}>{account.substring(0, 8)}</UserBoxLabel>
 					</UserBoxText>
 				</Hidden>
 				<Hidden smDown>
@@ -92,7 +92,12 @@ function HeaderUserbox() {
 			>
 				<MenuUserBox sx={{ minWidth: 210 }} display={'flex'}>
 					<Hidden mdDown>
-						<Grid display={'flex'} direction={'column'} justifyContent={'center'}>
+						<Grid
+							container
+							display={'flex'}
+							direction={'column'}
+							justifyContent={'center'}
+						>
 							<Grid container justifyContent={'flex-end'} alignItems={'center'}>
 								<AddressAvatar address={account} size={24} />
 								<UserBoxText>

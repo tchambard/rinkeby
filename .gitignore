@@ -11,4 +11,3 @@ cache
 !.yarn/plugins
 .history
 .env
-**/deployments/localhost*
